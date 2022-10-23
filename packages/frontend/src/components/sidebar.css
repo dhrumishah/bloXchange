@@ -2,8 +2,7 @@
   top: 60px;
   left: 0;
   width: 240px;
-  border-right: 1px solid #d3d4d9;
-  background-color: #1b263b;
+  background-color: #2b2d42;
   height: 100vh;
 }
 .sidebar--content {
@@ -19,6 +18,15 @@
   flex-direction: column;
   padding-left: 0.75rem;
 }
-svg {
-  color: #fff;
+svg,
+p {
+  color: #d3d4d9;
+  font-family: "poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+p:hover {
+  color: #30cfd0;
+  cursor: pointer;
 }
