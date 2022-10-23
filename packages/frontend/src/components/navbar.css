@@ -1,0 +1,20 @@
+.navbar {
+  height: 60px;
+  align-items: center;
+  background-color: #081c15;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+}
+.navbar--btn {
+  margin-left: 70rem;
+}
+.navbar--logo h2 {
+  background: linear-gradient(to right, #30cfd0 0%, #9d4edd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Oxygen", sans-serif;
+  font-weight: 900;
+  font-size: 2em;
+}
