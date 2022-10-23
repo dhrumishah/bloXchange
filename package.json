@@ -1,0 +1,28 @@
+{
+  "name": "bloxchange",
+  "version": "0.0.1",
+  "description": "create-web3 monorepo quickstart with vite and hardhat",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "yarn workspace @create-web3/frontend dev",
+    "build": "yarn workspace @create-web3/frontend build",
+    "serve": "yarn workspace @create-web3/frontend serve",
+    "chain": "yarn workspace @create-web3/backend chain",
+    "compile": "yarn workspace @create-web3/backend compile",
+    "test": "yarn workspace @create-web3/backend test",
+    "clean": "yarn workspace @create-web3/backend clean",
+    "deploy": "yarn workspace @create-web3/backend deploy"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@graphprotocol/graph-ts",
+      "**/@graphprotocol/graph-ts/**",
+      "**/backend",
+      "**/backend/**"
+    ]
+  }
+}
