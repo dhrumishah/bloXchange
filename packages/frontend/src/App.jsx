@@ -1,24 +1,14 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { GetGreeter, SetGreeter } from './components';
+import NavBar from "./components/NavBar";
+import SideBar from "./components/SideBar";
 
 function App() {
   return (
     <div className="">
-      <header style={{ padding: '1rem' }}>
-        <ConnectButton />
+      <header>
+        <NavBar />
       </header>
-      <main
-        style={{
-          minHeight: '60vh',
-          flex: '1',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <GetGreeter />
-        <SetGreeter />
+      <main>
+        <SideBar />
       </main>
     </div>
   );
