@@ -25,14 +25,14 @@ img {
   margin-right: 1rem;
 }
 
-p {
+.sidebar--para p {
   color: #d3d4d9;
   font-family: "poppins", sans-serif;
   font-weight: 500;
   font-size: 1em;
 }
 
-p:hover {
+.sidebar--para p:hover {
   color: #30cfd0;
   cursor: pointer;
 }
