@@ -9,7 +9,7 @@ import Contact from "./svg/contact.svg";
 export default function SideBar() {
   return (
     <div>
-      <div className="sidebar--component fixed">
+      <div className="sidebar--component fixed border-r border-slate-500">
         <div className="sidebar--content">
           <div className="sidebar--col">
             <div className="flex flex-col space-y-5 mb-12">

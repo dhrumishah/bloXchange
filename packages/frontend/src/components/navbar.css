@@ -1,4 +1,6 @@
 .navbar {
+  top: 0;
+  left: 0;
   height: 60px;
   align-items: center;
   background-color: #242742;
