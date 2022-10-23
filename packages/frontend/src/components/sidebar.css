@@ -2,6 +2,7 @@
   top: 60px;
   left: 0;
   width: 240px;
+  display: hidden;
   background-color: #2b2d42;
   height: 100vh;
 }
@@ -10,7 +11,7 @@
   flex-direction: column;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
-  padding-top: 1.5rem;
+  padding-top: 3rem;
   padding-bottom: 1.5rem;
 }
 .sidebar--col {
@@ -18,7 +19,12 @@
   flex-direction: column;
   padding-left: 0.75rem;
 }
-svg,
+img {
+  height: 20px;
+  width: 20px;
+  margin-right: 1rem;
+}
+
 p {
   color: #d3d4d9;
   font-family: "poppins", sans-serif;

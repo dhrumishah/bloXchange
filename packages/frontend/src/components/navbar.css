@@ -1,10 +1,13 @@
 .navbar {
+  top: 0;
+  left: 0;
   height: 60px;
   align-items: center;
-  background-color: #081c15;
+  background-color: #242742;
   margin: 0;
   padding: 10px;
   display: flex;
+  width: 100%;
 }
 .navbar--btn {
   margin-left: 70rem;

@@ -1,5 +1,6 @@
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
+import MarketPlace from "./components/MarketPlace";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </header>
       <main>
         <SideBar />
+        <MarketPlace />
       </main>
     </div>
   );
