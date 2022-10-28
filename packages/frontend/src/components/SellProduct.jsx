@@ -71,7 +71,7 @@ export default function SellProduct() {
               className="block text-[17px] font-medium mb-4 text-white"
               for="lovation"
             >
-              Add you Location
+              Add your Location
             </label>
             <div className="relative z-20">
               <input
