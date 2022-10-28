@@ -1,17 +1,16 @@
-import NavBar from "./components/NavBar";
-import SideBar from "./components/SideBar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarketPlace from "./components/MarketPlace";
+import SellProduct from "./components/SellProduct";
 
 function App() {
   return (
     <div className="">
-      <header className="sticky top-0 z-50">
-        <NavBar />
-      </header>
-      <main>
-        <SideBar />
-        <MarketPlace />
-      </main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MarketPlace />} />
+          <Route path="/SellProduct" element={<SellProduct />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
