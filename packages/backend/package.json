@@ -22,6 +22,7 @@
     "hardhat-deploy": "^0.11.10"
   },
   "dependencies": {
+    "@opengsn/contracts": "^3.0.0-beta.1",
     "dotenv": "^16.0.0"
   }
 }

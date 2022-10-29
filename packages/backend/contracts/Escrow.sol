@@ -3,8 +3,10 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@opengsn/contracts/src/ERC2771Recipient.sol";
 
-contract Escrow is AccessControl {
+
+contract Escrow is ERC2771Recipient, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ARBITRATOR_ROLE = keccak256("ARBITRATOR_ROLE");
 
@@ -19,14 +21,14 @@ contract Escrow is AccessControl {
 
     struct Item {
         uint256 itemId;
-        string title;
-        string description;
         uint256 price;
         uint256 quantity;
-        string[] images;
         uint256 createdAt;
         uint256 updatedAt;
         address seller;
+        string title;
+        string description;
+        string[] images;
     }
 
     struct Order {
@@ -34,16 +36,16 @@ contract Escrow is AccessControl {
         uint256 itemId;
         uint256 amount;
         uint256 quantity;
+        uint256 orderedAt;
+        uint256 disputeId;
         address buyer;
         Status status;
-        uint256 orderedAt;
     }
 
     struct Dispute {
         uint256 orderId;
         address disputedBy;
         address resolvedBy;
-        bool isResolved;
     }
 
     enum Status {
@@ -51,40 +53,32 @@ contract Escrow is AccessControl {
         SHIPPED,
         DELIVERED,
         DISPUTTED,
-        REFUNDED,
-        WITHDRAWED
-    }
-
-    enum Available {
-        NO,
-        YES
+        REFUNDED
     }
 
     mapping(uint256 => Item) private items;
     mapping(uint256 => Order) public orders;
     mapping(uint256 => Dispute) public disputes;
     mapping(address => Item[]) private itemsOf;
-    mapping(uint256 => address) public sellerOfItem;
-    mapping(uint256 => Available) public isAvailable;
 
-    event ItemCreated(uint256 itemId, address createdBy);
-    event ItemOrdered(uint256 itemId, uint256 orderId, address orderedBy);
+    event ItemCreated(Item item);
+    event ItemOrdered(Order order);
     event OrderShipped(uint256 orderId);
     event OrderDelivered(uint256 orderId);
-    event OrderDisputed(uint256 orderId, address disputedBy);
+    event OrderDisputed(Dispute dispute);
     event OrderRefunded(uint256 orderId, address refundedBy);
     event Withdraw(uint256 amount, address to, uint256 timestamp);
 
     modifier onlyAdmin() {
-        if (!hasRole(ADMIN_ROLE, msg.sender)) {
-            revert CallerNotAdmin(msg.sender);
+        if (!hasRole(ADMIN_ROLE, _msgSender())) {
+            revert CallerNotAdmin(_msgSender());
         }
         _;
     }
 
     modifier onlyArbitrator() {
-        if (!hasRole(ARBITRATOR_ROLE, msg.sender)) {
-            revert CallerNotArbitrator(msg.sender);
+        if (!hasRole(ARBITRATOR_ROLE, _msgSender())) {
+            revert CallerNotArbitrator(_msgSender());
         }
         _;
     }
@@ -92,9 +86,10 @@ contract Escrow is AccessControl {
     error CallerNotAdmin(address caller);
     error CallerNotArbitrator(address caller);
 
-    constructor(uint256 _platformFee, uint256 _arbitratorFee) {
-        _grantRole(ADMIN_ROLE, msg.sender);
-        _grantRole(ARBITRATOR_ROLE, msg.sender);
+    constructor(address _trustedForwarder, uint256 _platformFee, uint256 _arbitratorFee) {
+        _setTrustedForwarder(_trustedForwarder);
+        _grantRole(ADMIN_ROLE, _msgSender());
+        _grantRole(ARBITRATOR_ROLE, _msgSender());
         platformFee = _platformFee;
         arbitratorFee = _arbitratorFee;
     }
@@ -108,32 +103,31 @@ contract Escrow is AccessControl {
     ) external {
         require(images.length >= 1, "No item images");
         uint256 itemId = totalItems++;
-        Item memory item;
 
+        Item memory item;
         item.itemId = itemId;
         item.price = price;
         item.title = title;
         item.description = description;
         item.quantity = quantity;
         item.createdAt = block.timestamp;
-        item.seller = msg.sender;
+        item.seller = _msgSender();
         item.images = images;
 
         items[itemId] = item;
 
-        itemsOf[msg.sender].push(item);
-        sellerOfItem[itemId] = msg.sender;
-        isAvailable[itemId] = Available.YES;
+        itemsOf[_msgSender()].push(item);
 
-        emit ItemCreated(itemId, msg.sender);
+        emit ItemCreated(item);
     }
 
     function orderItem(uint256 itemId, uint256 quantity) external payable {
-        require(msg.sender != sellerOfItem[itemId], "Seller not allowed");
-        require(isAvailable[itemId] == Available.YES, "Item not available");
         Item memory item = items[itemId];
-        require(msg.value == item.price * quantity, "Incorrect amount sent");
+        require(_msgSender() != item.seller, "Seller not allowed");
         require(quantity <= item.quantity, "Not enough item quanity");
+        require(msg.value == item.price * quantity, "Incorrect amount sent");
+
+        items[itemId].quantity -= quantity;
 
         uint256 orderId = totalOrders++;
 
@@ -141,7 +135,7 @@ contract Escrow is AccessControl {
         order.orderId = orderId;
         order.itemId = itemId;
         order.amount = item.price * quantity;
-        order.buyer = msg.sender;
+        order.buyer = _msgSender();
         order.status = Status.PENDING;
         order.orderedAt = block.timestamp;
 
@@ -149,19 +143,14 @@ contract Escrow is AccessControl {
 
         escrowBalance += order.amount;
 
-        items[itemId].quantity -= 1;
-        if (items[itemId].quantity == 0) {
-            isAvailable[itemId] = Available.NO;
-        }
-
-        emit ItemOrdered(itemId, orderId, msg.sender);
+        emit ItemOrdered(order);
     }
 
     function performShipping(uint256 orderId) external {
         Order memory order = orders[orderId];
         require(
-            msg.sender == items[order.itemId].seller,
-            "Service not awarded to you"
+            _msgSender() == items[order.itemId].seller,
+            "Only seller allowded"
         );
         require(order.status != Status.SHIPPED, "Order already shipped");
         require(order.status != Status.DELIVERED, "Order already completed");
@@ -173,7 +162,7 @@ contract Escrow is AccessControl {
 
     function confirmDelivery(uint256 orderId) external {
         Order memory order = orders[orderId];
-        require(msg.sender == order.buyer, "Only buyer allowed");
+        require(_msgSender() == order.buyer, "Only buyer allowed");
         require(order.status == Status.SHIPPED, "Order not shipped");
         require(order.status != Status.DELIVERED, "Order already delivered");
 
@@ -199,15 +188,19 @@ contract Escrow is AccessControl {
             "Not enough arbitrator fee"
         );
 
-        orders[order.orderId].status = Status.DISPUTTED;
         uint256 disputeId = totalDisputed++;
         Dispute memory dispute;
         dispute.orderId = orderId;
-        dispute.disputedBy = msg.sender;
+        dispute.disputedBy = _msgSender();
         disputes[disputeId] = dispute;
+
+        order.status = Status.DISPUTTED;
+        order.disputeId = disputeId;
+        orders[orderId] = order;
+
         escrowAvailableBalance += msg.value;
 
-        emit OrderDisputed(orderId, msg.sender);
+        emit OrderDisputed(dispute);
     }
 
     function refundItem(uint256 orderId) external onlyArbitrator {
@@ -218,7 +211,9 @@ contract Escrow is AccessControl {
         escrowBalance -= order.amount;
         orders[order.orderId].status = Status.REFUNDED;
 
-        emit OrderRefunded(orderId, msg.sender);
+        disputes[order.disputeId].resolvedBy = _msgSender();
+
+        emit OrderRefunded(orderId, _msgSender());
     }
 
     function withdrawFund(address to, uint256 amount) external onlyAdmin {
@@ -227,8 +222,8 @@ contract Escrow is AccessControl {
             "Zero withdrawal not allowed"
         );
 
-        _payTo(to, amount);
         escrowAvailableBalance -= amount;
+        _payTo(to, amount);
 
         emit Withdraw(amount, to, block.timestamp);
     }
@@ -238,6 +233,14 @@ contract Escrow is AccessControl {
             (bool success, ) = payable(to).call{value: amount}("");
             require(success, "Payment failed");
         }
+    }
+
+    function setPlatformFee(uint256 _platformFee) external onlyAdmin {
+        platformFee = _platformFee;
+    }
+
+    function setArbitratorFee(uint256 _arbitratorFee) external onlyAdmin {
+        arbitratorFee = _arbitratorFee;
     }
 
     function getItems() external view returns (Item[] memory props) {
@@ -254,5 +257,32 @@ contract Escrow is AccessControl {
 
     function myItems(address myAddress) external view returns (Item[] memory) {
         return itemsOf[myAddress];
+    }
+
+    // meta tx
+    function setTrustedForwarder(address _trustedForwarder) external onlyAdmin {
+        _setTrustedForwarder(_trustedForwarder);
+    }
+
+    function _msgSender()
+        internal
+        view
+        override(Context, ERC2771Recipient)
+        returns (address sender)
+    {
+        sender = ERC2771Recipient._msgSender();
+    }
+
+    function _msgData()
+        internal
+        view
+        override(Context, ERC2771Recipient)
+        returns (bytes calldata)
+    {
+        return ERC2771Recipient._msgData();
+    }
+
+    function versionRecipient() external pure returns (string memory) {
+        return "2.2.0";
     }
 }

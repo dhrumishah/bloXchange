@@ -11,7 +11,15 @@ const defaultNetwork = 'hardhat';
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: '0.8.10',
+  solidity: {
+    version: "0.8.10",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
 
   defaultNetwork,
 
@@ -71,20 +79,21 @@ module.exports = {
 
     // L2 TEST NETWORKS
 
-    // mumbai: {
-    //   chainId: 80001,
-    //   url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
-    //   url: `https://polygon-mumbai.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
-    //   accounts: [`${process.env.PRIVATE_KEY}`],
-    // },
+    mumbai: {
+      chainId: 80001,
+      url: `https://palpable-polished-pallet.matic-testnet.discover.quiknode.pro/${process.env.NEXT_PUBLIC_QUICKNODE_ID}`,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
   },
   namedAccounts: {
     deployer: {
       default: 0, // here this will by default take the first account as deployer
     },
     tokenOwner: 1,
-    etherscan: {
-      apiKey: process.env.ETHERSCAN_API_KEY,
-    },
+  },
+  etherscan: {
+    apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY
+    }
   },
 };
