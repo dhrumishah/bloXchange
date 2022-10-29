@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@opengsn/contracts/src/ERC2771Recipient.sol";
 
 
-contract Escrow is ERC2771Recipient, AccessControl {
+contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ARBITRATOR_ROLE = keccak256("ARBITRATOR_ROLE");
 

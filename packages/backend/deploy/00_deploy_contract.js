@@ -10,22 +10,22 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const trustedForwarderAddress = process.env.TRUSTED_FORWARDER_ADDRESS;
   const args = [trustedForwarderAddress, platformFee, arbitratorFee];
 
-  const Escrow = await deploy('Escrow', {
+  const EscrowMarketplace = await deploy('EscrowMarketplace', {
     args,
     from: deployer,
     log: true,
     waitConfirmations: isDevelopmentNetwork ? 0 : 6,
   });
-  log(`Deployed Escrow at ${Escrow.address}`);
+  log(`Deployed EscrowMarketplace at ${EscrowMarketplace.address}`);
   if (!isDevelopmentNetwork) {
     try {
-      log(`Waiting for Escrow contract to be mined for verification...`);
+      log(`Waiting for EscrowMarketplace contract to be mined for verification...`);
       await run("verify:verify", {
-        address: Escrow.address,
+        address: EscrowMarketplace.address,
         constructorArguments: args,
       });
     } catch (e) {
-      log(`Escrow contract verification failed: ${e}`);
+      log(`EscrowMarketplace contract verification failed: ${e}`);
     }
   }
 };

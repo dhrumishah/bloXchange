@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { ethers, deployments } = require('hardhat');
 
-describe('Escrow', function () {
+describe('EscrowMarketplace', function () {
   let exchange;
   const title = "Old Fan"
   const description = "A working 1 year old fan"
@@ -11,7 +11,7 @@ describe('Escrow', function () {
 
   beforeEach(async () => {
     await deployments.fixture(["all"])
-    exchange = await ethers.getContract("Escrow")
+    exchange = await ethers.getContract("EscrowMarketplace")
   })
 
   it("Should create a new item", async function () {
