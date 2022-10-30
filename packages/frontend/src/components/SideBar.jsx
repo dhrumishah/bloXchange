@@ -5,8 +5,10 @@ import Product from "./svg/product.svg";
 import Market from "./svg/market.svg";
 import Profile from "./svg/profile.svg";
 import Contact from "./svg/contact.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="sidebar--component fixed border-r border-slate-500">
@@ -14,13 +16,23 @@ export default function SideBar() {
           <div className="sidebar--col">
             <div className="flex flex-col space-y-5 mb-12">
               <a className="flex items-center" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
                   <img src={Market}></img>
                   <p>Marketplace</p>
                 </div>
               </a>
               <a class=" flex items-center hover:opacity-90" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick={() => {
+                    navigate("/SellProduct");
+                  }}
+                >
                   <img src={Product}></img>
                   <p>Sell a product</p>
                 </div>
