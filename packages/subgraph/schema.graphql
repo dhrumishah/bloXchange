@@ -1,0 +1,30 @@
+type Item @entity {
+  id: ID!
+  price: BigInt!
+  quantity: BigInt!
+  createdAt: BigInt!
+  seller: Bytes!
+  title: String!
+  description: String!
+  images: [String!]!
+  orders: [Order!]! @derivedFrom(field: "item")
+}
+
+type Order @entity {
+  id: ID!
+  item: Item!
+  amount: BigInt!
+  quantity: BigInt!
+  orderedAt: BigInt!
+  disputeId: BigInt!
+  buyer: Bytes!
+  status: Int!
+  disputes: [Dispute!]! @derivedFrom(field: "order")
+}
+
+type Dispute @entity {
+  id: ID!
+  order: Order!
+  disputedBy: Bytes!
+  resolvedBy: Bytes!
+}

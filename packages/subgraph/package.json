@@ -1,0 +1,22 @@
+{
+  "name": "@create-web3/subgraph",
+  "license": "UNLICENSED",
+  "version": "0.0.0",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "codegen-build": "graph codegen && graph build",
+    "deploy": "graph deploy --product hosted-service pawanpaudel93/bloxchange",
+    "create-local": "graph create --node http://localhost:8020/ pawanpaudel93/bloxchange",
+    "remove-local": "graph remove --node http://localhost:8020/ pawanpaudel93/bloxchange",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 pawanpaudel93/bloxchange",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.35.0",
+    "@graphprotocol/graph-ts": "0.28.1"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}

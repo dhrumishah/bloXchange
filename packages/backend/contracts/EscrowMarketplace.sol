@@ -5,13 +5,11 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@opengsn/contracts/src/ERC2771Recipient.sol";
 
-
 contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ARBITRATOR_ROLE = keccak256("ARBITRATOR_ROLE");
 
     uint256 public escrowBalance;
-    uint256 public escrowAvailableBalance;
     uint256 public platformFee;
     uint256 public arbitratorFee;
     uint256 public totalItems;
@@ -23,20 +21,12 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 itemId;
         uint256 price;
         uint256 quantity;
-        uint256 createdAt;
-        uint256 updatedAt;
         address seller;
-        string title;
-        string description;
-        string[] images;
     }
 
     struct Order {
-        uint256 orderId;
         uint256 itemId;
         uint256 amount;
-        uint256 quantity;
-        uint256 orderedAt;
         uint256 disputeId;
         address buyer;
         Status status;
@@ -57,36 +47,62 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     }
 
     mapping(uint256 => Item) private items;
-    mapping(uint256 => Order) public orders;
-    mapping(uint256 => Dispute) public disputes;
-    mapping(address => Item[]) private itemsOf;
+    mapping(uint256 => Order) private orders;
+    mapping(uint256 => Dispute) private disputes;
 
-    event ItemCreated(Item item);
-    event ItemOrdered(Order order);
+    event ItemListed(
+        uint256 itemId,
+        address indexed seller,
+        uint256 price,
+        uint256 quantity,
+        uint256 createdAt,
+        string title,
+        string description,
+        string[] images
+    );
+    event ItemOrdered(
+        uint256 orderId,
+        uint256 indexed itemId,
+        address indexed buyer,
+        uint256 amount,
+        uint256 quantity,
+        uint256 orderedAt,
+        uint256 disputeId,
+        Status status
+    );
+    event OrderDisputed(
+        uint256 disputeId,
+        uint256 indexed orderId,
+        address indexed disputedBy,
+        address indexed resolvedBy
+    );
     event OrderShipped(uint256 orderId);
     event OrderDelivered(uint256 orderId);
-    event OrderDisputed(Dispute dispute);
     event OrderRefunded(uint256 orderId, address refundedBy);
     event Withdraw(uint256 amount, address to, uint256 timestamp);
 
     modifier onlyAdmin() {
         if (!hasRole(ADMIN_ROLE, _msgSender())) {
-            revert CallerNotAdmin(_msgSender());
+            revert NotAdmin(_msgSender());
         }
         _;
     }
 
     modifier onlyArbitrator() {
         if (!hasRole(ARBITRATOR_ROLE, _msgSender())) {
-            revert CallerNotArbitrator(_msgSender());
+            revert NotArbitrator(_msgSender());
         }
         _;
     }
 
-    error CallerNotAdmin(address caller);
-    error CallerNotArbitrator(address caller);
+    error NotAdmin(address caller);
+    error NotArbitrator(address caller);
 
-    constructor(address _trustedForwarder, uint256 _platformFee, uint256 _arbitratorFee) {
+    constructor(
+        address _trustedForwarder,
+        uint256 _platformFee,
+        uint256 _arbitratorFee
+    ) {
         _setTrustedForwarder(_trustedForwarder);
         _grantRole(ADMIN_ROLE, _msgSender());
         _grantRole(ARBITRATOR_ROLE, _msgSender());
@@ -95,59 +111,70 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     }
 
     function createItem(
-        string calldata title,
-        string calldata description,
-        uint256 price,
-        uint256 quantity,
-        string[] calldata images
+        string calldata _title,
+        string calldata _description,
+        uint256 _price,
+        uint256 _quantity,
+        string[] calldata _images
     ) external {
-        require(images.length >= 1, "No item images");
+        require(_images.length >= 1, "No item images");
         uint256 itemId = totalItems++;
 
         Item memory item;
         item.itemId = itemId;
-        item.price = price;
-        item.title = title;
-        item.description = description;
-        item.quantity = quantity;
-        item.createdAt = block.timestamp;
+        item.price = _price;
+        item.quantity = _quantity;
         item.seller = _msgSender();
-        item.images = images;
 
         items[itemId] = item;
 
-        itemsOf[_msgSender()].push(item);
-
-        emit ItemCreated(item);
+        emit ItemListed(
+            itemId,
+            _msgSender(),
+            _price,
+            _quantity,
+            block.timestamp,
+            _title,
+            _description,
+            _images
+        );
     }
 
-    function orderItem(uint256 itemId, uint256 quantity) external payable {
-        Item memory item = items[itemId];
+    function orderItem(uint256 _itemId, uint256 _quantity) external payable {
+        Item memory item = items[_itemId];
         require(_msgSender() != item.seller, "Seller not allowed");
-        require(quantity <= item.quantity, "Not enough item quanity");
-        require(msg.value == item.price * quantity, "Incorrect amount sent");
+        require(_quantity <= item.quantity, "Not enough item quanity");
+        require(msg.value == item.price * _quantity, "Incorrect amount sent");
 
-        items[itemId].quantity -= quantity;
+        items[_itemId].quantity -= _quantity;
 
         uint256 orderId = totalOrders++;
+        uint256 amount = item.price * _quantity;
 
         Order memory order;
-        order.orderId = orderId;
-        order.itemId = itemId;
-        order.amount = item.price * quantity;
+        order.itemId = _itemId;
+        order.amount = amount;
         order.buyer = _msgSender();
         order.status = Status.PENDING;
-        order.orderedAt = block.timestamp;
 
         orders[orderId] = order;
 
         escrowBalance += order.amount;
 
-        emit ItemOrdered(order);
+        emit ItemOrdered(
+            orderId,
+            _itemId,
+            _msgSender(),
+            amount,
+            _quantity,
+            block.timestamp,
+            0,
+            Status.PENDING
+        );
     }
 
-    function performShipping(uint256 orderId) external {
-        Order memory order = orders[orderId];
+    function performShipping(uint256 _orderId) external {
+        Order memory order = orders[_orderId];
         require(
             _msgSender() == items[order.itemId].seller,
             "Only seller allowded"
@@ -155,13 +182,13 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         require(order.status != Status.SHIPPED, "Order already shipped");
         require(order.status != Status.DELIVERED, "Order already completed");
 
-        orders[orderId].status = Status.SHIPPED;
+        orders[_orderId].status = Status.SHIPPED;
 
-        emit OrderShipped(orderId);
+        emit OrderShipped(_orderId);
     }
 
-    function confirmDelivery(uint256 orderId) external {
-        Order memory order = orders[orderId];
+    function confirmDelivery(uint256 _orderId) external {
+        Order memory order = orders[_orderId];
         require(_msgSender() == order.buyer, "Only buyer allowed");
         require(order.status == Status.SHIPPED, "Order not shipped");
         require(order.status != Status.DELIVERED, "Order already delivered");
@@ -171,17 +198,16 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 fee = (order.amount * platformFee) / 100;
         _payTo(items[itemId].seller, order.amount - fee);
         escrowBalance -= order.amount;
-        escrowAvailableBalance += fee;
 
         order.status = Status.DELIVERED;
-        orders[order.orderId] = order;
+        orders[_orderId] = order;
         totalDelivered++;
 
-        emit OrderDelivered(orderId);
+        emit OrderDelivered(_orderId);
     }
 
-    function disputeOrder(uint256 orderId) external payable {
-        Order memory order = orders[orderId];
+    function disputeOrder(uint256 _orderId) external payable {
+        Order memory order = orders[_orderId];
         require(order.status != Status.DELIVERED, "Order already delivered");
         require(
             msg.value >= ((order.amount * arbitratorFee) / 100),
@@ -190,47 +216,44 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
         uint256 disputeId = totalDisputed++;
         Dispute memory dispute;
-        dispute.orderId = orderId;
+        dispute.orderId = _orderId;
         dispute.disputedBy = _msgSender();
         disputes[disputeId] = dispute;
 
         order.status = Status.DISPUTTED;
         order.disputeId = disputeId;
-        orders[orderId] = order;
+        orders[_orderId] = order;
 
-        escrowAvailableBalance += msg.value;
-
-        emit OrderDisputed(dispute);
+        emit OrderDisputed(disputeId, _orderId, _msgSender(), address(0));
     }
 
-    function refundItem(uint256 orderId) external onlyArbitrator {
-        Order memory order = orders[orderId];
+    function refundItem(uint256 _orderId) external onlyArbitrator {
+        Order memory order = orders[_orderId];
         require(order.status == Status.DISPUTTED, "Order not disputed");
 
         _payTo(items[order.itemId].seller, order.amount);
         escrowBalance -= order.amount;
-        orders[order.orderId].status = Status.REFUNDED;
+        orders[_orderId].status = Status.REFUNDED;
 
         disputes[order.disputeId].resolvedBy = _msgSender();
 
-        emit OrderRefunded(orderId, _msgSender());
+        emit OrderRefunded(_orderId, _msgSender());
     }
 
-    function withdrawFund(address to, uint256 amount) external onlyAdmin {
+    function withdrawFund(address _to, uint256 _amount) external onlyAdmin {
         require(
-            amount > 0 && amount <= escrowAvailableBalance,
+            _amount > 0 && _amount <= (address(this).balance - escrowBalance),
             "Zero withdrawal not allowed"
         );
 
-        escrowAvailableBalance -= amount;
-        _payTo(to, amount);
+        _payTo(_to, _amount);
 
-        emit Withdraw(amount, to, block.timestamp);
+        emit Withdraw(_amount, _to, block.timestamp);
     }
 
-    function _payTo(address to, uint256 amount) internal {
-        if (amount > 0) {
-            (bool success, ) = payable(to).call{value: amount}("");
+    function _payTo(address _to, uint256 _amount) internal {
+        if (_amount > 0) {
+            (bool success, ) = payable(_to).call{value: _amount}("");
             require(success, "Payment failed");
         }
     }
@@ -241,22 +264,6 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function setArbitratorFee(uint256 _arbitratorFee) external onlyAdmin {
         arbitratorFee = _arbitratorFee;
-    }
-
-    function getItems() external view returns (Item[] memory props) {
-        props = new Item[](totalItems);
-
-        for (uint256 i = 0; i < totalItems; i++) {
-            props[i] = items[i];
-        }
-    }
-
-    function getItem(uint256 itemId) external view returns (Item memory) {
-        return items[itemId];
-    }
-
-    function myItems(address myAddress) external view returns (Item[] memory) {
-        return itemsOf[myAddress];
     }
 
     // meta tx

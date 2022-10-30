@@ -18,8 +18,8 @@ describe('EscrowMarketplace', function () {
     const tx = await exchange.createItem(title, description, price, quantity, images)
     await tx.wait()
 
-    const item = await exchange.getItem(0)
-    expect(item.itemId).equal(0);
+    const totalItems = await exchange.totalItems()
+    expect(totalItems).equal(1);
   });
 
   it("Should create a new item and order it", async function () {

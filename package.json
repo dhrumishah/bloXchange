@@ -12,7 +12,9 @@
     "compile": "yarn workspace @create-web3/backend compile",
     "test": "yarn workspace @create-web3/backend test",
     "clean": "yarn workspace @create-web3/backend clean",
-    "deploy": "yarn workspace @create-web3/backend deploy"
+    "deploy": "yarn workspace @create-web3/backend deploy",
+    "build-subgraph": "yarn workspace @create-web3/subgraph codegen-build",
+    "deploy-subgraph": "yarn workspace @create-web3/subgraph deploy"
   },
   "workspaces": {
     "packages": [
