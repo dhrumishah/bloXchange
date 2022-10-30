@@ -5,8 +5,21 @@ import Market from "./../svg/market.svg";
 import Profile from "./../svg/profile.svg"
 import Contact from "./../svg/contact.svg";
 import { useNavigate } from "react-router-dom";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from 'wagmi'
 
 export default function SideBar() {
+    const {
+      address,
+      connector,
+      isConnected
+  } = useAccount()
+  console.log(address);
   const navigate = useNavigate();
   return (
     <div>
@@ -29,7 +42,7 @@ export default function SideBar() {
                 <div
                   class="flex items-center sidebar--para"
                   onClick={() => {
-                    navigate("/SellProduct");
+                    navigate("/sellproduct");
                   }}
                 >
                   <img src={Product}></img>
@@ -37,7 +50,14 @@ export default function SideBar() {
                 </div>
               </a>
               <a class=" flex items-center hover:opacity-90" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick = {
+                    () => {
+                      navigate("profile/" + address.toString());
+                    }
+                  }
+                >
                   <img src={Profile}></img>
                   <p>Profile</p>
                 </div>
