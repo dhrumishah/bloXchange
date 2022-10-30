@@ -29,7 +29,7 @@ export default function SellProduct() {
                 id="add-title"
                 type="text"
                 placeholder="Enter Product's title"
-                class="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] color:white"
+                class="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text:white"
               ></input>
             </div>
             <label
@@ -51,8 +51,8 @@ export default function SellProduct() {
                 </label>
                 <input
                   id="priceUsd"
-                  className="outline-none font-medium px-4 py-2 w-full h-[44px] rounded-[10px] dark:bg-[#363952]"
-                  type="text"
+                  className="outline-none font-medium px-4 py-2 w-full h-[44px] rounded-[10px] dark:bg-[#363952] text:white"
+                  type="number"
                   placeholder="Enter Price"
                 ></input>
               </div>
