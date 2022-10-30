@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MarketPlace from "./components/MarketPlace";
-import SellProduct from "./components/SellProduct";
+import MarketPlace from "./components/Marketplace/MarketPlace.jsx";
+import SellProduct from "./components/SellProduct/SellProduct";
 
 function App() {
   return (

@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import DropDown from "./DropDown";
+import DropDown from "../DropDown";
 import "./marketplace.css";
-import Magnify from "./svg/magnifying-glass.svg";
-import Game from "./images/game.jpeg";
+import Magnify from "./../svg/magnifying-glass.svg";
+import Game from "./../images/game.jpeg"
 import Logo from "/src/Logo.svg";
-import NavBar from "./NavBar";
-import SideBar from "./SideBar";
+import NavBar from "../Navbar/NavBar";
+import SideBar from "../Sidebar/SideBar";
 
 export default function MarketPlace() {
   return (

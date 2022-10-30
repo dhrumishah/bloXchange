@@ -294,13 +294,13 @@
     "stream-browserify" "^3.0.0"
     "util" "^0.12.4"
 
-"@create-web3/backend@file:D:\\DHRUMI_SHAH\\Chainlink Hackathon\\bloXchange\\packages\\backend":
+"@create-web3/backend@file:E:\\chainlinkHack\\bloxchange\\packages\\backend":
   "resolved" "file:packages/backend"
   "version" "1.0.0"
   dependencies:
     "dotenv" "^16.0.0"
 
-"@create-web3/frontend@file:D:\\DHRUMI_SHAH\\Chainlink Hackathon\\bloXchange\\packages\\frontend":
+"@create-web3/frontend@file:E:\\chainlinkHack\\bloxchange\\packages\\frontend":
   "resolved" "file:packages/frontend"
   "version" "0.0.0"
   dependencies:

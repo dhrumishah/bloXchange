@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import NavBar from "./NavBar";
-import SideBar from "./SideBar";
-import DropDown from "./DropDown";
+import NavBar from "../Navbar/NavBar";
+import SideBar from "../Sidebar/SideBar";
+import DropDown from "../DropDown";
 
 export default function SellProduct() {
   return (

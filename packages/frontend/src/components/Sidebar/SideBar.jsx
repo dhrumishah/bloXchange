@@ -1,10 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./sidebar.css";
-import Product from "./svg/product.svg";
-import Market from "./svg/market.svg";
-import Profile from "./svg/profile.svg";
-import Contact from "./svg/contact.svg";
+import Product from "./../svg/product.svg";
+import Market from "./../svg/market.svg";
+import Profile from "./../svg/profile.svg"
+import Contact from "./../svg/contact.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
