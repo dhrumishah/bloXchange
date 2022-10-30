@@ -1,7 +1,7 @@
 .navbar {
   top: 0;
   left: 0;
-  height: 60px;
+  height: 80px;
   align-items: center;
   background-color: #242742;
   margin: 0;
@@ -9,9 +9,9 @@
   display: flex;
   width: 100%;
 }
-.navbar--btn {
+/* .navbar--btn {
   margin-left: 70rem;
-}
+} */
 .navbar--logo h2 {
   background: linear-gradient(to right, #30cfd0 0%, #9d4edd 100%);
   -webkit-background-clip: text;
@@ -20,4 +20,10 @@
   font-family: "Oxygen", sans-serif;
   font-weight: 900;
   font-size: 2em;
+}
+
+.nav-dis{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

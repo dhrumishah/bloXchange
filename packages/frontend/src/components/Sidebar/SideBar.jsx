@@ -54,7 +54,7 @@ export default function SideBar() {
                   class="flex items-center sidebar--para"
                   onClick = {
                     () => {
-                      navigate("profile/" + address.toString());
+                      navigate("/profile/" + address.toString());
                     }
                   }
                 >

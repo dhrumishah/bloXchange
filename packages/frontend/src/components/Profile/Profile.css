@@ -1,0 +1,32 @@
+.profile_details{
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    /* height: 20vh; */
+}
+
+.profile_img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.profile_text .grey-box h4{
+    display: inline-block;
+    font-weight: 600;
+    color: white;
+}
+
+.grey-box{
+    width: 110%;
+    padding: 8px;
+    height: 40px;
+    margin-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #222435;
+    border-radius: 8px;
+}
