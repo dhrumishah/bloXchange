@@ -11,19 +11,19 @@ const Item = (props) => {
               <div className="w-full  mb-6">
                   <img
                       className="w-full object-cover object-center h-[250px] rounded-[20px]"
-                      src={Game}
+                      src={props.image}
                   ></img>
               </div>
               <div className="flex flex-col px-2 w-full mb-6 text-left">
                   <div className="flex items-center">
-                      <p className="flex font-bold text-[21px] mb-2 text-white">
+                      <p className="flex mb-2 text-white">
                             {props.title}
                       </p>
                       <p className="font-medium text-[21px] mb-2 text-white ml-36">
                           {
                               props.price
                           }
-                          MATIC
+                           MATIC
                       </p>
                   </div>
                   <p className="font-medium mb-4 truncate text-white">

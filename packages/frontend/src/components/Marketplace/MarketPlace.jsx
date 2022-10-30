@@ -38,19 +38,22 @@ export default function MarketPlace() {
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
-                  location = "Magdeburg, Deutschland"
+                  location="Magdeburg, Deutschland"
+                  image={Game}
                 />
                 <Item 
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
-                  location = "Magdeburg, Deutschland"
+                  location="Magdeburg, Deutschland"
+                  image={Game}
                 />
                 <Item 
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
-                  location = "Magdeburg, Deutschland"
+                  location="Magdeburg, Deutschland"
+                  image={Game}
                 />        
               </div>
             </div>
