@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import NavBar from "../Navbar/NavBar";
 import SideBar from "../Sidebar/SideBar";
 import DropDown from "../DropDown";
+import Item from "../Item/Item";
 
 export default function SellProduct() {
   return (
