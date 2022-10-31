@@ -10,6 +10,7 @@ import { publicProvider } from 'wagmi/providers/public';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { BrowserRouter } from 'react-router-dom';
 
 // Get environment variables
 const alchemyId = import.meta.env.VITE_ALCHEMY_ID;

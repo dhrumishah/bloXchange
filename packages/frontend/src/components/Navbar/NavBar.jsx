@@ -6,7 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 export default function HomePage() {
   return (
     <div>
-      <nav className="navbar fixed border-b border-slate-500">
+      <nav className="navbar fixed border-b border-slate-500 nav-dis">
         <div className="navbar--logo">
           <h2>bloXchange</h2>
         </div>

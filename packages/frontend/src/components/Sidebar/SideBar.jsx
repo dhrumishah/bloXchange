@@ -1,12 +1,26 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./sidebar.css";
-import Product from "./svg/product.svg";
-import Market from "./svg/market.svg";
-import Profile from "./svg/profile.svg";
-import Contact from "./svg/contact.svg";
+import Product from "./../svg/product.svg";
+import Market from "./../svg/market.svg";
+import Profile from "./../svg/profile.svg"
+import Contact from "./../svg/contact.svg";
+import { useNavigate } from "react-router-dom";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from 'wagmi'
 
 export default function SideBar() {
+    const {
+      address,
+      connector,
+      isConnected
+  } = useAccount()
+  console.log(address);
+  const navigate = useNavigate();
   return (
     <div>
       <div className="sidebar--component fixed border-r border-slate-500">
@@ -14,19 +28,36 @@ export default function SideBar() {
           <div className="sidebar--col">
             <div className="flex flex-col space-y-5 mb-12">
               <a className="flex items-center" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
                   <img src={Market}></img>
                   <p>Marketplace</p>
                 </div>
               </a>
               <a class=" flex items-center hover:opacity-90" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick={() => {
+                    navigate("/sellproduct");
+                  }}
+                >
                   <img src={Product}></img>
                   <p>Sell a product</p>
                 </div>
               </a>
               <a class=" flex items-center hover:opacity-90" href="#">
-                <div class="flex items-center sidebar--para">
+                <div
+                  class="flex items-center sidebar--para"
+                  onClick = {
+                    () => {
+                      navigate("/profile/" + address.toString());
+                    }
+                  }
+                >
                   <img src={Profile}></img>
                   <p>Profile</p>
                 </div>
