@@ -27,6 +27,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     struct Order {
         uint256 itemId;
         uint256 amount;
+        uint256 quantity;
         uint256 disputeId;
         address buyer;
         Status status;
@@ -154,6 +155,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         Order memory order;
         order.itemId = _itemId;
         order.amount = amount;
+        order.quantity = _quantity;
         order.buyer = _msgSender();
         order.status = Status.PENDING;
 
@@ -196,12 +198,13 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 itemId = order.itemId;
 
         uint256 fee = (order.amount * platformFee) / 100;
-        _payTo(items[itemId].seller, order.amount - fee);
         escrowBalance -= order.amount;
 
         order.status = Status.DELIVERED;
         orders[_orderId] = order;
         totalDelivered++;
+
+        _payTo(items[itemId].seller, order.amount - fee);
 
         emit OrderDelivered(_orderId);
     }
@@ -231,11 +234,11 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         Order memory order = orders[_orderId];
         require(order.status == Status.DISPUTTED, "Order not disputed");
 
-        _payTo(items[order.itemId].seller, order.amount);
-        escrowBalance -= order.amount;
         orders[_orderId].status = Status.REFUNDED;
-
+        items[order.itemId].quantity += order.quantity;
         disputes[order.disputeId].resolvedBy = _msgSender();
+        escrowBalance -= order.amount;
+        _payTo(items[order.itemId].seller, order.amount);
 
         emit OrderRefunded(_orderId, _msgSender());
     }

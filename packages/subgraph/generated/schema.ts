@@ -69,15 +69,6 @@ export class Item extends Entity {
     this.set("createdAt", Value.fromBigInt(value));
   }
 
-  get updatedAt(): BigInt {
-    let value = this.get("updatedAt");
-    return value!.toBigInt();
-  }
-
-  set updatedAt(value: BigInt) {
-    this.set("updatedAt", Value.fromBigInt(value));
-  }
-
   get seller(): Bytes {
     let value = this.get("seller");
     return value!.toBytes();
