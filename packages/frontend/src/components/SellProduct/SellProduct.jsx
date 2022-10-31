@@ -14,7 +14,7 @@ export default function SellProduct() {
       <main>
         <SideBar />
         <main className="mt-[60px] py-12 px-4 relative flex min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:ml-[240px] md:px-12">
-          <div className="flex flex-col w-full sm:max-w-[633px]">
+          <div className="m-auto flex flex-col w-full sm:max-w-[633px]">
             <h1 className="text-[25px] font-semibold mb-10 text-[#30cfd0]">
               Want to sell your product?
             </h1>
