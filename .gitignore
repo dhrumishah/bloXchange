@@ -17,7 +17,7 @@ typechain
 cache
 artifacts
 /packages/backend/node_modules
-/packages/backend/deployments/\*
+/packages/backend/deployments/*
 
 # Foundry files
 
@@ -29,6 +29,10 @@ artifacts
 /packages/frontend/node_modules
 packages/frontend/.next/
 /out/
+
+# subgraph
+/packages/subgraph/node_modules
+/packages/subgraph/build
 
 # vite
 
