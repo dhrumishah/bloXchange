@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import DropDown from "../DropDown";
 import "./marketplace.css";
 import Magnify from "./../svg/magnifying-glass.svg";
-import Game from "./../images/game.jpeg"
+import Game from "./../images/game.jpeg";
 import Logo from "/src/Logo.svg";
 import NavBar from "../Navbar/NavBar";
 import SideBar from "../Sidebar/SideBar";
@@ -18,7 +18,7 @@ export default function MarketPlace() {
       <main>
         <SideBar />
         <div>
-          <main className="mt-[60px] py-12 px-4 relative flex min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:ml-[240px] md:px-12">
+          <main className="mt-[80px] py-12 px-4 relative flex min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:ml-[240px] md:px-12">
             <div className="flex flex-col w-full">
               <div className="flex ml-auto items-center mb-8">
                 <img src={Magnify}></img>
@@ -34,27 +34,27 @@ export default function MarketPlace() {
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-8">
-                <Item 
+                <Item
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
                   location="Magdeburg, Deutschland"
                   image={Game}
                 />
-                <Item 
+                <Item
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
                   location="Magdeburg, Deutschland"
                   image={Game}
                 />
-                <Item 
+                <Item
                   title="Fallout Game"
                   price="300"
                   description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
                   location="Magdeburg, Deutschland"
                   image={Game}
-                />        
+                />
               </div>
             </div>
           </main>
