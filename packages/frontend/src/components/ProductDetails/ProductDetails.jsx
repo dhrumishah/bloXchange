@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../Navbar/NavBar";
 import Product from "../Product/Product";
 import Game from "./../images/game.jpeg";
+import Logo from "/src/Logo.svg";
 export default function ProductDetails() {
   return (
     <>
@@ -17,6 +18,7 @@ export default function ProductDetails() {
               description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
               location="Magdeburg, Deutschland"
               image={Game}
+              logo={Logo}
             />
           </div>
         </div>
