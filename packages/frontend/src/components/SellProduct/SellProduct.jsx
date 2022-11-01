@@ -14,7 +14,7 @@ export default function SellProduct() {
       <main>
         <SideBar />
         <main className="mt-[60px] py-12 px-4 relative flex min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:ml-[240px] md:px-12">
-          <div className="flex flex-col w-full sm:max-w-[633px]">
+          <div className="m-auto flex flex-col w-full sm:max-w-[633px]">
             <h1 className="text-[25px] font-semibold mb-10 text-[#30cfd0]">
               Want to sell your product?
             </h1>
@@ -29,7 +29,7 @@ export default function SellProduct() {
                 id="add-title"
                 type="text"
                 placeholder="Enter Product's title"
-                class="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text:white"
+                class="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
               ></input>
             </div>
             <label
@@ -51,7 +51,7 @@ export default function SellProduct() {
                 </label>
                 <input
                   id="priceUsd"
-                  className="outline-none font-medium px-4 py-2 w-full h-[44px] rounded-[10px] dark:bg-[#363952] text:white"
+                  className="outline-none font-medium px-4 py-2 w-full h-[44px] rounded-[10px] dark:bg-[#363952] text-white"
                   type="number"
                   placeholder="Enter Price"
                 ></input>
@@ -61,7 +61,7 @@ export default function SellProduct() {
               Description of your Product
             </label>
             <textarea
-              className="outline-none p-6 w-full h-[206px] rounded-[20px] mb-12 dark:bg-[#363952]"
+              className="outline-none p-6 w-full h-[206px] rounded-[20px] mb-12 dark:bg-[#363952] text-white"
               placeholder="Enter a Description"
               data-gramm="false"
               wt-ignore-input="true"
@@ -77,7 +77,7 @@ export default function SellProduct() {
                 id="location"
                 type="text"
                 placeholder="Enter your location"
-                className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952]"
+                className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952] text-white"
               ></input>
             </div>
             <button class="w-full ml-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
