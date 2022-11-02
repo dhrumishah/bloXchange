@@ -114,6 +114,23 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     error NotAdmin(address caller);
     error NotArbitrator(address caller);
+    error NoImages();
+    error CategoryNotPresent(uint256 categoryId);
+    error SellerCannotOrderOwnItem(address sellerAddress, uint256 itemId);
+    error NotEnoughQuantity(uint256 availableQuantity, uint256 orderQuantity);
+    error IncorrectAmountSent(uint256 amountSent, uint256 amountRequired);
+    error OnlySellerAllowed();
+    error OnlyBuyerAllowed();
+    error OrderNotShipped(uint256 orderId);
+    error OrderNotDisputed(uint256 orderId);
+    error OrderAlreadyDelivered(uint256 orderId);
+    error NotEnoughArbitratorFeeSent(uint256 feeSent, uint256 feeRequired);
+    error PaymentFailed(address to, uint256 amount);
+    error WithdrawAmountZero();
+    error InsufficientBalance(
+        uint256 requestedBalance,
+        uint256 availableBalance
+    );
 
     constructor(
         address _trustedForwarder,
@@ -128,11 +145,13 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     }
 
     function createItem(CreateItem calldata _item) external {
-        require(_item.images.length >= 1, "No item images");
-        require(
-            categoryIsPresent[categories[_item.categoryId]],
-            "Category absent"
-        );
+        if (_item.images.length == 0) {
+            revert NoImages();
+        }
+        if (!categoryIsPresent[categories[_item.categoryId]]) {
+            revert CategoryNotPresent(_item.categoryId);
+        }
+
         uint256 itemId = totalItems++;
 
         items[itemId] = Item(_item.price, _item.quantity, _msgSender());
@@ -152,9 +171,15 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function orderItem(uint256 _itemId, uint256 _quantity) external payable {
         Item memory item = items[_itemId];
-        require(_msgSender() != item.seller, "Seller not allowed");
-        require(_quantity <= item.quantity, "Not enough item quanity");
-        require(msg.value == item.price * _quantity, "Incorrect amount sent");
+        if (_msgSender() == item.seller) {
+            revert SellerCannotOrderOwnItem(_msgSender(), _itemId);
+        }
+        if (_quantity > item.quantity) {
+            revert NotEnoughQuantity(item.quantity, _quantity);
+        }
+        if (msg.value != item.price * _quantity) {
+            revert IncorrectAmountSent(msg.value, item.price * _quantity);
+        }
 
         items[_itemId].quantity -= _quantity;
 
@@ -186,10 +211,9 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function performShipping(uint256 _orderId) external {
         Order memory order = orders[_orderId];
-        require(
-            _msgSender() == items[order.itemId].seller,
-            "Only seller allowded"
-        );
+        if (_msgSender() != items[order.itemId].seller) {
+            revert OnlySellerAllowed();
+        }
         require(order.status != Status.SHIPPED, "Order already shipped");
         require(order.status != Status.DELIVERED, "Order already completed");
 
@@ -200,9 +224,11 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function confirmDelivery(uint256 _orderId) external {
         Order memory order = orders[_orderId];
-        require(_msgSender() == order.buyer, "Only buyer allowed");
-        require(order.status == Status.SHIPPED, "Order not shipped");
-        require(order.status != Status.DELIVERED, "Order already delivered");
+        if (_msgSender() != order.buyer) revert OnlyBuyerAllowed();
+        if (order.status == Status.DELIVERED) {
+            revert OrderAlreadyDelivered(_orderId);
+        }
+        if (order.status != Status.SHIPPED) revert OrderNotShipped(_orderId);
 
         uint256 itemId = order.itemId;
 
@@ -220,11 +246,15 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function disputeOrder(uint256 _orderId) external payable {
         Order memory order = orders[_orderId];
-        require(order.status != Status.DELIVERED, "Order already delivered");
-        require(
-            msg.value >= ((order.amount * arbitratorFee) / 100),
-            "Not enough arbitrator fee"
-        );
+        if (order.status == Status.DELIVERED) {
+            revert OrderAlreadyDelivered(_orderId);
+        }
+        if (msg.value < ((order.amount * arbitratorFee) / 100)) {
+            revert NotEnoughArbitratorFeeSent(
+                msg.value,
+                ((order.amount * arbitratorFee) / 100)
+            );
+        }
 
         uint256 disputeId = totalDisputed++;
         Dispute memory dispute;
@@ -241,7 +271,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function refundItem(uint256 _orderId) external onlyArbitrator {
         Order memory order = orders[_orderId];
-        require(order.status == Status.DISPUTTED, "Order not disputed");
+        if (order.status != Status.DISPUTTED) revert OrderNotDisputed(_orderId);
 
         orders[_orderId].status = Status.REFUNDED;
         items[order.itemId].quantity += order.quantity;
@@ -253,10 +283,13 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     }
 
     function withdrawFund(address _to, uint256 _amount) external onlyAdmin {
-        require(
-            _amount > 0 && _amount <= (address(this).balance - escrowBalance),
-            "Zero withdrawal not allowed"
-        );
+        if (_amount == 0) revert WithdrawAmountZero();
+        if (_amount > (address(this).balance - escrowBalance)) {
+            revert InsufficientBalance(
+                _amount,
+                address(this).balance - escrowBalance
+            );
+        }
 
         _payTo(_to, _amount);
 
@@ -266,7 +299,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     function _payTo(address _to, uint256 _amount) internal {
         if (_amount > 0) {
             (bool success, ) = payable(_to).call{value: _amount}("");
-            require(success, "Payment failed");
+            if (!success) revert PaymentFailed(_to, _amount);
         }
     }
 

@@ -5,7 +5,7 @@
       "chainId": "80001",
       "contracts": {
         "EscrowMarketplace": {
-          "address": "0x484A906a9058D3F19E318693D739Cee163976cC7",
+          "address": "0x073f26580d9A579aA464d41D31D6c6De9659E330",
           "abi": [
             {
               "inputs": [
@@ -31,6 +31,54 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "CategoryNotPresent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amountSent",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amountRequired",
+                  "type": "uint256"
+                }
+              ],
+              "name": "IncorrectAmountSent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "requestedBalance",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "availableBalance",
+                  "type": "uint256"
+                }
+              ],
+              "name": "InsufficientBalance",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "NoImages",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "address",
                   "name": "caller",
                   "type": "address"
@@ -48,6 +96,118 @@
                 }
               ],
               "name": "NotArbitrator",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "feeSent",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "feeRequired",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotEnoughArbitratorFeeSent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "availableQuantity",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "orderQuantity",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotEnoughQuantity",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "OnlyBuyerAllowed",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "OnlySellerAllowed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderAlreadyDelivered",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderNotDisputed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderNotShipped",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "PaymentFailed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "sellerAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "itemId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "SellerCannotOrderOwnItem",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "WithdrawAmountZero",
               "type": "error"
             },
             {

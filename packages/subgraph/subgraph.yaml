@@ -6,7 +6,7 @@ dataSources:
     name: EscrowMarketplace
     network: mumbai
     source:
-      address: "0x484A906a9058D3F19E318693D739Cee163976cC7"
+      address: "0x073f26580d9A579aA464d41D31D6c6De9659E330"
       abi: EscrowMarketplace
       startBlock: 28939424
     mapping:
