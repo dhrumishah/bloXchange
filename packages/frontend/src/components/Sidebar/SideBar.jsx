@@ -65,7 +65,13 @@ export default function SideBar() {
             </div>
           </div>
           <div className="border-t border-slate-500 block mb-8"></div>
-          <div className="flex items-center pl-3 mb-8 text-base sidebar--para">
+          <div className="flex items-center pl-3 mb-8 text-base sidebar--para"
+          onClick = {
+            () => {
+              navigate("/contact-us");
+            }
+          }
+          >
             <img src={Contact}></img>
             <p>Contact Us</p>
           </div>
