@@ -16,12 +16,21 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     uint256 public totalOrders;
     uint256 public totalDelivered;
     uint256 public totalDisputed;
+    uint256 private categoryCounter;
 
     struct Item {
-        uint256 itemId;
         uint256 price;
         uint256 quantity;
         address seller;
+    }
+
+    struct CreateItem {
+        string title;
+        string description;
+        uint256 categoryId;
+        uint256 price;
+        uint256 quantity;
+        string[] images;
     }
 
     struct Order {
@@ -50,10 +59,14 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     mapping(uint256 => Item) private items;
     mapping(uint256 => Order) private orders;
     mapping(uint256 => Dispute) private disputes;
+    mapping(uint256 => bytes32) private categories;
+    mapping(address => string) private profiles;
+    mapping(bytes32 => bool) private categoryIsPresent;
 
     event ItemListed(
         uint256 itemId,
         address indexed seller,
+        uint256 indexed categoryId,
         uint256 price,
         uint256 quantity,
         uint256 createdAt,
@@ -80,6 +93,9 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     event OrderShipped(uint256 orderId);
     event OrderDelivered(uint256 orderId);
     event OrderRefunded(uint256 orderId, address refundedBy);
+    event CategoryAdded(uint256 categoryId, bytes32 category);
+    event CategoryRemoved(uint256 categoryId);
+    event ProfileUpdated(address userAddress, string profileURI);
     event Withdraw(uint256 amount, address to, uint256 timestamp);
 
     modifier onlyAdmin() {
@@ -111,33 +127,26 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         arbitratorFee = _arbitratorFee;
     }
 
-    function createItem(
-        string calldata _title,
-        string calldata _description,
-        uint256 _price,
-        uint256 _quantity,
-        string[] calldata _images
-    ) external {
-        require(_images.length >= 1, "No item images");
+    function createItem(CreateItem calldata _item) external {
+        require(_item.images.length >= 1, "No item images");
+        require(
+            categoryIsPresent[categories[_item.categoryId]],
+            "Category absent"
+        );
         uint256 itemId = totalItems++;
 
-        Item memory item;
-        item.itemId = itemId;
-        item.price = _price;
-        item.quantity = _quantity;
-        item.seller = _msgSender();
-
-        items[itemId] = item;
+        items[itemId] = Item(_item.price, _item.quantity, _msgSender());
 
         emit ItemListed(
             itemId,
             _msgSender(),
-            _price,
-            _quantity,
+            _item.categoryId,
+            _item.price,
+            _item.quantity,
             block.timestamp,
-            _title,
-            _description,
-            _images
+            _item.title,
+            _item.description,
+            _item.images
         );
     }
 
@@ -267,6 +276,37 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function setArbitratorFee(uint256 _arbitratorFee) external onlyAdmin {
         arbitratorFee = _arbitratorFee;
+    }
+
+    function setProfileURI(string calldata _profileURI) external {
+        address msgSender = _msgSender();
+        profiles[msgSender] = _profileURI;
+        emit ProfileUpdated(msgSender, _profileURI);
+    }
+
+    // category
+    function addCategories(bytes32[] calldata _categories) external onlyAdmin {
+        for (uint256 i = 0; i < _categories.length; i++) {
+            bytes32 category = _categories[i];
+            if (!categoryIsPresent[category] && category != "") {
+                uint256 categoryId = categoryCounter++;
+                categoryIsPresent[category] = true;
+                categories[categoryId] = category;
+                emit CategoryAdded(categoryId, category);
+            }
+        }
+    }
+
+    function removeCategories(uint256[] calldata _ids) external onlyAdmin {
+        for (uint256 i = 0; i < _ids.length; i++) {
+            uint256 id = _ids[i];
+            bytes32 category = categories[id];
+            if (categoryIsPresent[category]) {
+                categoryIsPresent[category] = false;
+                delete categories[id];
+                emit CategoryRemoved(id);
+            }
+        }
     }
 
     // meta tx

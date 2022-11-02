@@ -19,7 +19,7 @@
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.2",
     "hardhat": "^2.9.9",
-    "hardhat-deploy": "^0.11.10"
+    "hardhat-deploy": "^0.11.19"
   },
   "dependencies": {
     "@opengsn/contracts": "^3.0.0-beta.1",

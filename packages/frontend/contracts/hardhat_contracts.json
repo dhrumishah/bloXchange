@@ -5,7 +5,7 @@
       "chainId": "80001",
       "contracts": {
         "EscrowMarketplace": {
-          "address": "0x0FCD8159Bb2E66B99bbEd5fedB6b1Cd50457361B",
+          "address": "0x484A906a9058D3F19E318693D739Cee163976cC7",
           "abi": [
             {
               "inputs": [
@@ -56,6 +56,38 @@
                 {
                   "indexed": false,
                   "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "bytes32",
+                  "name": "category",
+                  "type": "bytes32"
+                }
+              ],
+              "name": "CategoryAdded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "CategoryRemoved",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
                   "name": "itemId",
                   "type": "uint256"
                 },
@@ -64,6 +96,12 @@
                   "internalType": "address",
                   "name": "seller",
                   "type": "address"
+                },
+                {
+                  "indexed": true,
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
                 },
                 {
                   "indexed": false,
@@ -240,6 +278,25 @@
               "anonymous": false,
               "inputs": [
                 {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "userAddress",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "profileURI",
+                  "type": "string"
+                }
+              ],
+              "name": "ProfileUpdated",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
                   "indexed": true,
                   "internalType": "bytes32",
                   "name": "role",
@@ -376,6 +433,19 @@
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "bytes32[]",
+                  "name": "_categories",
+                  "type": "bytes32[]"
+                }
+              ],
+              "name": "addCategories",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "arbitratorFee",
               "outputs": [
@@ -404,29 +474,41 @@
             {
               "inputs": [
                 {
-                  "internalType": "string",
-                  "name": "_title",
-                  "type": "string"
-                },
-                {
-                  "internalType": "string",
-                  "name": "_description",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_price",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_quantity",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "string[]",
-                  "name": "_images",
-                  "type": "string[]"
+                  "components": [
+                    {
+                      "internalType": "string",
+                      "name": "title",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "string",
+                      "name": "description",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "categoryId",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "price",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "quantity",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "string[]",
+                      "name": "images",
+                      "type": "string[]"
+                    }
+                  ],
+                  "internalType": "struct EscrowMarketplace.CreateItem",
+                  "name": "_item",
+                  "type": "tuple"
                 }
               ],
               "name": "createItem",
@@ -613,6 +695,19 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint256[]",
+                  "name": "_ids",
+                  "type": "uint256[]"
+                }
+              ],
+              "name": "removeCategories",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "bytes32",
                   "name": "role",
                   "type": "bytes32"
@@ -668,6 +763,19 @@
                 }
               ],
               "name": "setPlatformFee",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "string",
+                  "name": "_profileURI",
+                  "type": "string"
+                }
+              ],
+              "name": "setProfileURI",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
