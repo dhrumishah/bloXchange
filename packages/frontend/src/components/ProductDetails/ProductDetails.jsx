@@ -20,6 +20,7 @@ export default function ProductDetails() {
             title="Fallout Game"
             price="300"
             description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
+            location="Magdeburg, Deutschland"
           />
         </div>
       </main>

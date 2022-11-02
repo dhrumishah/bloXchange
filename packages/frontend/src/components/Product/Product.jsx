@@ -38,16 +38,28 @@ const Product = (props) => {
       <div className="flex flex-col w-full max-w-[443px]">
         <div className="bg-[#FFFFFF] rounded-[20px] p-6 w-full mb-4 dark:bg-[#33354B]">
           <div className="grid grid-cols-12">
-            <p className="text-[18px] col-span-11 font-bold text-[#050505] dark:text-white md:text-[25px]">
+            <p className="mb-2 text-[18px] col-span-11 font-bold text-[#050505] dark:text-white md:text-[25px]">
               {props.title}
             </p>
           </div>
-          <p className="text-[17px] text-[#fdc4c4] font-semibol mb-4">
-            {props.price} MATIC
-          </p>
+          <div className="flex flex-row">
+            <p className="text-[20px] text-white font-semibol mb-4">
+              {props.price}
+            </p>
+            <p className="ml-1 text-[20px] text-[#30cfd0] font-semibol mb-4">
+              MATIC
+            </p>
+          </div>
           <p className="mb-2 font-semibold text-white">Description</p>
-          <p className="mb-8 max-w-[450px] text-white">{props.description}</p>
+          <p className="mb-8 max-w-[450px] text-[#ADB0C9]">
+            {props.description}
+          </p>
+          <p className="mb-2 font-semibold text-white">Location</p>
+          <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
+        <label className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center ">
+          Save this Item!
+        </label>
       </div>
     </>
   );
