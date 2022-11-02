@@ -11,16 +11,17 @@ export default function ProductDetails() {
       </header>
       <main className="mt-[80px] py-12 px-4 relative flex flex-col min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:px-12">
         <div className="relative mx-auto grid grid-cols-1 mt-14 sm:mt-0 gap-8 lg:flex lg:justify-center">
-          <div className="flex flex-col max-w-[443px] lg:max-w-[336px]">
-            <Product
-              title="Fallout Game"
-              price="300"
-              description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
-              location="Magdeburg, Deutschland"
-              image={Game}
-              logo={Logo}
-            />
-          </div>
+          <Product
+            image={Game}
+            logo={Logo}
+            name="Dhrumi Shah"
+            address="0xCb4...Ba5c"
+            category="Game"
+            title="Fallout Game"
+            price="300"
+            description="PC Game Fallout 2 BigBox US Edition from 1998 Very Rare!"
+            location="Magdeburg, Deutschland"
+          />
         </div>
       </main>
     </>
