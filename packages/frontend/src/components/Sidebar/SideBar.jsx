@@ -14,10 +14,10 @@ import {
 } from 'wagmi'
 
 export default function SideBar() {
-    const {
-      address,
-      connector,
-      isConnected
+  const {
+    address,
+    connector,
+    isConnected
   } = useAccount()
   console.log(address);
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function SideBar() {
             <div className="flex flex-col space-y-5 mb-12">
               <a className="flex items-center" href="#">
                 <div
-                  class="flex items-center sidebar--para"
+                  className="flex items-center sidebar--para"
                   onClick={() => {
                     navigate("/");
                   }}
@@ -38,9 +38,9 @@ export default function SideBar() {
                   <p>Marketplace</p>
                 </div>
               </a>
-              <a class=" flex items-center hover:opacity-90" href="#">
+              <a className=" flex items-center hover:opacity-90" href="#">
                 <div
-                  class="flex items-center sidebar--para"
+                  className="flex items-center sidebar--para"
                   onClick={() => {
                     navigate("/sellproduct");
                   }}
@@ -49,10 +49,10 @@ export default function SideBar() {
                   <p>Sell a product</p>
                 </div>
               </a>
-              <a class=" flex items-center hover:opacity-90" href="#">
+              <a className=" flex items-center hover:opacity-90" href="#">
                 <div
-                  class="flex items-center sidebar--para"
-                  onClick = {
+                  className="flex items-center sidebar--para"
+                  onClick={
                     () => {
                       navigate("/profile/" + address.toString());
                     }
@@ -66,11 +66,11 @@ export default function SideBar() {
           </div>
           <div className="border-t border-slate-500 block mb-8"></div>
           <div className="flex items-center pl-3 mb-8 text-base sidebar--para"
-          onClick = {
-            () => {
-              navigate("/contact-us");
+            onClick={
+              () => {
+                navigate("/contact-us");
+              }
             }
-          }
           >
             <img src={Contact}></img>
             <p>Contact Us</p>

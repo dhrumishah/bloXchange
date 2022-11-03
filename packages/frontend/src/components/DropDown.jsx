@@ -1,15 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { useQuery } from 'urql';
+import { CATEGORIES_QUERY } from "../queries"
 
-export default function DropDown() {
+export default function DropDown({ isSell }) {
+  const [result] = useQuery({
+    query: CATEGORIES_QUERY
+  })
+  let categories = result.data?.categories ?? []
+  if (!isSell) {
+    categories = [{ id: '0x-1', name: 'All' }, ...(result.data?.categories ?? [])];
+  }
   return (
-    <select className="rounded-md h-8 w-60 dark:bg-[#363952] text-white cursor-pointer opacity-4">
-      <option className="text-white">Electronics</option>
-      <option className="text-white">Furniture</option>
-      <option selected className="text-white">
-        Jewelry
-      </option>
-      <option className="text-white">Real Estate</option>
+    <select className="rounded-md h-8 w-60 dark:bg-[#363952] text-black cursor-pointer opacity-4">
+      {categories.map(category => (<option className="text-black" key={category.id}>{category.name}</option>))}
     </select>
   );
 }

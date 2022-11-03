@@ -9,7 +9,7 @@ const Product = (props) => {
             <div className="w-full h-full min-h-[250px]  min-w-[340px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
               <img
                 className="w-full object-cover object-center min-h-[250px] rounded-[20px] aspect-square h-full"
-                src={props.image}
+                src={props.images[0]}
               ></img>
             </div>
           </div>
@@ -43,7 +43,7 @@ const Product = (props) => {
             </p>
           </div>
           <div className="flex flex-row">
-            <p className="text-[20px] text-white font-semibol mb-4">
+            <p className="text-[20px] text-black font-semibol mb-4">
               {props.price}
             </p>
             <p className="ml-1 text-[20px] text-[#30cfd0] font-semibol mb-4">
