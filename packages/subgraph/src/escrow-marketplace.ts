@@ -1,16 +1,16 @@
 import {
+  CategoryAdded,
+  CategoryRemoved,
   ItemListed,
   ItemOrdered,
   OrderDelivered,
   OrderDisputed,
   OrderRefunded,
   OrderShipped,
-  RoleAdminChanged,
-  RoleGranted,
-  RoleRevoked,
-  Withdraw,
+  ProfileUpdated,
 } from "../generated/EscrowMarketplace/EscrowMarketplace";
-import { Dispute, Item, Order } from "../generated/schema";
+import { Category, Dispute, Item, Order, Profile } from "../generated/schema";
+import { store } from "@graphprotocol/graph-ts";
 
 enum Status {
   PENDING = 0,
@@ -28,6 +28,7 @@ export function handleItemListed(event: ItemListed): void {
     item = new Item(params.itemId.toHex());
     item.createdAt = params.createdAt;
     item.description = params.description;
+    item.category = params.categoryId.toHex();
     item.title = params.title;
     item.price = params.price;
     item.quantity = params.quantity;
@@ -112,10 +113,27 @@ export function handleOrderShipped(event: OrderShipped): void {
   }
 }
 
-export function handleRoleAdminChanged(event: RoleAdminChanged): void {}
+export function handleCategoryAdded(event: CategoryAdded): void {
+  let category = Category.load(event.params.categoryId.toHex());
+  if (!category) {
+    category = new Category(event.params.categoryId.toHex());
+    category.name = event.params.category.toString();
+    category.save();
+  }
+}
 
-export function handleRoleGranted(event: RoleGranted): void {}
+export function handleCategoryRemoved(event: CategoryRemoved): void {
+  let category = Category.load(event.params.categoryId.toHex());
+  if (category) {
+    store.remove("Category", category.id);
+  }
+}
 
-export function handleRoleRevoked(event: RoleRevoked): void {}
-
-export function handleWithdraw(event: Withdraw): void {}
+export function handleProfileUpdated(event: ProfileUpdated): void {
+  let profile = Profile.load(event.params.userAddress);
+  if (!profile) {
+    profile = new Profile(event.params.userAddress);
+  }
+  profile.profileURI = event.params.profileURI;
+  profile.save();
+}

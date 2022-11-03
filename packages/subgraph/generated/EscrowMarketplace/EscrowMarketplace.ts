@@ -10,6 +10,46 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class CategoryAdded extends ethereum.Event {
+  get params(): CategoryAdded__Params {
+    return new CategoryAdded__Params(this);
+  }
+}
+
+export class CategoryAdded__Params {
+  _event: CategoryAdded;
+
+  constructor(event: CategoryAdded) {
+    this._event = event;
+  }
+
+  get categoryId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get category(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+}
+
+export class CategoryRemoved extends ethereum.Event {
+  get params(): CategoryRemoved__Params {
+    return new CategoryRemoved__Params(this);
+  }
+}
+
+export class CategoryRemoved__Params {
+  _event: CategoryRemoved;
+
+  constructor(event: CategoryRemoved) {
+    this._event = event;
+  }
+
+  get categoryId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class ItemListed extends ethereum.Event {
   get params(): ItemListed__Params {
     return new ItemListed__Params(this);
@@ -31,28 +71,32 @@ export class ItemListed__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get price(): BigInt {
+  get categoryId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get quantity(): BigInt {
+  get price(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get createdAt(): BigInt {
+  get quantity(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 
-  get title(): string {
-    return this._event.parameters[5].value.toString();
+  get createdAt(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 
-  get description(): string {
+  get title(): string {
     return this._event.parameters[6].value.toString();
   }
 
+  get description(): string {
+    return this._event.parameters[7].value.toString();
+  }
+
   get images(): Array<string> {
-    return this._event.parameters[7].value.toStringArray();
+    return this._event.parameters[8].value.toStringArray();
   }
 }
 
@@ -187,6 +231,28 @@ export class OrderShipped__Params {
 
   get orderId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class ProfileUpdated extends ethereum.Event {
+  get params(): ProfileUpdated__Params {
+    return new ProfileUpdated__Params(this);
+  }
+}
+
+export class ProfileUpdated__Params {
+  _event: ProfileUpdated;
+
+  constructor(event: ProfileUpdated) {
+    this._event = event;
+  }
+
+  get userAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get profileURI(): string {
+    return this._event.parameters[1].value.toString();
   }
 }
 
@@ -654,6 +720,36 @@ export class ConstructorCall__Outputs {
   }
 }
 
+export class AddCategoriesCall extends ethereum.Call {
+  get inputs(): AddCategoriesCall__Inputs {
+    return new AddCategoriesCall__Inputs(this);
+  }
+
+  get outputs(): AddCategoriesCall__Outputs {
+    return new AddCategoriesCall__Outputs(this);
+  }
+}
+
+export class AddCategoriesCall__Inputs {
+  _call: AddCategoriesCall;
+
+  constructor(call: AddCategoriesCall) {
+    this._call = call;
+  }
+
+  get _categories(): Array<Bytes> {
+    return this._call.inputValues[0].value.toBytesArray();
+  }
+}
+
+export class AddCategoriesCall__Outputs {
+  _call: AddCategoriesCall;
+
+  constructor(call: AddCategoriesCall) {
+    this._call = call;
+  }
+}
+
 export class ConfirmDeliveryCall extends ethereum.Call {
   get inputs(): ConfirmDeliveryCall__Inputs {
     return new ConfirmDeliveryCall__Inputs(this);
@@ -701,24 +797,10 @@ export class CreateItemCall__Inputs {
     this._call = call;
   }
 
-  get _title(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-
-  get _description(): string {
-    return this._call.inputValues[1].value.toString();
-  }
-
-  get _price(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get _quantity(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _images(): Array<string> {
-    return this._call.inputValues[4].value.toStringArray();
+  get _item(): CreateItemCall_itemStruct {
+    return changetype<CreateItemCall_itemStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 
@@ -727,6 +809,32 @@ export class CreateItemCall__Outputs {
 
   constructor(call: CreateItemCall) {
     this._call = call;
+  }
+}
+
+export class CreateItemCall_itemStruct extends ethereum.Tuple {
+  get title(): string {
+    return this[0].toString();
+  }
+
+  get description(): string {
+    return this[1].toString();
+  }
+
+  get categoryId(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get price(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get quantity(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get images(): Array<string> {
+    return this[5].toStringArray();
   }
 }
 
@@ -888,6 +996,36 @@ export class RefundItemCall__Outputs {
   }
 }
 
+export class RemoveCategoriesCall extends ethereum.Call {
+  get inputs(): RemoveCategoriesCall__Inputs {
+    return new RemoveCategoriesCall__Inputs(this);
+  }
+
+  get outputs(): RemoveCategoriesCall__Outputs {
+    return new RemoveCategoriesCall__Outputs(this);
+  }
+}
+
+export class RemoveCategoriesCall__Inputs {
+  _call: RemoveCategoriesCall;
+
+  constructor(call: RemoveCategoriesCall) {
+    this._call = call;
+  }
+
+  get _ids(): Array<BigInt> {
+    return this._call.inputValues[0].value.toBigIntArray();
+  }
+}
+
+export class RemoveCategoriesCall__Outputs {
+  _call: RemoveCategoriesCall;
+
+  constructor(call: RemoveCategoriesCall) {
+    this._call = call;
+  }
+}
+
 export class RenounceRoleCall extends ethereum.Call {
   get inputs(): RenounceRoleCall__Inputs {
     return new RenounceRoleCall__Inputs(this);
@@ -1012,6 +1150,36 @@ export class SetPlatformFeeCall__Outputs {
   _call: SetPlatformFeeCall;
 
   constructor(call: SetPlatformFeeCall) {
+    this._call = call;
+  }
+}
+
+export class SetProfileURICall extends ethereum.Call {
+  get inputs(): SetProfileURICall__Inputs {
+    return new SetProfileURICall__Inputs(this);
+  }
+
+  get outputs(): SetProfileURICall__Outputs {
+    return new SetProfileURICall__Outputs(this);
+  }
+}
+
+export class SetProfileURICall__Inputs {
+  _call: SetProfileURICall;
+
+  constructor(call: SetProfileURICall) {
+    this._call = call;
+  }
+
+  get _profileURI(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+}
+
+export class SetProfileURICall__Outputs {
+  _call: SetProfileURICall;
+
+  constructor(call: SetProfileURICall) {
     this._call = call;
   }
 }

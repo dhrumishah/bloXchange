@@ -5,7 +5,7 @@
       "chainId": "80001",
       "contracts": {
         "EscrowMarketplace": {
-          "address": "0x0FCD8159Bb2E66B99bbEd5fedB6b1Cd50457361B",
+          "address": "0x073f26580d9A579aA464d41D31D6c6De9659E330",
           "abi": [
             {
               "inputs": [
@@ -31,6 +31,54 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "CategoryNotPresent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amountSent",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amountRequired",
+                  "type": "uint256"
+                }
+              ],
+              "name": "IncorrectAmountSent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "requestedBalance",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "availableBalance",
+                  "type": "uint256"
+                }
+              ],
+              "name": "InsufficientBalance",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "NoImages",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "address",
                   "name": "caller",
                   "type": "address"
@@ -51,6 +99,150 @@
               "type": "error"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "feeSent",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "feeRequired",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotEnoughArbitratorFeeSent",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "availableQuantity",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "orderQuantity",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NotEnoughQuantity",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "OnlyBuyerAllowed",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "OnlySellerAllowed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderAlreadyDelivered",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderNotDisputed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderNotShipped",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "PaymentFailed",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "sellerAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "itemId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "SellerCannotOrderOwnItem",
+              "type": "error"
+            },
+            {
+              "inputs": [],
+              "name": "WithdrawAmountZero",
+              "type": "error"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "bytes32",
+                  "name": "category",
+                  "type": "bytes32"
+                }
+              ],
+              "name": "CategoryAdded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "CategoryRemoved",
+              "type": "event"
+            },
+            {
               "anonymous": false,
               "inputs": [
                 {
@@ -64,6 +256,12 @@
                   "internalType": "address",
                   "name": "seller",
                   "type": "address"
+                },
+                {
+                  "indexed": true,
+                  "internalType": "uint256",
+                  "name": "categoryId",
+                  "type": "uint256"
                 },
                 {
                   "indexed": false,
@@ -240,6 +438,25 @@
               "anonymous": false,
               "inputs": [
                 {
+                  "indexed": false,
+                  "internalType": "address",
+                  "name": "userAddress",
+                  "type": "address"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "profileURI",
+                  "type": "string"
+                }
+              ],
+              "name": "ProfileUpdated",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
                   "indexed": true,
                   "internalType": "bytes32",
                   "name": "role",
@@ -376,6 +593,19 @@
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "bytes32[]",
+                  "name": "_categories",
+                  "type": "bytes32[]"
+                }
+              ],
+              "name": "addCategories",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "arbitratorFee",
               "outputs": [
@@ -404,29 +634,41 @@
             {
               "inputs": [
                 {
-                  "internalType": "string",
-                  "name": "_title",
-                  "type": "string"
-                },
-                {
-                  "internalType": "string",
-                  "name": "_description",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_price",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "_quantity",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "string[]",
-                  "name": "_images",
-                  "type": "string[]"
+                  "components": [
+                    {
+                      "internalType": "string",
+                      "name": "title",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "string",
+                      "name": "description",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "categoryId",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "price",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "quantity",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "string[]",
+                      "name": "images",
+                      "type": "string[]"
+                    }
+                  ],
+                  "internalType": "struct EscrowMarketplace.CreateItem",
+                  "name": "_item",
+                  "type": "tuple"
                 }
               ],
               "name": "createItem",
@@ -613,6 +855,19 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint256[]",
+                  "name": "_ids",
+                  "type": "uint256[]"
+                }
+              ],
+              "name": "removeCategories",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
                   "internalType": "bytes32",
                   "name": "role",
                   "type": "bytes32"
@@ -668,6 +923,19 @@
                 }
               ],
               "name": "setPlatformFee",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "string",
+                  "name": "_profileURI",
+                  "type": "string"
+                }
+              ],
+              "name": "setProfileURI",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"

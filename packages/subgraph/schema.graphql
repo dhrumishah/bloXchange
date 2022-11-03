@@ -1,8 +1,19 @@
+type Profile @entity {
+  id: Bytes!
+  profileURI: String!
+}
+
+type Category @entity {
+  id: ID!
+  name: String!
+}
+
 type Item @entity {
   id: ID!
   price: BigInt!
   quantity: BigInt!
   createdAt: BigInt!
+  category: Category!
   seller: Bytes!
   title: String!
   description: String!
