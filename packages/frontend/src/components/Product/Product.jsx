@@ -1,6 +1,7 @@
 import React from "react";
 
 const Product = (props) => {
+  const address = props.address.substr(0, 5) + "..." + props.address.substr(-3)
   return (
     <>
       <div className="flex flex-col max-w-[443px] lg:max-w-[336px]">
@@ -19,7 +20,7 @@ const Product = (props) => {
               <div className="flex flex-col w-full mb-2">
                 <p className="font-semibold text-white">{props.name}</p>
                 <p className="text-[13px] font-semibold text-[#46647A] mb-1 dark:text-[#B9CFDF]">
-                  {props.address}
+                  {address}
                 </p>
               </div>
             </div>
@@ -58,7 +59,7 @@ const Product = (props) => {
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
         <label className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center ">
-          Save this Item!
+          Buy this Item!
         </label>
       </div>
     </>
