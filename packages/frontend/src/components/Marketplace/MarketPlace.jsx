@@ -18,7 +18,7 @@ export default function iMarketPlace() {
           <div className="relative">
             <button className="outline-none flex items-center hover:opacity-90">
               <p className="text-[#51515F] text-[18px] mr-2 font-semibold dark:text-white">
-                <DropDown setCategory={setCategory} />
+                <DropDown setCategory={setCategory} isSell={false} />
               </p>
             </button>
           </div>
