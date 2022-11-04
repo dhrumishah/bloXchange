@@ -1,6 +1,29 @@
 export const ITEMS_QUERY = `
-    query {
-        items(first: 5) {
+    query GetItems($categoryId: ID!, $first: Int!, $skip: Int!) {
+        items(where: {
+            category_: {
+                id: $categoryId
+            }
+        }, first: $first, skip: $skip) {
+            id
+            price
+            quantity
+            createdAt
+            category {
+                id
+                name
+            }
+            seller
+            title
+            description
+            images
+        }
+    }
+`;
+
+export const ALL_ITEMS_QUERY = `
+    query GetItems($categoryId: ID!, $first: Int!, $skip: Int!) {
+        items(first: $first, skip: $skip) {
             id
             price
             quantity
@@ -18,7 +41,7 @@ export const ITEMS_QUERY = `
 `;
 
 export const ITEM_QUERY = `
-    query($id: ID!) {
+    query GetItem($id: ID!) {
         item(id: $id) {
             id
             price

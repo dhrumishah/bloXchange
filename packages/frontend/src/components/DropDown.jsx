@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from 'urql';
 import { CATEGORIES_QUERY } from "../queries"
 
-export default function DropDown({ isSell }) {
+export default function DropDown({ isSell, setCategory }) {
   const [result] = useQuery({
     query: CATEGORIES_QUERY
   })
@@ -11,8 +11,8 @@ export default function DropDown({ isSell }) {
     categories = [{ id: '0x-1', name: 'All' }, ...(result.data?.categories ?? [])];
   }
   return (
-    <select className="rounded-md h-8 w-60 dark:bg-[#363952] text-black cursor-pointer opacity-4">
-      {categories.map(category => (<option className="text-black" key={category.id}>{category.name}</option>))}
+    <select className="rounded-md h-8 w-60 dark:bg-[#363952] text-black cursor-pointer opacity-4" onChange={e => setCategory(JSON.parse(e.target.value))}>
+      {categories.map(category => (<option className="text-black" key={category.id} value={JSON.stringify(category)}>{category.name}</option>))}
     </select>
   );
 }
