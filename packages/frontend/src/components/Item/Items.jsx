@@ -29,6 +29,12 @@ const Items = ({ categoryId }) => {
       setHasMore(false);
     }
   }, [data?.items]);
+  useEffect(() => {
+    console.log(categoryId)
+    setItems([])
+    setSkip(0)
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  }, [categoryId])
   if (fetching && !data?.items) return <p>Loading...</p>;
   if (error && !data?.items) return <p>Oh no... {error.message}</p>;
 
