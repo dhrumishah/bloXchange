@@ -81,7 +81,7 @@ module.exports = {
 
     mumbai: {
       chainId: 80001,
-      url: `https://palpable-polished-pallet.matic-testnet.discover.quiknode.pro/${process.env.NEXT_PUBLIC_QUICKNODE_ID}`,
+      url: `https://palpable-polished-pallet.matic-testnet.discover.quiknode.pro/${process.env.VITE_QUICKNODE_ID}`,
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
   },
