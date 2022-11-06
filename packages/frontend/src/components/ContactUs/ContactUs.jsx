@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const ContactUs = () => {
   return (
@@ -22,8 +22,6 @@ const ContactUs = () => {
           ></input>
         </div>
 
-
-
         <label className="block text-[17px] font-medium mb-4 text-white">
           Description of your Issue
         </label>
@@ -34,12 +32,12 @@ const ContactUs = () => {
           wt-ignore-input="true"
         ></textarea>
 
-        <button className="w-full ml-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
+        <button className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
           Submit
         </button>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default ContactUs
+export default ContactUs;
