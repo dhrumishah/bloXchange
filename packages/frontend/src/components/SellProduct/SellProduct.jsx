@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import DropDown from "../DropDown";
 import ImageUploader from "../Uploader/ImageUploader";
-import contracts from "../../../contracts/hardhat_contracts.json";
-import { NETWORK_ID as chainId } from "../../config";
 import { ethers } from "ethers";
-import { Biconomy } from "@biconomy/mexa";
+import useBiconomy from "../../hooks/useBiconomy";
 
-let biconomy;
-let marketplace;
 export default function SellProduct() {
   const [category, setCategory] = useState({});
   const [images, setImages] = React.useState([]);
+  const { biconomy, marketplace } = useBiconomy();
   const productInit = {
     title: "",
     description: "",
@@ -23,33 +20,11 @@ export default function SellProduct() {
   const [product, setProduct] = useState(productInit);
   const { isConnected, address } = useAccount();
 
-  const marketplaceAddress =
-    contracts[chainId][0].contracts.EscrowMarketplace.address;
-  const marketplaceABI = contracts[chainId][0].contracts.EscrowMarketplace.abi;
-
-  const biconomyInit = async () => {
-    if (!biconomy) {
-      biconomy = new Biconomy(window.ethereum, {
-        apiKey: import.meta.env.VITE_BICONOMY_API_KEY,
-        debug: true,
-      });
-      marketplace = new ethers.Contract(
-        marketplaceAddress,
-        marketplaceABI,
-        new ethers.providers.Web3Provider(biconomy)
-      );
-    }
-  };
-
   useEffect(() => {
     if (category?.id) {
       setProduct({ ...product, categoryId: category.id });
     }
   }, [category]);
-
-  useEffect(() => {
-    biconomyInit();
-  }, [isConnected]);
 
   async function createProduct() {
     try {
