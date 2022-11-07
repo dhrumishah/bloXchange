@@ -1,11 +1,15 @@
 import { useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { Web3Storage } from "web3.storage";
+import { BsCheckLg } from "react-icons/bs";
+import { ImCross } from "react-icons/im";
 import "./imageuploader.css";
+import { toast } from "react-toastify";
 
 export default function ImageUploader({ setImageUrls, imageUrls }) {
   const [images, setImages] = useState([]);
-  const [uploading, setUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
   const maxNumber = 69;
   const acceptType = ["jpg", "gif", "png", "jpeg"];
 
@@ -22,7 +26,9 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
   }
 
   async function uploadImages() {
-    setUploading(true);
+    setIsUploading(true);
+    setIsUploaded(false);
+    const id = toast.loading("Uploading images...");
     try {
       const client = makeStorageClient();
       const promises = images.map((image) =>
@@ -30,10 +36,22 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
       );
       const cids = await Promise.all(promises);
       setImageUrls(cids.map((cid) => `https://w3s.link/ipfs/${cid}`));
+      setIsUploaded(true);
+      toast.update(id, {
+        render: "Images uploaded sucessfully",
+        type: "success",
+        autoClose: 5000,
+        isLoading: false,
+      });
     } catch (e) {
-      console.log(e);
+      toast.update(id, {
+        render: e,
+        type: "error",
+        autoClose: 5000,
+        isLoading: false,
+      });
     }
-    setUploading(false);
+    setIsUploading(false);
   }
 
   return (
@@ -111,39 +129,31 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
               </div>
             ))}
             {images.length > 0 && (
-              <div>
+              <div className="flex items-center justify-center">
                 <button
                   onClick={onImageRemoveAll}
-                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-1 text-base font-semibold text-white no-underline align-middle bg-red-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-red-700 hover:border-red-700 hover:text-white focus-within:bg-red-700 focus-within:border-red-700"
+                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-3 mt-3 text-base font-semibold text-white no-underline align-middle bg-red-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-red-700 hover:border-red-700 hover:text-white focus-within:bg-red-700 focus-within:border-red-700"
                 >
                   Remove all Images
-                  <svg
-                    className="w-4 h-4 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    ></path>
-                  </svg>
+                  <ImCross className="ml-2" />
                 </button>
                 <button
                   onClick={uploadImages}
-                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-1 text-base font-semibold text-white no-underline align-middle bg-green-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-green-700 hover:border-green-700 hover:text-white focus-within:bg-green-700 focus-within:border-green-700"
+                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-1 mt-3 text-base font-semibold text-white no-underline align-middle bg-green-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-green-700 hover:border-green-700 hover:text-white focus-within:bg-green-700 focus-within:border-green-700"
                 >
                   Upload Images
+                  <BsCheckLg className="ml-2" />
                 </button>
               </div>
             )}
-            {uploading && (
+            {isUploading && (
               <span className="text-green-600 underline">Uploading...</span>
+            )}{" "}
+            {isUploaded && (
+              <span className="text-green-600 underline">
+                Images uploaded successfully
+              </span>
             )}
-            <div className="text-white">Uploaded Image Urls: {imageUrls}</div>
           </div>
         )}
       </ImageUploading>
