@@ -15,7 +15,7 @@ const Product = (props) => {
   const [quantity, setQuantity] = useState(1);
   const productSeller = props.address;
   const [isLoading, setIsLoading] = useState(false);
-  const isSeller = useMemo(() => productSeller === address.toLowerCase(), [
+  const isSeller = useMemo(() => productSeller === address?.toLowerCase(), [
     address,
     productSeller,
   ]);
