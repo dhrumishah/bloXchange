@@ -138,7 +138,7 @@ export default function SellProduct() {
             setProduct({ ...product, description: e.target.value })
           }
         ></textarea>
-        {/* <label
+        <label
           className="block text-[17px] font-medium mb-4 text-white"
           htmlFor="location"
         >
@@ -149,9 +149,9 @@ export default function SellProduct() {
             id="location"
             type="text"
             placeholder="Enter your location"
-            className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952] text-black"
+            className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952] text-white"
           ></input>
-        </div> */}
+        </div>
         <label
           className="block text-[17px] font-medium mb-4 text-white"
           htmlFor="quantity"
