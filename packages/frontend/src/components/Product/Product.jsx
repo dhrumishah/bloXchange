@@ -1,7 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import contracts from "../../../contracts/hardhat_contracts.json";
+import { NETWORK_ID as chainId } from "../../config";
+import { useAccount, useSigner, useContract, useProvider } from "wagmi";
+import { ethers } from "ethers";
+import { Contract } from "ethers";
+
 
 const Product = (props) => {
-  const address = props.address.substr(0, 5) + "..." + props.address.substr(-3)
+
+  const { address } = useAccount()
+  const { productId } = useParams()
+  const orderInitial = {
+    itemId: 1,
+    quantity: 1,
+  }
+
+  const [order, setOrder] = useState(orderInitial);
+  const [buttonText, setButtonText] = useState('Buy this Item!');
+  
+  const { data: signer } = useSigner();
+
+  const marketplaceAddress = contracts[chainId][0].contracts.EscrowMarketplace.address;
+  const marketplaceABI = contracts[chainId][0].contracts.EscrowMarketplace.abi;
+  const productSeller = props.address;
+  const slicedAddress = productSeller.slice(0, 3) + "..." + productSeller.slice(-4);
+
+    async function orderItem() {
+      try {
+        if (productSeller === address) {
+          console.log("You can't buy");
+          return;
+        }
+        const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+        console.log("starting");
+        const tx = await contract.orderItem(productId, 1, {gasLimit: 5000000, value: ethers.utils.parseEther(props.price.toString())});
+        await tx.wait();
+        console.log("started");
+        setOrder(orderInitial)
+        setButtonText("You have already bought this item!")
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
   return (
     <>
       <div className="flex flex-col max-w-[443px] lg:max-w-[336px]">
@@ -20,7 +62,9 @@ const Product = (props) => {
               <div className="flex flex-col w-full mb-2">
                 <p className="font-semibold text-white">{props.name}</p>
                 <p className="text-[13px] font-semibold text-[#46647A] mb-1 dark:text-[#B9CFDF]">
-                  {address}
+                  {
+                    productSeller
+                  }
                 </p>
               </div>
             </div>
@@ -58,9 +102,11 @@ const Product = (props) => {
           <p className="mb-2 font-semibold text-white">Location</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
-        <label className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center ">
-          Buy this Item!
-        </label>
+        
+        <button className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center " onClick={orderItem}>
+          {buttonText}
+        </button>
+        
       </div>
     </>
   );
