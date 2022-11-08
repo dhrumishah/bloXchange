@@ -36,7 +36,7 @@ const Product = (props) => {
         console.log("starting");
         const tx = await contract.orderItem(productId, 1, {gasLimit: 5000000, value: ethers.utils.parseEther(props.price.toString())});
         await tx.wait();
-        console.log("started");
+        console.log("started")
         setOrder(orderInitial)
         setButtonText("You have already bought this item!")
       } catch (e) {
