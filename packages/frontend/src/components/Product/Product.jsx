@@ -44,7 +44,36 @@ const Product = (props) => {
       setButtonText("You have already bought this item!");
     } catch (e) {
       console.log(e);
+    async function orderItem() {
+      try {
+        if (productSeller === address) {
+          console.log("You can't buy");
+          return;
+        }
+        const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+        console.log("starting");
+        const tx = await contract.orderItem(productId, 1, {gasLimit: 5000000, value: ethers.utils.parseEther(props.price.toString())});
+        await tx.wait();
+        console.log("started")
+        setOrder(orderInitial)
+        setButtonText("You have already bought this item!")
+      } catch (e) {
+        console.log(e)
+      }
     }
+    // const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+    // console.log("starting");
+    // const tx = await contract.orderItem(productId, 1, {
+    //   gasLimit: 5000000,
+    //   value: ethers.utils.parseEther(props.price.toString()),
+    // });
+    //   await tx.wait();
+    //   console.log("started");
+    //   setOrder(orderInitial);
+    //   setButtonText("You have already bought this item!");
+    // } catch (e) {
+    //   console.log(e);
+    // }
   }
 
   return (

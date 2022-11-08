@@ -1,50 +1,133 @@
-# create-web3 boilerplate
+# Welcome to Bloxchange
 
-A boilerplate for starting a web3 project.
 
-This boilerplate quickly creates a mono repo with 2 environments, a react frontend environment and a Ethereum development environment for writing, testing and deploying contracts.
+### What is our main idea?
 
-## Quick Start Notes
+---
 
-1.  To start install
+### Which features does Bloxchange offer?
 
-```bash
-npx create-web3
-```
 
-2.  Run `yarn` or `npm install` to install all the dependencies
-3.  Once installation is complete, `cd` into your app's directory and run `yarn chain` or `npm run chain` to start a local hardhat environment
-4.  Open another terminal and `cd` into your app's directory
-5.  Run `yarn deploy` or `npm run deploy` to deploy the example contract locally
-6.  Run `yarn dev` or `npm run dev` to start your FrontEnd dev environment
+---
 
-## Technologies
+### How did we manage the project?
 
-This project is built with the following open source libraries, frameworks and languages. User choice of framework used, available in plain js or typescript.
-| Tech | Description |
-| --------------------------------------------- | ------------------------------------------------------------------ |
-| ------ | ------ React Frontend Environment ------ |
-| [Next JS](https://nextjs.org/) | React Framework |
-| [Vite JS](https://vitejs.dev/) | Next Generation Frontend Tooling |
-| ------ | ------ CSS Framework ------ |
-| none | |
-| [Tailwind](https://tailwindcss.com/) | A utility-first CSS framework |
-| [Chakra](https://chakra-ui.com/) | A simple, modular and accessible component library that gives you the building blocks you need to build your React applications. |
-| ------ | ------ Ethereum Development Environment ------ |
-| [Hardhat](https://hardhat.org/) | Ethereum development environment for professionals |
-| [Foundry](https://getfoundry.sh/) | a blazing fast, portable and modular toolkit for Ethereum application development written in Rust. |
-| ------ | ------ Included Libraries ------ |
-| [WAGMI](https://wagmi.sh/) | A set of React Hooks for Web3 |
-| [RainbowKit](https://www.rainbowkit.com/docs/introduction) | RainbowKit is a React library that makes it easy to add wallet connection to your dapp. |
+---
 
-## Documentation
+## Technologies used in Bloxchange
 
-Please visit [create-web3.xyz](https://create-web3.xyz) to view the full documentation.
+We have used several technologies to build this decentralized autonomous organization:
 
-## Discussions
+### IPFS/Web3.storage
+All Data storage and querying is done via IPFS with help of Web3.storage SDKs and docs on the website.
+**Web3.Storage** is used for storing all sort of Data including user profile, grants request and researches on **IPFS**, done with the help of the SDK provided and stored in JSON format.
+The querying of the data is done with CID Gateway links and then rendered in Frontend. The CIDs are stored in contract to avoid data tampering. We take the input of the data from the user , pack it in JSON file and then upload the files  IPFS via web3.storage. IPFS is also used to store our NFTs metadata compatible for ERC721 . 
 
-If you have questions how to use, want to suggest a feature, or show off a project you created with create-web3, join [discussions on GitHub](https://github.com/e-roy/create-web3/discussions). I would love to hear from you. 🙂
+Website is currently up and working on the provided links of vercel and Spheron , can be tested according to the docs provided on the website. Also Backend Flow is added in the presentation.
 
-## Issues
+[Video Explanation](https://clipchamp.com/watch/AYASYGnmhvo)
 
-If you find a bug or would like to request a feature, please visit [ISSUES](https://github.com/e-roy/create-web3/issues)
+---
+
+## Smart Contracts
+
+All of our smart contracts are written in Solidity. You can find them under [/backend/contracts](https://github.com/adiig7/Polygon-BUIDL-IT/tree/main/backend/contracts).
+
+They have currently been published on Polygon Mumbai Testnet due to testing and presentational reasons. 
+
+In the smart contracts themselves you can find dev comments and explanations.
+<br /><br /><br />
+
+**Whitelist.sol** - manages the inital whitelist before the DAO only accepts new mebers through votings
+
+---
+
+## Frontend
+
+For the UI and design we have used the s to setup our project easily and build/design it with the help of JavaScript, React and HTML/CSS.
+
+All the frontend code is available under [/frontend](https://github.com/adiig7/Polygon-BUIDL-IT/tree/main/frontend).
+<br /><br /><br />
+
+### Frontend folders in our project:
+
+**constants** - important file with different constants to call in other programs
+
+**pages** - all of our different frontend webpages
+
+**public** - public files like images etc.
+
+**src** - assets like images and single components of the different webpages
+
+**styles** - CSS styling files
+<br /><br /><br />
+### Other important files:
+
+**.env** - important API-keys for deployment
+
+**.gitignore** - lets GitHub ignore several files like sensible data
+
+**next.config.js** - configuration of Next.js
+
+---
+
+## Backend
+
+In our backend folder you can find everything that’s working behind the scenes of Bloxchange!
+<br /><br /><br />
+### Backend folders in our project:
+
+**contracts** - Solidity Smart Contracts
+
+**scripts** - deployment scripts for the Smart Contracts
+<br /><br /><br />
+### Other important files:
+
+**.gitignore** - lets GitHub ignore several files like sensible data
+
+**README.md** - Smart Contract Addresses
+
+**hardhat.config.js** - HardHat configuration file
+
+---
+
+## Wallet Connection
+
+You can connect your wallet with the help of **RainbowKit**. The `create-web` package uses **RainbowKit** internally.
+
+Look at the docs of RainbowKit on how to use it: [https://www.rainbowkit.com/docs/introduction](https://www.rainbowkit.com/docs/introduction)
+
+---
+
+### Developers
+
+### Dhrumi Shah
+![dhrumi](https://user-images.githubusercontent.com/54351909/200527848-325c8b67-3312-4e3a-88e4-fe7ea09db121.jpg)
+
+
+**Frontend Developer**
+
+Loves and hates CSS Simulatenously. Worked on making the frontend for the Bloxchange.
+
+---
+
+### Pawan 
+![dhrumi](https://user-images.githubusercontent.com/54351909/200527848-325c8b67-3312-4e3a-88e4-fe7ea09db121.jpg)
+
+
+**Blockchain Developer**
+
+Worked on writing the smart contracts and the subgraph.
+
+---
+
+### Aditya Gupta
+![aditya_gupta](https://user-images.githubusercontent.com/11206675/184015293-d9fc4e74-9a6a-49e7-be93-f0c7d1ebac32.jpg)
+
+**Full Stack Web3 Developer**
+
+Worked on making the frontend pages as well as integrating the smart contracts withe the frontend
+
+---
+
+

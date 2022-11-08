@@ -6,6 +6,9 @@ import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
 import ContactUs from "./components/ContactUs/ContactUs.jsx";
 import NavBar from "./components/Navbar/NavBar";
 import SideBar from "./components/Sidebar/SideBar";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
   return (
@@ -21,12 +24,27 @@ function App() {
               <Route path="/" element={<MarketPlace />} />
               <Route path="/sellproduct" element={<SellProduct />} />
               <Route path="/profile/:id" element={<Profile />} />
-              <Route path="/productdetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/productdetails/:productId"
+                element={<ProductDetails />}
+              />
               <Route path="/contact-us" element={<ContactUs />} />
             </Routes>
           </div>
         </main>
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

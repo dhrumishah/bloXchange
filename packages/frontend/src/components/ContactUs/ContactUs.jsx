@@ -19,6 +19,7 @@ const ContactUs = () => {
             type="number"
             placeholder="Enter Product's Order Id"
             className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
+            min = {0}
           ></input>
         </div>
 
