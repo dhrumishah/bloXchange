@@ -44,36 +44,7 @@ const Product = (props) => {
       setButtonText("You have already bought this item!");
     } catch (e) {
       console.log(e);
-    async function orderItem() {
-      try {
-        if (productSeller === address) {
-          console.log("You can't buy");
-          return;
-        }
-        const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
-        console.log("starting");
-        const tx = await contract.orderItem(productId, 1, {gasLimit: 5000000, value: ethers.utils.parseEther(props.price.toString())});
-        await tx.wait();
-        console.log("started")
-        setOrder(orderInitial)
-        setButtonText("You have already bought this item!")
-      } catch (e) {
-        console.log(e)
-      }
     }
-    // const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
-    // console.log("starting");
-    // const tx = await contract.orderItem(productId, 1, {
-    //   gasLimit: 5000000,
-    //   value: ethers.utils.parseEther(props.price.toString()),
-    // });
-    //   await tx.wait();
-    //   console.log("started");
-    //   setOrder(orderInitial);
-    //   setButtonText("You have already bought this item!");
-    // } catch (e) {
-    //   console.log(e);
-    // }
   }
 
   return (
@@ -118,7 +89,7 @@ const Product = (props) => {
             </p>
           </div>
           <div className="flex flex-row">
-            <p className="text-[20px] text-white font-semibol mb-4">
+            <p className="text-[20px] text-black font-semibol mb-4">
               {props.price}
             </p>
             <p className="ml-1 text-[20px] text-[#30cfd0] font-semibol mb-4">
@@ -132,7 +103,6 @@ const Product = (props) => {
           <p className="mb-2 font-semibold text-white">Location</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
-
         <button
           className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center "
           onClick={orderItem}
