@@ -113,7 +113,13 @@ const Product = (props) => {
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
 
-        <div className="relative z-20">
+        <div className="relative z-20 mt-6">
+          <label
+            className="block text-[17px] font-medium mb-4 text-white"
+            htmlFor="quantity"
+          >
+            Enter the quantity you want to buy
+          </label>
           <input
             id="quantity"
             type="number"
@@ -128,7 +134,7 @@ const Product = (props) => {
         </div>
 
         <button
-          className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7] cursor-pointer select-none text-center "
+          className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 mt-6 hover:opacity-90 bg-[#0073E7] cursor-pointer select-none text-center "
           onClick={orderItem}
           disabled={isSeller || !address || isLoading}
         >

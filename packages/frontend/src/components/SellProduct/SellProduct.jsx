@@ -107,7 +107,7 @@ export default function SellProduct() {
           <DropDown setCategory={setCategory} isSell />
         </div>
         <div className="relative mb-12">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full ">
             <label
               className="block text-[17px] font-medium mb-4 text-white"
               htmlFor="priceUSD"
