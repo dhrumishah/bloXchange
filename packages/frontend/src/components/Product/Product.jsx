@@ -2,47 +2,57 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import contracts from "../../../contracts/hardhat_contracts.json";
 import { NETWORK_ID as chainId } from "../../config";
-import { useAccount, useSigner, useContract, useProvider } from "wagmi";
+import { parseError } from "../../utils";
+import { useAccount, useSigner } from "wagmi";
+import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import { Contract } from "ethers";
-
+import { useMemo } from "react";
 
 const Product = (props) => {
+  const { address } = useAccount();
+  const { productId } = useParams();
+  const [quantity, setQuantity] = useState(1);
+  const productSeller = props.address;
+  const [isLoading, setIsLoading] = useState(false);
+  const isSeller = useMemo(() => productSeller === address?.toLowerCase(), [
+    address,
+    productSeller,
+  ]);
 
-  const { address } = useAccount()
-  const { productId } = useParams()
-  const orderInitial = {
-    itemId: 1,
-    quantity: 1,
-  }
-
-  const [order, setOrder] = useState(orderInitial);
-  const [buttonText, setButtonText] = useState('Buy this Item!');
-  
   const { data: signer } = useSigner();
 
-  const marketplaceAddress = contracts[chainId][0].contracts.EscrowMarketplace.address;
+  const marketplaceAddress =
+    contracts[chainId][0].contracts.EscrowMarketplace.address;
   const marketplaceABI = contracts[chainId][0].contracts.EscrowMarketplace.abi;
-  const productSeller = props.address;
-  const slicedAddress = productSeller.slice(0, 3) + "..." + productSeller.slice(-4);
+  const slicedAddress =
+    productSeller.slice(0, 3) + "..." + productSeller.slice(-4);
 
-    async function orderItem() {
-      try {
-        if (productSeller === address) {
-          console.log("You can't buy");
-          return;
-        }
-        const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
-        console.log("starting");
-        const tx = await contract.orderItem(productId, 1, {gasLimit: 5000000, value: ethers.utils.parseEther(props.price.toString())});
-        await tx.wait();
-        console.log("started")
-        setOrder(orderInitial)
-        setButtonText("You have already bought this item!")
-      } catch (e) {
-        console.log(e)
-      }
+  async function orderItem() {
+    setIsLoading(true);
+    const id = toast.loading("Ordering product...");
+    try {
+      const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+      const tx = await contract.orderItem(productId, quantity, {
+        value: (props.price * quantity).toString(),
+      });
+      await tx.wait();
+      toast.update(id, {
+        render: "Product ordered sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error ordering product!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
+    setIsLoading(false);
+  }
 
   return (
     <>
@@ -62,9 +72,7 @@ const Product = (props) => {
               <div className="flex flex-col w-full mb-2">
                 <p className="font-semibold text-white">{props.name}</p>
                 <p className="text-[13px] font-semibold text-[#46647A] mb-1 dark:text-[#B9CFDF]">
-                  {
-                    productSeller
-                  }
+                  {slicedAddress}
                 </p>
               </div>
             </div>
@@ -88,8 +96,8 @@ const Product = (props) => {
             </p>
           </div>
           <div className="flex flex-row">
-            <p className="text-[20px] text-black font-semibol mb-4">
-              {props.price}
+            <p className="text-[20px] text-white font-semibol mb-4">
+              {ethers.utils.formatEther(props.price)}
             </p>
             <p className="ml-1 text-[20px] text-[#30cfd0] font-semibol mb-4">
               MATIC
@@ -99,14 +107,37 @@ const Product = (props) => {
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">
             {props.description}
           </p>
+          <p className="mb-2 font-semibold text-white">Quantity</p>
+          <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.quantity}</p>
           <p className="mb-2 font-semibold text-white">Location</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
         </div>
-        
-        <button className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7]  cursor-pointer select-none text-center " onClick={orderItem}>
-          {buttonText}
+
+        <div className="relative z-20">
+          <input
+            id="quantity"
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+            min={1}
+            max={props.quantity}
+            placeholder="Enter product quantity"
+            className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952] text-white"
+            required
+          ></input>
+        </div>
+
+        <button
+          className="text-[#FFFFFF] rounded-[15px] py-3 px-4 font-bold mb-8 hover:opacity-90 bg-[#0073E7] cursor-pointer select-none text-center "
+          onClick={orderItem}
+          disabled={isSeller || !address || isLoading}
+        >
+          {isSeller
+            ? "You are the seller"
+            : isLoading
+            ? "Ordering the product..."
+            : "Buy this Item!"}
         </button>
-        
       </div>
     </>
   );

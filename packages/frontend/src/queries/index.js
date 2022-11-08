@@ -3,7 +3,8 @@ export const ITEMS_QUERY = `
         items(where: {
             category_: {
                 id: $categoryId
-            }
+            },
+            quantity_gt: 0
         }, first: $first, skip: $skip) {
             id
             price
@@ -23,7 +24,7 @@ export const ITEMS_QUERY = `
 
 export const ALL_ITEMS_QUERY = `
     query GetItems($categoryId: ID!, $first: Int!, $skip: Int!) {
-        items(first: $first, skip: $skip) {
+        items(where: {quantity_gt: 0}, first: $first, skip: $skip) {
             id
             price
             quantity
