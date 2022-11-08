@@ -30,13 +30,14 @@ const Items = ({ categoryId }) => {
     }
   }, [data?.items]);
   useEffect(() => {
-    console.log(categoryId)
-    setItems([])
-    setSkip(0)
-    reexecuteQuery({ requestPolicy: 'network-only' });
-  }, [categoryId])
-  if (fetching && !data?.items) return <p>Loading...</p>;
-  if (error && !data?.items) return <p>Oh no... {error.message}</p>;
+    console.log(categoryId);
+    setItems([]);
+    setSkip(0);
+    reexecuteQuery({ requestPolicy: "network-only" });
+  }, [categoryId]);
+  if (fetching && !data?.items) return <p className="text-white">Loading...</p>;
+  if (error && !data?.items)
+    return <p className="text-white">Oh no... {error.message}</p>;
 
   return (
     <InfiniteScroll
@@ -65,7 +66,7 @@ const Items = ({ categoryId }) => {
           ))}
         </div>
       ) : (
-        <p>No items...</p>
+        <p className="text-white">No items...</p>
       )}
     </InfiniteScroll>
   );
