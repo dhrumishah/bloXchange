@@ -49,17 +49,17 @@ const Product = (props) => {
 
   return (
     <>
-      <div className="flex flex-col max-w-[443px] lg:max-w-[336px]">
+      <div className="flex flex-col max-w-[600px] lg:max-w-[336px]">
         <div className="items-center mb-4">
           <div className="w-full mb-6 ">
-            <div className="w-full h-full min-h-[250px]  min-w-[340px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
+            <div className="w-full h-full min-h-[250px]  min-w-[440px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
               <img
                 className="w-full object-cover object-center min-h-[250px] rounded-[20px] aspect-square h-full"
                 src={props.images[0]}
               ></img>
             </div>
           </div>
-          <div className="bg-[#EAEAEA] rounded-[20px] px-6 py-4 w-full dark:bg-[#3B3E59]">
+          <div className="bg-[#EAEAEA] rounded-[20px] px-6 py-4 min-w-[440px] w-full dark:bg-[#3B3E59]">
             <div className="flex items-center w-full">
               <img src={props.logo} className=" w-[42px] h-[42px] mr-8"></img>
               <div className="flex flex-col w-full mb-2">
