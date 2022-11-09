@@ -132,14 +132,14 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
               <div className="flex items-center justify-center">
                 <button
                   onClick={onImageRemoveAll}
-                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-3 mt-3 text-base font-semibold text-white no-underline align-middle bg-red-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-red-700 hover:border-red-700 hover:text-white focus-within:bg-red-700 focus-within:border-red-700"
+                  className="inline-flex items-center w-full px-12 py-2 rounded-[10px] mb-3 mr-3 mt-3 text-base font-semibold text-white no-underline align-middle bg-red-600 border border-transparent border-solid  cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-red-700 hover:border-red-700 hover:text-white focus-within:bg-red-700 focus-within:border-red-700"
                 >
                   Remove all Images
                   <ImCross className="ml-2" />
                 </button>
                 <button
                   onClick={uploadImages}
-                  className="inline-flex items-center w-full px-5 py-3 mb-3 mr-1 mt-3 text-base font-semibold text-white no-underline align-middle bg-green-600 border border-transparent border-solid rounded-md cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-green-700 hover:border-green-700 hover:text-white focus-within:bg-green-700 focus-within:border-green-700"
+                  className="inline-flex items-center w-full px-12 py-2 rounded-[10px] mb-3 mr-1 mt-3 text-base font-semibold text-white no-underline align-middle bg-green-600 border border-transparent border-solid  cursor-pointer select-none sm:mb-0 sm:w-auto hover:bg-green-700 hover:border-green-700 hover:text-white focus-within:bg-green-700 focus-within:border-green-700"
                 >
                   Upload Images
                   <BsCheckLg className="ml-2" />
