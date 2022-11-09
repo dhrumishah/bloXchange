@@ -107,7 +107,7 @@ const Product = (props) => {
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">
             {props.description}
           </p>
-          <p className="mb-2 font-semibold text-white">Quantity</p>
+          <p className="mb-2 font-semibold text-white"> Available Quantity</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.quantity}</p>
           <p className="mb-2 font-semibold text-white">Location</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">{props.location}</p>
