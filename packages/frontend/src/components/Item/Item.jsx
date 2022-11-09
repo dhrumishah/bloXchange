@@ -21,11 +21,12 @@ const Item = (props) => {
         <div className="flex flex-col px-2 w-full mb-6 text-left">
           <div className="flex items-center">
             <p className="flex mb-2 text-white">{props.title}</p>
-            <p className="font-medium text-[21px] mb-2 text-white ml-36">
-              {props.price}
-              MATIC
-            </p>
           </div>
+          <p className="font-medium text-[21px] mb-2 text-white">
+            {props.price}
+            MATIC
+          </p>
+
           <p className="font-medium mb-4 truncate text-white">
             {props.description}
           </p>
