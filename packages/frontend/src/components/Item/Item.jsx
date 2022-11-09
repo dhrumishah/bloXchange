@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "/src/Logo.svg";
 import { useNavigate } from "react-router-dom";
+import Polygon from "./../svg/polygon-matic-logo.svg";
 
 const Item = (props) => {
   const navigate = useNavigate();
@@ -20,16 +21,18 @@ const Item = (props) => {
         </div>
         <div className="flex flex-col px-2 w-full mb-6 text-left">
           <div className="flex items-center">
-            <p className="flex mb-2 text-white">{props.title}</p>
+            <p className="flex mb-2 text-lg text-[#30cfd0] font-extrabold truncate">
+              {props.title}
+            </p>
           </div>
-          <p className="font-medium text-[21px] mb-2 text-white">
-            {props.price}
-            MATIC
-          </p>
+          <div className="flex flex-row">
+            <p className="font-medium text-[21px] mr-2 mb-2 text-white">
+              {props.price}&nbsp; MATIC
+            </p>
+            <img src={Polygon} />
+          </div>
 
-          <p className="font-medium mb-4 truncate text-white">
-            {props.description}
-          </p>
+          <p className="mb-4 truncate text-white">{props.description}</p>
           <div className="flex items-center mb-4">
             <div className="flex items-center shrink-0 mr-4">
               <img src={Logo} className="w-[16px] h-[16px] mr-2"></img>
