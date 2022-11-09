@@ -7,6 +7,7 @@ import ContactUs from "./components/ContactUs/ContactUs.jsx";
 import NavBar from "./components/Navbar/NavBar";
 import SideBar from "./components/Sidebar/SideBar";
 import { ToastContainer } from "react-toastify";
+import Orders from "./components/Orders/Orders";
 
 import "react-toastify/dist/ReactToastify.min.css";
 
@@ -24,6 +25,7 @@ function App() {
               <Route path="/" element={<MarketPlace />} />
               <Route path="/sellproduct" element={<SellProduct />} />
               <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/orders" element={<Orders />} />
               <Route
                 path="/productdetails/:productId"
                 element={<ProductDetails />}

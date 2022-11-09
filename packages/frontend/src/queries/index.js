@@ -68,3 +68,46 @@ export const CATEGORIES_QUERY = `
         }
     }
 `;
+
+export const BUYER_ORDERS_QUERY = `
+query GetOrders($buyer: Bytes!, $first: Int!, $skip: Int!) {
+    orders(where: {
+        buyer: $buyer
+    }, first: $first, skip: $skip) {
+        id
+        item {
+            id
+            title
+            seller
+        }
+        amount
+        quantity
+        orderedAt
+        disputeId
+        buyer
+        status
+        disputes
+    }
+}`
+
+export const SELLER_ORDERS_QUERY = `
+query GetOrders($seller: Bytes!, $first: Int!, $skip: Int!) {
+    orders(where: {
+        item_: {
+            seller: $seller
+        }
+    }, first: $first, skip: $skip) {
+        id
+        item {
+            id
+            title
+        }
+        amount
+        quantity
+        orderedAt
+        disputeId
+        buyer
+        status
+        disputes
+    }
+}`
