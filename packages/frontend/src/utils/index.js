@@ -6,7 +6,10 @@ export const parseError = (error, customMessage) => {
 }
 
 export const getShortAddress = (address) => {
-    return address.slice(0, 3) + "..." + address.slice(-4);
+    if (address) {
+        return address.slice(0, 3) + "..." + address.slice(-4);
+    }
+    return address
 }
 
 export const orderStatus = {
