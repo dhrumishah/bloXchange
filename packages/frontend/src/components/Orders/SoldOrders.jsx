@@ -76,9 +76,11 @@ const SoldOrders = () => {
               ))}
             </tbody>
           ) : (
-            <div className="text-center">
-              <p>No orders...</p>
-            </div>
+            <tbody>
+              <tr>
+                <td className="text-center">No orders...</td>
+              </tr>
+            </tbody>
           )}
         </table>
         <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">

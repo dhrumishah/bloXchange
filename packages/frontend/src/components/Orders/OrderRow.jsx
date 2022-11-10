@@ -17,12 +17,22 @@ const OrderRow = ({ order, isSold }) => {
   );
   const orderedAt = new Date(order.orderedAt * 1000).toLocaleString();
   const status = Status[order.status];
+
+  const performShipping = async () => {};
+  const confirmDelivery = async () => {};
+  const disputeOrder = async () => {};
+
   return (
     <tr>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">
-          {parseInt(order.id, 16)}
-        </p>
+        <a
+          onClick={() => navigate("/orders/" + order.id)}
+          className="cursor-pointer"
+        >
+          <p className="text-blue-900 whitespace-no-wrap underline">
+            {parseInt(order.id, 16)}
+          </p>
+        </a>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
@@ -63,11 +73,19 @@ const OrderRow = ({ order, isSold }) => {
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span
-          className={`relative inline-block px-3 py-1 font-semibold text-${status.color}-900 leading-tight`}
+          className={
+            "relative inline-block px-3 py-1 font-semibold text-" +
+            status.color +
+            "-900 leading-tight"
+          }
         >
           <span
             aria-hidden
-            className={`bg-${status.color}-200 absolute inset-0 opacity-50 rounded-full`}
+            className={
+              "bg-" +
+              status.color +
+              "-200 absolute inset-0 opacity-50 rounded-full"
+            }
           ></span>
           <span className="relative">{status.text}</span>
         </span>

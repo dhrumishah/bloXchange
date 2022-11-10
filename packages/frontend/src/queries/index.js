@@ -111,3 +111,31 @@ query GetOrders($seller: Bytes!, $first: Int!, $skip: Int!) {
         disputes
     }
 }`
+
+export const ORDER_QUERY = `
+query GetOrder($id: ID!) {
+    order(id: $id) {
+        id
+        item {
+            id
+            price
+            quantity
+            createdAt
+            category {
+                id
+                name
+            }
+            seller
+            title
+            description
+            images
+        }
+        amount
+        quantity
+        orderedAt
+        disputeId
+        buyer
+        status
+        disputes
+    }
+}`
