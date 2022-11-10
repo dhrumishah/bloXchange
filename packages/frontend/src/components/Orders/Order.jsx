@@ -1,18 +1,115 @@
 import React from "react";
-import { getShortAddress } from "../../utils";
-import { useAccount } from "wagmi";
-import { ethers } from "ethers";
-import { useMemo } from "react";
+import { getShortAddress, ORDER_STATUS, parseError } from "../../utils";
+import useBiconomy from "../../hooks/useBiconomy";
+import { useAccount, useSigner } from "wagmi";
+import { ethers, Contract } from "ethers";
+import { toast } from "react-toastify";
 import Logo from "/src/Logo.svg";
 import OrderRow from "./OrderRow";
 
 const Order = ({ order }) => {
   const { address } = useAccount();
+  const { data: signer } = useSigner();
   const productSeller = order.item.seller;
+  const productBuyer = order.buyer;
+  const status = order.status;
   const slicedAddress = getShortAddress(productSeller);
-  const isSold = useMemo(() => productSeller === address?.toLowerCase(), [
-    address,
-  ]);
+  const isSeller = productSeller === address?.toLowerCase();
+  const isBuyer = productBuyer === address?.toLowerCase();
+  const {
+    biconomy,
+    marketplace,
+    marketplaceAddress,
+    marketplaceABI,
+  } = useBiconomy();
+
+  const performShipping = async () => {
+    const id = toast.loading("Performing shipping...");
+    try {
+      const provider = await biconomy.getEthersProvider();
+      const { data } = await marketplace.populateTransaction.performShipping(
+        order.id
+      );
+      let txParams = {
+        data: data,
+        to: marketplaceAddress,
+        from: address,
+        signatureType: "EIP712_SIGN",
+      };
+      const txHash = await provider.send("eth_sendTransaction", [txParams]);
+      await provider.waitForTransaction(txHash);
+      toast.update(id, {
+        render: "Order shipped sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error shipping order!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
+
+  const confirmDelivery = async () => {
+    const id = toast.loading("Confirming order delivery...");
+    try {
+      const provider = await biconomy.getEthersProvider();
+      const { data } = await marketplace.populateTransaction.confirmDelivery(
+        order.id
+      );
+      let txParams = {
+        data: data,
+        to: marketplaceAddress,
+        from: address,
+        signatureType: "EIP712_SIGN",
+      };
+      const txHash = await provider.send("eth_sendTransaction", [txParams]);
+      await provider.waitForTransaction(txHash);
+      toast.update(id, {
+        render: "Order delivery confirmed sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error confirming delivery of order!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
+
+  const disputeOrder = async () => {
+    const id = toast.loading("Disputing order...");
+    try {
+      const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+      const arbitratorFeePercent = await contract.arbitratorFee();
+      const arbitratorFee = arbitratorFeePercent.mul(order.amount).div(100);
+      const tx = await contract.disputeOrder(order.id, {
+        value: arbitratorFee,
+      });
+      await tx.wait();
+      toast.update(id, {
+        render: "Order disputed sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error disputing order!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
 
   return (
     <div>
@@ -79,13 +176,43 @@ const Order = ({ order }) => {
           </div>
         </div>
       </div>
-      {/* place this table element below this */}
-      <div className="w-full">
+      <div className="w-full mt-5">
         <table>
           <tbody>
-            <OrderRow order={order} isSold={isSold} />
+            <OrderRow order={order} isSold={isSeller} />
           </tbody>
         </table>
+        <div className="mt-5 text-center">
+          {isSeller && status === ORDER_STATUS.PENDING && (
+            <button
+              onClick={performShipping}
+              className="text-[#FFFFFF] rounded-[15px] py-3 px-4 mx-2 font-bold mb-8 hover:opacity-90 bg-[#0073E7] cursor-pointer select-none text-center "
+            >
+              Perform Shipping
+            </button>
+          )}
+          {isBuyer && status === ORDER_STATUS.SHIPPED && (
+            <button
+              onClick={confirmDelivery}
+              className="text-[#FFFFFF] rounded-[15px] py-3 px-4 mx-2 font-bold mb-8 hover:opacity-90 bg-green-600 cursor-pointer select-none text-center "
+            >
+              Confirm Delivery
+            </button>
+          )}
+          {(isSeller || isBuyer) &&
+            status !== ORDER_STATUS.DELIVERED &&
+            status !== ORDER_STATUS.REFUNDED && (
+              <button
+                onClick={disputeOrder}
+                disabled={status === ORDER_STATUS.DISPUTTED}
+                className="text-[#FFFFFF] rounded-[15px] py-3 px-4 mx-2 font-bold mb-8 hover:opacity-90 bg-red-600 cursor-pointer select-none text-center "
+              >
+                {status === ORDER_STATUS.DISPUTTED
+                  ? "Order Disputed"
+                  : "Dispute Order"}
+              </button>
+            )}
+        </div>
       </div>
     </div>
   );

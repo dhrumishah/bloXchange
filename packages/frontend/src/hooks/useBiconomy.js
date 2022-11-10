@@ -35,6 +35,8 @@ export default function useBiconomy() {
 
   return {
     biconomy: biconomy.current,
-    marketplace: marketplace.current
+    marketplace: marketplace.current,
+    marketplaceAddress,
+    marketplaceABI
   }
 };

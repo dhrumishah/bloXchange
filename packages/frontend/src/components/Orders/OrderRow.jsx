@@ -1,14 +1,6 @@
-import { getShortAddress } from "../../utils";
+import { getShortAddress, orderStatus } from "../../utils";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
-
-const Status = {
-  0: { text: "PENDING", color: "orange" },
-  1: { text: "SHIPPED", color: "yellow" },
-  2: { text: "DELIVERED", color: "green" },
-  3: { text: "DISPUTTED", color: "red" },
-  4: { text: "REFUNDED", color: "blue" },
-};
 
 const OrderRow = ({ order, isSold }) => {
   const navigate = useNavigate();
@@ -16,11 +8,7 @@ const OrderRow = ({ order, isSold }) => {
     isSold ? order.buyer : order.item.seller
   );
   const orderedAt = new Date(order.orderedAt * 1000).toLocaleString();
-  const status = Status[order.status];
-
-  const performShipping = async () => {};
-  const confirmDelivery = async () => {};
-  const disputeOrder = async () => {};
+  const status = orderStatus[order.status];
 
   return (
     <tr>
