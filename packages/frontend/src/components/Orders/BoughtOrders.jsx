@@ -3,6 +3,7 @@ import { useAccount } from "wagmi";
 import { useQuery } from "urql";
 import { useEffect, useState } from "react";
 import OrderRow from "./OrderRow";
+import Thead from "./Table/Thead";
 
 const BoughtOrders = () => {
   const { address } = useAccount();
@@ -44,35 +45,11 @@ const BoughtOrders = () => {
     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
-          <thead>
-            <tr>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Seller
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Product
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Ordered at
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Amount
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Quantity
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Status
-              </th>
-            </tr>
-          </thead>
+          <Thead />
           {orders.length > 0 ? (
             <tbody>
               {orders.map((order) => (
-                <OrderRow key={order.id} order={order} isSold={false} />
+                <OrderRow key={order.id} order={order} />
               ))}
             </tbody>
           ) : (

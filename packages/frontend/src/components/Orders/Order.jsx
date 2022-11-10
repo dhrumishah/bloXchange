@@ -6,8 +6,9 @@ import { ethers, Contract } from "ethers";
 import { toast } from "react-toastify";
 import Logo from "/src/Logo.svg";
 import OrderRow from "./OrderRow";
+import Thead from "./Table/Thead";
 
-const Order = ({ order }) => {
+const Order = ({ order, refetchOrder }) => {
   const { address } = useAccount();
   const { data: signer } = useSigner();
   const productSeller = order.item.seller;
@@ -38,6 +39,7 @@ const Order = ({ order }) => {
       };
       const txHash = await provider.send("eth_sendTransaction", [txParams]);
       await provider.waitForTransaction(txHash);
+      refetchOrder();
       toast.update(id, {
         render: "Order shipped sucessfully",
         type: "success",
@@ -69,6 +71,7 @@ const Order = ({ order }) => {
       };
       const txHash = await provider.send("eth_sendTransaction", [txParams]);
       await provider.waitForTransaction(txHash);
+      refetchOrder();
       toast.update(id, {
         render: "Order delivery confirmed sucessfully",
         type: "success",
@@ -95,6 +98,7 @@ const Order = ({ order }) => {
         value: arbitratorFee,
       });
       await tx.wait();
+      refetchOrder();
       toast.update(id, {
         render: "Order disputed sucessfully",
         type: "success",
@@ -178,8 +182,9 @@ const Order = ({ order }) => {
       </div>
       <div className="w-full mt-5">
         <table>
+          <Thead />
           <tbody>
-            <OrderRow order={order} isSold={isSeller} />
+            <OrderRow order={order} />
           </tbody>
         </table>
         <div className="mt-5 text-center">

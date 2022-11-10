@@ -73,7 +73,7 @@ export const BUYER_ORDERS_QUERY = `
 query GetOrders($buyer: Bytes!, $first: Int!, $skip: Int!) {
     orders(where: {
         buyer: $buyer
-    }, first: $first, skip: $skip) {
+    }, first: $first, skip: $skip, orderBy: status, orderDirection: asc) {
         id
         item {
             id
@@ -96,7 +96,7 @@ query GetOrders($seller: Bytes!, $first: Int!, $skip: Int!) {
         item_: {
             seller: $seller
         }
-    }, first: $first, skip: $skip) {
+    }, first: $first, skip: $skip, orderBy: status, orderDirection: asc) {
         id
         item {
             id

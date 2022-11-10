@@ -6,7 +6,7 @@ import Order from "./Order";
 
 function OrderWrapper() {
   const { orderId } = useParams();
-  const [result] = useQuery({
+  const [result, reexecuteQuery] = useQuery({
     query: ORDER_QUERY,
     variables: {
       id: orderId,
@@ -21,7 +21,7 @@ function OrderWrapper() {
 
   const order = data.order;
 
-  return <Order order={order} />;
+  return <Order order={order} refetchOrder={reexecuteQuery} />;
 }
 
 export default function OrderDetails() {

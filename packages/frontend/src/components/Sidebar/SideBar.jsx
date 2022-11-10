@@ -53,7 +53,7 @@ export default function SideBar() {
                   }}
                 >
                   <img src={Product}></img>
-                  <p>Orders</p>
+                  <p>My Orders</p>
                 </div>
               </a>
               <a className=" flex items-center hover:opacity-90" href="#">
