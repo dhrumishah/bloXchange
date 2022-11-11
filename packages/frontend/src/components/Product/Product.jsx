@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import contracts from "../../../contracts/hardhat_contracts.json";
 import { NETWORK_ID as chainId } from "../../config";
-import { parseError } from "../../utils";
+import { getShortAddress, parseError } from "../../utils";
 import { useAccount, useSigner } from "wagmi";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
@@ -25,8 +25,7 @@ const Product = (props) => {
   const marketplaceAddress =
     contracts[chainId][0].contracts.EscrowMarketplace.address;
   const marketplaceABI = contracts[chainId][0].contracts.EscrowMarketplace.abi;
-  const slicedAddress =
-    productSeller.slice(0, 3) + "..." + productSeller.slice(-4);
+  const slicedAddress = getShortAddress(productSeller);
 
   async function orderItem() {
     setIsLoading(true);
