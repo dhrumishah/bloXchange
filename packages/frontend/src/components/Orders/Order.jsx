@@ -182,9 +182,9 @@ const Order = ({ order, refetchOrder }) => {
       </div>
       <div className="w-full mt-5">
         <table>
-          <Thead />
+          <Thead isSeller={isSeller} isBuyer={isBuyer} />
           <tbody>
-            <OrderRow order={order} />
+            <OrderRow order={order} userAddress={address} />
           </tbody>
         </table>
         <div className="mt-5 text-center">

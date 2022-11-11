@@ -45,11 +45,11 @@ const SoldOrders = () => {
     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
-          <Thead />
+          <Thead isBuyer={false} isSeller={true} />
           {orders.length > 0 ? (
             <tbody>
               {orders.map((order) => (
-                <OrderRow key={order.id} order={order} />
+                <OrderRow key={order.id} order={order} userAddress={address} />
               ))}
             </tbody>
           ) : (
