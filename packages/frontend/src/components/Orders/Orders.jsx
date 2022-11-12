@@ -2,11 +2,11 @@ import TabsRender from "./Tabs";
 
 const Orders = () => {
   return (
-    <main className="mt-[60px] py-12 px-4 relative flex min-h-screen max-w-full overflow-hidden md:ml-[240px] md:px-12">
-      <div className="bg-white p-8 rounded-md w-full">
+    <main className="mt-[60px] py-12 px-4 relative flex min-h-screen max-w-full overflow-hidden md:ml-[240px] md:px-12 animate__animated animate__flash">
+      <div className="dark:bg-[#363952] p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
-            <h2 className="text-gray-600 font-semibold">Products Order</h2>
+            <h2 className="text-white font-semibold">Products Order</h2>
             {/* <span className="text-xs">All products item</span> */}
           </div>
           <div className="flex items-center justify-between">

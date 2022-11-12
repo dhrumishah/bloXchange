@@ -31,6 +31,8 @@
     "ethereumjs-abi": "https://registry.npmjs.org/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
+    "emailjs-com": "^3.2.0",
     "react-toastify": "^9.1.1"
   }
 }
