@@ -320,33 +320,36 @@
     "stream-browserify" "^3.0.0"
     "util" "^0.12.4"
 
-"@create-web3/backend@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\backend":
+"@create-web3/backend@file:F:\\bloXchange\\packages\\backend":
   "resolved" "file:packages/backend"
   "version" "1.0.0"
   dependencies:
     "@opengsn/contracts" "^3.0.0-beta.1"
     "dotenv" "^16.0.0"
 
-"@create-web3/frontend@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\frontend":
+"@create-web3/frontend@file:F:\\bloXchange\\packages\\frontend":
   "resolved" "file:packages/frontend"
   "version" "0.0.0"
   dependencies:
     "@biconomy/mexa" "2.0.35"
     "@rainbow-me/rainbowkit" "^0.5.0"
     "buffer" "^6.0.3"
+    "eth-rpc-errors" "^4.0.3"
     "ethers" "^5.6.9"
     "graphql" "^16.6.0"
     "process" "^0.11.10"
     "react" "^18.2.0"
     "react-dom" "^18.2.0"
+    "react-icons" "^4.6.0"
     "react-images-uploading" "^3.1.7"
     "react-infinite-scroll-component" "^6.1.0"
+    "react-toastify" "^9.1.1"
     "urql" "^3.0.3"
     "util" "^0.12.4"
     "wagmi" "^0.6.4"
     "web3.storage" "^4.4.0"
 
-"@create-web3/subgraph@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\subgraph":
+"@create-web3/subgraph@file:F:\\bloXchange\\packages\\subgraph":
   "resolved" "file:packages/subgraph"
   "version" "0.0.0"
   dependencies:
@@ -5049,6 +5052,11 @@
     "inherits" "^2.0.4"
     "minimalistic-assert" "^1.0.1"
     "minimalistic-crypto-utils" "^1.0.1"
+
+"emailjs-com@^3.2.0":
+  "integrity" "sha512-Prbz3E1usiAwGjMNYRv6EsJ5c373cX7/AGnZQwOfrpNJrygQJ15+E9OOq4pU8yC977Z5xMetRfc3WmDX6RcjAA=="
+  "resolved" "https://registry.npmjs.org/emailjs-com/-/emailjs-com-3.2.0.tgz"
+  "version" "3.2.0"
 
 "emoji-regex@^7.0.1":
   "integrity" "sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA=="

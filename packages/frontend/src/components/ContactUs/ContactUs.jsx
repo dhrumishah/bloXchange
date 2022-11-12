@@ -8,7 +8,8 @@ const ContactUs = () => {
   const [toSend, setToSend] = useState({
     orderId: '',
     descriptionIssue: '',
-    address: address
+    address: address, 
+    email: ''
   })
 
   const handleChange = (e) => {
@@ -37,10 +38,26 @@ const ContactUs = () => {
           Want to talk to Us?
         </h1>
         <form onSubmit={onSubmit}>
+          <label
+            className="block text-[17px] font-medium mb-4 text-white"
+            for="add-title">
+            What's your email?
+          </label>
+          <div className="relative mb-12">
+            <input
+              id="email"
+              type="email"
+              name="email"
+              required
+              placeholder="Enter Product's Order Id"
+              className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
+              min={0}
+              onChange={handleChange}
+            ></input>
+            </div>
         <label
           className="block text-[17px] font-medium mb-4 text-white"
-          for="add-title"
-        >
+          for="add-title">
           Enter your Order Id here
         </label>
         <div className="relative mb-12">
@@ -48,6 +65,7 @@ const ContactUs = () => {
               id="add-order-id"
               type="number"
               name="orderId"
+              required
               placeholder="Enter Product's Order Id"
               className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
               min={0}
@@ -62,6 +80,7 @@ const ContactUs = () => {
             className="outline-none p-6 w-full rounded-[20px] mb-12 dark:bg-[#363952] text-white"
             placeholder="Enter a Description for your issue"
             data-gramm="false"
+            required
             name="descriptionIssue"
             wt-ignore-input="true"
             onChange={handleChange}>
