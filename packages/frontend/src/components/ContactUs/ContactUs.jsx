@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { send } from 'emailjs-com';
+import React, { useState } from "react";
+import { send } from '@emailjs/browser';
 import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
 
@@ -13,20 +13,25 @@ const ContactUs = () => {
   })
 
   const handleChange = (e) => {
-    setToSend({...toSend, [e.target.name]: e.target.value})
+    setToSend({ ...toSend, [e.target.name]: e.target.value })
     console.log("target" + ":" + e.target.value);
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (isConnected) {
-      send(
-        'service_f4hld3q',
-        'template_lbtz61v',
-        toSend,
-        'ozPw1CSjLifykZPig'
-      );
-      toast.success("Sent your issue! We'll contact you shortly")
+      const id = toast.loading("Sending message...")
+      try {
+        await send(
+          'service_f4hld3q',
+          'template_lbtz61v',
+          toSend,
+          'ozPw1CSjLifykZPig'
+        );
+        toast.update(id, { render: "Sent your issue! We'll contact you shortly", isLoading: false, autoClose: 5000, type: "success" })
+      } catch (e) {
+        toast.update(id, { render: "Error sending message.", isLoading: false, autoClose: 5000, type: "error" })
+      }
     } else {
       toast.error("You are not connected!")
     }
@@ -70,13 +75,13 @@ const ContactUs = () => {
               className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
               min={0}
               onChange={handleChange}
-          ></input>
-        </div>
+            ></input>
+          </div>
 
-        <label className="block text-[17px] font-medium mb-4 text-white">
-          Description of your Issue
-        </label>
-        <input
+          <label className="block text-[17px] font-medium mb-4 text-white">
+            Description of your Issue
+          </label>
+          <input
             className="outline-none p-6 w-full rounded-[20px] mb-12 dark:bg-[#363952] text-white"
             placeholder="Enter a Description for your issue"
             data-gramm="false"
@@ -86,9 +91,9 @@ const ContactUs = () => {
             onChange={handleChange}>
           </input>
 
-        <button className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
-          Submit
-        </button>
+          <button className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
+            Submit
+          </button>
         </form>
       </div>
     </main>

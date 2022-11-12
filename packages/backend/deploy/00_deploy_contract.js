@@ -5,10 +5,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
   const isDevelopmentNetwork =
     network.name === "hardhat" || network.name === "localhost";
-  const platformFee = 0;
-  const arbitratorFee = 0;
+  const platformFeePercent = 0;
+  const arbitratorFeePercent = 0;
   const trustedForwarderAddress = process.env.TRUSTED_FORWARDER_ADDRESS;
-  const args = [trustedForwarderAddress, platformFee, arbitratorFee];
+  const args = [trustedForwarderAddress, platformFeePercent, arbitratorFeePercent];
 
   const EscrowMarketplace = await deploy('EscrowMarketplace', {
     args,

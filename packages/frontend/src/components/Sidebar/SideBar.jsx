@@ -2,7 +2,7 @@ import React from "react";
 import "./sidebar.css";
 import Product from "./../svg/product.svg";
 import Market from "./../svg/market.svg";
-import Profile from "./../svg/profile.svg"
+import Profile from "./../svg/profile.svg";
 import Contact from "./../svg/contact.svg";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,14 +11,10 @@ import {
   useDisconnect,
   useEnsAvatar,
   useEnsName,
-} from 'wagmi'
+} from "wagmi";
 
 export default function SideBar() {
-  const {
-    address,
-    connector,
-    isConnected
-  } = useAccount()
+  const { address, connector, isConnected } = useAccount();
   console.log(address);
   const navigate = useNavigate();
   return (
@@ -52,11 +48,20 @@ export default function SideBar() {
               <a className=" flex items-center hover:opacity-90" href="#">
                 <div
                   className="flex items-center sidebar--para"
-                  onClick={
-                    () => {
-                      navigate("/profile/" + address.toString());
-                    }
-                  }
+                  onClick={() => {
+                    navigate("/orders");
+                  }}
+                >
+                  <img src={Product}></img>
+                  <p>My Orders</p>
+                </div>
+              </a>
+              <a className=" flex items-center hover:opacity-90" href="#">
+                <div
+                  className="flex items-center sidebar--para"
+                  onClick={() => {
+                    navigate("/profile/" + address.toString());
+                  }}
                 >
                   <img src={Profile}></img>
                   <p>Profile</p>
@@ -65,12 +70,11 @@ export default function SideBar() {
             </div>
           </div>
           <div className="border-t border-slate-500 block mb-8"></div>
-          <div className="flex items-center pl-3 mb-8 text-base sidebar--para"
-            onClick={
-              () => {
-                navigate("/contact-us");
-              }
-            }
+          <div
+            className="flex items-center pl-3 mb-8 text-base sidebar--para"
+            onClick={() => {
+              navigate("/contact-us");
+            }}
           >
             <img src={Contact}></img>
             <p>Contact Us</p>

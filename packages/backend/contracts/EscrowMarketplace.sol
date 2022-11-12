@@ -10,8 +10,8 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     bytes32 public constant ARBITRATOR_ROLE = keccak256("ARBITRATOR_ROLE");
 
     uint256 public escrowBalance;
-    uint256 public platformFee;
-    uint256 public arbitratorFee;
+    uint256 public platformFeePercent;
+    uint256 public arbitratorFeePercent;
     uint256 public totalItems;
     uint256 public totalOrders;
     uint256 public totalDelivered;
@@ -121,7 +121,8 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     error IncorrectAmountSent(uint256 amountSent, uint256 amountRequired);
     error OnlySellerAllowed();
     error OnlyBuyerAllowed();
-    error OrderNotShipped(uint256 orderId);
+    error OrderStatusNotShipped(uint256 orderId);
+    error OrderStatusNotPending(uint256 orderId);
     error OrderNotDisputed(uint256 orderId);
     error OrderAlreadyDelivered(uint256 orderId);
     error NotEnoughArbitratorFeeSent(uint256 feeSent, uint256 feeRequired);
@@ -131,17 +132,18 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 requestedBalance,
         uint256 availableBalance
     );
+    error NotSellerOrBuyer(address caller);
 
     constructor(
         address _trustedForwarder,
-        uint256 _platformFee,
-        uint256 _arbitratorFee
+        uint256 _platformFeePercent,
+        uint256 _arbitratorFeePercent
     ) {
         _setTrustedForwarder(_trustedForwarder);
         _grantRole(ADMIN_ROLE, _msgSender());
         _grantRole(ARBITRATOR_ROLE, _msgSender());
-        platformFee = _platformFee;
-        arbitratorFee = _arbitratorFee;
+        platformFeePercent = _platformFeePercent;
+        arbitratorFeePercent = _arbitratorFeePercent;
     }
 
     function createItem(CreateItem calldata _item) external {
@@ -214,8 +216,9 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         if (_msgSender() != items[order.itemId].seller) {
             revert OnlySellerAllowed();
         }
-        require(order.status != Status.SHIPPED, "Order already shipped");
-        require(order.status != Status.DELIVERED, "Order already completed");
+        if (order.status != Status.PENDING) {
+            revert OrderNotPending(_orderId);
+        }
 
         orders[_orderId].status = Status.SHIPPED;
 
@@ -225,14 +228,13 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     function confirmDelivery(uint256 _orderId) external {
         Order memory order = orders[_orderId];
         if (_msgSender() != order.buyer) revert OnlyBuyerAllowed();
-        if (order.status == Status.DELIVERED) {
-            revert OrderAlreadyDelivered(_orderId);
+        if (order.status != Status.SHIPPED) {
+            revert OrderStatusNotShipped(_orderId);
         }
-        if (order.status != Status.SHIPPED) revert OrderNotShipped(_orderId);
 
         uint256 itemId = order.itemId;
 
-        uint256 fee = (order.amount * platformFee) / 100;
+        uint256 fee = (order.amount * platformFeePercent) / 100;
         escrowBalance -= order.amount;
 
         order.status = Status.DELIVERED;
@@ -246,14 +248,18 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function disputeOrder(uint256 _orderId) external payable {
         Order memory order = orders[_orderId];
+        if (
+            msg.sender != order.buyer ||
+            msg.sender != items[order.itemId].seller
+        ) {
+            revert NotSellerOrBuyer(msg.sender);
+        }
         if (order.status == Status.DELIVERED) {
             revert OrderAlreadyDelivered(_orderId);
         }
-        if (msg.value < ((order.amount * arbitratorFee) / 100)) {
-            revert NotEnoughArbitratorFeeSent(
-                msg.value,
-                ((order.amount * arbitratorFee) / 100)
-            );
+        uint256 arbitratorFee = (order.amount * arbitratorFeePercent) / 100;
+        if (msg.value < arbitratorFee) {
+            revert NotEnoughArbitratorFeeSent(msg.value, arbitratorFee);
         }
 
         uint256 disputeId = totalDisputed++;
@@ -303,12 +309,18 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         }
     }
 
-    function setPlatformFee(uint256 _platformFee) external onlyAdmin {
-        platformFee = _platformFee;
+    function setPlatformFeePercent(uint256 _platformFeePercent)
+        external
+        onlyAdmin
+    {
+        platformFeePercent = _platformFeePercent;
     }
 
-    function setArbitratorFee(uint256 _arbitratorFee) external onlyAdmin {
-        arbitratorFee = _arbitratorFee;
+    function setArbitratorFeePercent(uint256 _arbitratorFeePercent)
+        external
+        onlyAdmin
+    {
+        arbitratorFeePercent = _arbitratorFeePercent;
     }
 
     function setProfileURI(string calldata _profileURI) external {
