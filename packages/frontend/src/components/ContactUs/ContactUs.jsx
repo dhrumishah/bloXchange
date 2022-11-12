@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { send } from "emailjs-com";
+import { send } from '@emailjs/browser';
 import { useAccount } from "wagmi";
 import { toast } from "react-toastify";
 
@@ -12,15 +12,25 @@ const ContactUs = () => {
   });
 
   const handleChange = (e) => {
-    setToSend({ ...toSend, [e.target.name]: e.target.value });
+    setToSend({ ...toSend, [e.target.name]: e.target.value })
     console.log("target" + ":" + e.target.value);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (isConnected) {
-      send("service_f4hld3q", "template_lbtz61v", toSend, "ozPw1CSjLifykZPig");
-      toast.success("Sent your issue! We'll contact you shortly");
+      const id = toast.loading("Sending message...")
+      try {
+        await send(
+          'service_f4hld3q',
+          'template_lbtz61v',
+          toSend,
+          'ozPw1CSjLifykZPig'
+        );
+        toast.update(id, { render: "Sent your issue! We'll contact you shortly", isLoading: false, autoClose: 5000, type: "success" })
+      } catch (e) {
+        toast.update(id, { render: "Error sending message.", isLoading: false, autoClose: 5000, type: "error" })
+      }
     } else {
       toast.error("You are not connected!");
     }
@@ -34,7 +44,7 @@ const ContactUs = () => {
         <form onSubmit={onSubmit}>
           <label
             className="block text-[17px] font-medium mb-4 text-white"
-            for="add-title"
+            htmlFor="add-title"
           >
             Enter your Order Id here
           </label>
@@ -62,7 +72,7 @@ const ContactUs = () => {
             onChange={handleChange}
           ></input>
 
-          <button className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+          <button className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto">
             Submit
           </button>
         </form>
