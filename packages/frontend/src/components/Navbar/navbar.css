@@ -1,3 +1,6 @@
+root {
+  --color-1: ;
+}
 .navbar {
   top: 0;
   left: 0;
@@ -13,7 +16,7 @@
   margin-left: 70rem;
 } */
 .navbar--logo h2 {
-  background: linear-gradient(to right, #30cfd0 0%, #9d4edd 100%);
+  background: linear-gradient(to right, #30cfd0 20%, #9d4edd 40%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -76,9 +76,9 @@ export default function SellProduct() {
     <main className="mt-[60px] py-12 px-4 relative flex min-h-screen justify-center max-w-full overflow-hidden md:justify-start md:ml-[240px] md:px-12">
       <form
         onSubmit={createProduct}
-        className="m-auto flex flex-col w-full sm:max-w-[633px]"
+        className="m-auto flex flex-col w-full sm:max-w-[633px] animate__animated animate__slideInDown"
       >
-        <h1 className="text-[25px] font-semibold mb-10 text-[#30cfd0]">
+        <h1 className="text-[30px] font-semibold mb-10 bg-gradient-to-r text-white text-center from-cyan-900 to-cyan-300">
           Want to sell your product?
         </h1>
         <label
@@ -87,7 +87,7 @@ export default function SellProduct() {
         >
           What's the title of your Product?
         </label>
-        <div className="relative mb-12">
+        <div className="relative mb-6">
           <input
             id="add-title"
             type="text"
@@ -104,10 +104,10 @@ export default function SellProduct() {
         >
           Select your Product's Category
         </label>
-        <div className="mb-12 w-full h-[40px] font-medium" id="add-title">
+        <div className="mb-6 w-full h-[40px] font-medium" id="add-title">
           <DropDown setCategory={setCategory} isSell />
         </div>
-        <div className="relative mb-12">
+        <div className="relative mb-6">
           <div className="flex flex-col w-full ">
             <label
               className="block text-[17px] font-medium mb-4 text-white"
@@ -132,7 +132,7 @@ export default function SellProduct() {
           Description of your Product
         </label>
         <textarea
-          className="outline-none p-6 w-full h-[206px] rounded-[20px] mb-12 dark:bg-[#363952] text-white"
+          className="outline-none p-6 w-full h-[206px] rounded-[20px] mb-6 dark:bg-[#363952] text-white"
           placeholder="Enter a Description"
           data-gramm="false"
           wt-ignore-input="true"
@@ -193,7 +193,7 @@ export default function SellProduct() {
         <button
           disabled={!isConnected || isLoading || images.length === 0}
           type="submit"
-          className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto"
+          className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300"
         >
           {isLoading ? "Creating Product..." : "Put up for sale!"}
         </button>

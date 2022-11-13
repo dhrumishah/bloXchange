@@ -55,7 +55,7 @@ const Product = (props) => {
 
   return (
     <>
-      <div className="flex flex-col max-w-[600px] lg:max-w-[336px]">
+      <div className="flex flex-col max-w-[600px] lg:max-w-[336px] ">
         <div className="items-center mb-4">
           <div className="w-full mb-6 ">
             <div className="w-full h-full min-h-[250px]  min-w-[440px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
