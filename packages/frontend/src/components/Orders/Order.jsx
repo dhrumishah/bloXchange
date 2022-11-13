@@ -1,5 +1,10 @@
 import React from "react";
-import { getShortAddress, ORDER_STATUS, parseError } from "../../utils";
+import {
+  getShortAddress,
+  ORDER_STATUS,
+  parseError,
+  getImageUrl,
+} from "../../utils";
 import useBiconomy from "../../hooks/useBiconomy";
 import { useAccount, useSigner } from "wagmi";
 import { ethers, Contract } from "ethers";
@@ -124,7 +129,7 @@ const Order = ({ order, refetchOrder }) => {
               <div className="w-full h-full min-h-[250px]  min-w-[340px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
                 <img
                   className="w-full object-cover object-center min-h-[250px] rounded-[20px] aspect-square h-full"
-                  src={order.item.images[0]}
+                  src={getImageUrl(order.item.images[0])}
                 ></img>
               </div>
             </div>

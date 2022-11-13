@@ -18,6 +18,7 @@ type Item @entity {
   title: String!
   description: String!
   images: [String!]!
+  deliveryLocations: String!
   orders: [Order!]! @derivedFrom(field: "item")
 }
 

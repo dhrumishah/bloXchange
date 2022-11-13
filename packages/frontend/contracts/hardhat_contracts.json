@@ -5,7 +5,7 @@
       "chainId": "80001",
       "contracts": {
         "EscrowMarketplace": {
-          "address": "0x073f26580d9A579aA464d41D31D6c6De9659E330",
+          "address": "0x8e06a8FBC35Ab22Fae14F0D4b9e8cAff6e6D607d",
           "abi": [
             {
               "inputs": [
@@ -16,12 +16,12 @@
                 },
                 {
                   "internalType": "uint256",
-                  "name": "_platformFee",
+                  "name": "_platformFeePercent",
                   "type": "uint256"
                 },
                 {
                   "internalType": "uint256",
-                  "name": "_arbitratorFee",
+                  "name": "_arbitratorFeePercent",
                   "type": "uint256"
                 }
               ],
@@ -131,6 +131,17 @@
               "type": "error"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "caller",
+                  "type": "address"
+                }
+              ],
+              "name": "NotSellerOrBuyer",
+              "type": "error"
+            },
+            {
               "inputs": [],
               "name": "OnlyBuyerAllowed",
               "type": "error"
@@ -170,7 +181,18 @@
                   "type": "uint256"
                 }
               ],
-              "name": "OrderNotShipped",
+              "name": "OrderStatusNotPending",
+              "type": "error"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "OrderStatusNotShipped",
               "type": "error"
             },
             {
@@ -298,6 +320,12 @@
                   "internalType": "string[]",
                   "name": "images",
                   "type": "string[]"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "deliveryLocations",
+                  "type": "string"
                 }
               ],
               "name": "ItemListed",
@@ -356,6 +384,37 @@
                 }
               ],
               "name": "ItemOrdered",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "itemId",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "price",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "quantity",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
+                }
+              ],
+              "name": "ItemUpdated",
               "type": "event"
             },
             {
@@ -607,7 +666,7 @@
             },
             {
               "inputs": [],
-              "name": "arbitratorFee",
+              "name": "arbitratorFeePercent",
               "outputs": [
                 {
                   "internalType": "uint256",
@@ -616,6 +675,19 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_orderId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "completeOrder",
+              "outputs": [],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -664,6 +736,11 @@
                       "internalType": "string[]",
                       "name": "images",
                       "type": "string[]"
+                    },
+                    {
+                      "internalType": "string",
+                      "name": "deliveryLocations",
+                      "type": "string"
                     }
                   ],
                   "internalType": "struct EscrowMarketplace.CreateItem",
@@ -828,7 +905,7 @@
             },
             {
               "inputs": [],
-              "name": "platformFee",
+              "name": "platformFeePercent",
               "outputs": [
                 {
                   "internalType": "uint256",
@@ -905,11 +982,11 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_arbitratorFee",
+                  "name": "_arbitratorFeePercent",
                   "type": "uint256"
                 }
               ],
-              "name": "setArbitratorFee",
+              "name": "setArbitratorFeePercent",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -918,11 +995,11 @@
               "inputs": [
                 {
                   "internalType": "uint256",
-                  "name": "_platformFee",
+                  "name": "_platformFeePercent",
                   "type": "uint256"
                 }
               ],
-              "name": "setPlatformFee",
+              "name": "setPlatformFeePercent",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -1022,6 +1099,29 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_itemId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "_price",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "_quantity",
+                  "type": "uint256"
+                }
+              ],
+              "name": "updateItem",
+              "outputs": [],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {

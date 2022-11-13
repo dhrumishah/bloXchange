@@ -31,6 +31,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 price;
         uint256 quantity;
         string[] images;
+        string deliveryLocations;
     }
 
     struct Order {
@@ -72,7 +73,14 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         uint256 createdAt,
         string title,
         string description,
-        string[] images
+        string[] images,
+        string deliveryLocations
+    );
+    event ItemUpdated(
+        uint256 itemId,
+        uint256 price,
+        uint256 quantity,
+        uint256 updatedAt
     );
     event ItemOrdered(
         uint256 orderId,
@@ -167,8 +175,24 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
             block.timestamp,
             _item.title,
             _item.description,
-            _item.images
+            _item.images,
+            _item.deliveryLocations
         );
+    }
+
+    function updateItem(
+        uint256 _itemId,
+        uint256 _price,
+        uint256 _quantity
+    ) external {
+        Item memory item = items[_itemId];
+        if (item.seller != _msgSender()) revert OnlySellerAllowed();
+
+        item.price = _price;
+        item.quantity = _quantity;
+        items[_itemId] = item;
+
+        emit ItemUpdated(_itemId, _price, _quantity, block.timestamp);
     }
 
     function orderItem(uint256 _itemId, uint256 _quantity) external payable {
@@ -217,7 +241,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
             revert OnlySellerAllowed();
         }
         if (order.status != Status.PENDING) {
-            revert OrderNotPending(_orderId);
+            revert OrderStatusNotPending(_orderId);
         }
 
         orders[_orderId].status = Status.SHIPPED;
@@ -286,6 +310,25 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         _payTo(order.buyer, order.amount);
 
         emit OrderRefunded(_orderId, _msgSender());
+    }
+
+    function completeOrder(uint256 _orderId) external onlyArbitrator {
+        Order memory order = orders[_orderId];
+        if (order.status != Status.DISPUTTED) revert OrderNotDisputed(_orderId);
+
+        uint256 itemId = order.itemId;
+
+        uint256 fee = (order.amount * platformFeePercent) / 100;
+        escrowBalance -= order.amount;
+
+        order.status = Status.DELIVERED;
+        orders[_orderId] = order;
+        disputes[order.disputeId].resolvedBy = _msgSender();
+        totalDelivered++;
+
+        _payTo(items[itemId].seller, order.amount - fee);
+
+        emit OrderDelivered(_orderId);
     }
 
     function withdrawFund(address _to, uint256 _amount) external onlyAdmin {

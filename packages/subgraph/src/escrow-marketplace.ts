@@ -3,6 +3,7 @@ import {
   CategoryRemoved,
   ItemListed,
   ItemOrdered,
+  ItemUpdated,
   OrderDelivered,
   OrderDisputed,
   OrderRefunded,
@@ -34,7 +35,21 @@ export function handleItemListed(event: ItemListed): void {
     item.quantity = params.quantity;
     item.seller = params.seller;
     item.images = params.images;
+    item.deliveryLocations = params.deliveryLocations;
 
+    item.save();
+  }
+}
+
+export function handleItemUpdated(event: ItemUpdated): void {
+  let item = Item.load(event.params.itemId.toHex());
+
+  if (item) {
+    const params = event.params;
+    item = new Item(params.itemId.toHex());
+    item.price = params.price;
+    item.quantity = params.quantity;
+    
     item.save();
   }
 }

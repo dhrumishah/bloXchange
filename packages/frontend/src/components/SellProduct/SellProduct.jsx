@@ -17,6 +17,7 @@ export default function SellProduct() {
     description: "",
     categoryId: "",
     price: "",
+    deliveryLocations: "",
     quantity: 1,
     images: [],
   };
@@ -143,15 +144,20 @@ export default function SellProduct() {
         ></textarea>
         <label
           className="block text-[17px] font-medium mb-4 text-white"
-          htmlFor="location"
+          htmlFor="locations"
         >
-          Add your Location
+          Add your delivery Locations seperated by commas
         </label>
         <div className="relative z-20">
           <input
-            id="location"
+            id="locations"
             type="text"
-            placeholder="Enter your location"
+            placeholder="Enter your delivery locations"
+            value={product.deliveryLocations}
+            onChange={(e) =>
+              setProduct({ ...product, deliveryLocations: e.target.value })
+            }
+            required
             className="outline-none px-4 py-2 font-medium rounded-[10px] w-full mb-4 dark:bg-[#363952] text-white"
           ></input>
         </div>
@@ -185,7 +191,7 @@ export default function SellProduct() {
           <ImageUploader setImageUrls={setImages} imageUrls={images} />
         </div>
         <button
-          disabled={!isConnected || isLoading}
+          disabled={!isConnected || isLoading || images.length === 0}
           type="submit"
           className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto"
         >

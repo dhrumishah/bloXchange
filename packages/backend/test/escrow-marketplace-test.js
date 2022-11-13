@@ -9,6 +9,7 @@ describe('EscrowMarketplace', function () {
   const quantity = 1
   const categoryId = 0;
   const images = ["https://w3s.link/ipfs/bafkreif356lzpsm27ibnq7y4f7thhezhhupdwsfoaiiz2dqpfu3uciol3i"]
+  const deliveryLocations = "India"
 
   beforeEach(async () => {
     await deployments.fixture(["all"])
@@ -19,7 +20,7 @@ describe('EscrowMarketplace', function () {
   })
 
   it("Should create a new item", async function () {
-    const tx = await exchange.createItem({ title, description, categoryId, price, quantity, images })
+    const tx = await exchange.createItem({ title, description, categoryId, price, quantity, images, deliveryLocations })
     await tx.wait()
 
     const totalItems = await exchange.totalItems()
@@ -31,7 +32,7 @@ describe('EscrowMarketplace', function () {
     const orderId = 0;
     const [_, buyer] = await ethers.getSigners()
     // seller create a item to sell
-    let tx = await exchange.createItem({ title, description, categoryId, price, quantity, images })
+    let tx = await exchange.createItem({ title, description, categoryId, price, quantity, images, deliveryLocations })
     await tx.wait()
     // buyer order that item
     tx = await exchange.connect(buyer).orderItem(itemId, 1, { value: price })

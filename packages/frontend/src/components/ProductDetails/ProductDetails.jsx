@@ -32,7 +32,7 @@ function ProductWrapper() {
       title={product.title}
       price={product.price}
       description={product.description}
-      location={product.location}
+      location={product.deliveryLocations}
       quantity={product.quantity}
     />
   );

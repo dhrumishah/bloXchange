@@ -35,7 +35,7 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
         uploadSingleImage(client, image.file)
       );
       const cids = await Promise.all(promises);
-      setImageUrls(cids.map((cid) => `https://w3s.link/ipfs/${cid}`));
+      setImageUrls(cids);
       setIsUploaded(true);
       toast.update(id, {
         render: "Images uploaded sucessfully",
