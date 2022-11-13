@@ -4,6 +4,7 @@ import Product from "./../svg/product.svg";
 import Market from "./../svg/market.svg";
 import Profile from "./../svg/profile.svg";
 import Contact from "./../svg/contact.svg";
+import Bag from "./../svg/bag.svg";
 import { useNavigate } from "react-router-dom";
 import {
   useAccount,
@@ -52,7 +53,7 @@ export default function SideBar() {
                     navigate("/orders");
                   }}
                 >
-                  <img src={Product}></img>
+                  <img src={Bag}></img>
                   <p>My Orders</p>
                 </div>
               </a>
