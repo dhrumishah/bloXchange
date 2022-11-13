@@ -320,38 +320,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@create-web3/backend@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\backend":
-  "resolved" "file:packages/backend"
-  "version" "1.0.0"
-  dependencies:
-    "@opengsn/contracts" "^3.0.0-beta.1"
-    "dotenv" "^16.0.0"
-
-"@create-web3/frontend@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\frontend":
-  "resolved" "file:packages/frontend"
-  "version" "0.0.0"
-  dependencies:
-    "@biconomy/mexa" "2.0.35"
-    "@rainbow-me/rainbowkit" "^0.5.0"
-    "buffer" "^6.0.3"
-    "ethers" "^5.6.9"
-    "graphql" "^16.6.0"
-    "process" "^0.11.10"
-    "react" "^18.2.0"
-    "react-dom" "^18.2.0"
-    "react-images-uploading" "^3.1.7"
-    "react-infinite-scroll-component" "^6.1.0"
-    "urql" "^3.0.3"
-    "util" "^0.12.4"
-    "wagmi" "^0.6.4"
-    "web3.storage" "^4.4.0"
-
-"@create-web3/subgraph@file:D:\\DHRUMI_SHAH\\web-development\\Chainlink Hackathon\\bloXchange\\packages\\subgraph":
-  "resolved" "file:packages/subgraph"
-  "version" "0.0.0"
-  dependencies:
-    "@graphprotocol/graph-cli" "0.35.0"
-    "@graphprotocol/graph-ts" "0.28.1"
+"@emailjs/browser@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@emailjs/browser/-/browser-3.9.1.tgz#9d3824ba332e7441725d07a157cb913bc34a9928"
+  integrity sha512-8xhwTUoTDG5Tqjt8uC28zwmrwcjGhApXwUMyUaEmhhUVmCHhefetTlIR7Mlm4Ae8+Nm0+sC3oPe3K+BcR12QWA==
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
@@ -4938,10 +4910,10 @@ elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-"emoji-regex@^7.0.1":
-  "integrity" "sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA=="
-  "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz"
-  "version" "7.0.3"
+emoji-regex@^7.0.1:
+  version "7.0.3"
+  resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz"
+  integrity sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -6762,9 +6734,9 @@ globby@^11.0.3:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-"gluegun@git+https://github.com/edgeandnode/gluegun.git#v4.3.1-pin-colors-dep":
+"gluegun@https://github.com/edgeandnode/gluegun#v4.3.1-pin-colors-dep":
   version "4.3.1"
-  resolved "git+https://github.com/edgeandnode/gluegun.git#b34b9003d7bf556836da41b57ef36eb21570620a"
+  resolved "https://github.com/edgeandnode/gluegun#b34b9003d7bf556836da41b57ef36eb21570620a"
   dependencies:
     apisauce "^1.0.1"
     app-module-path "^2.2.0"

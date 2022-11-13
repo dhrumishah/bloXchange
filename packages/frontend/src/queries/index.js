@@ -101,6 +101,7 @@ query GetOrders($seller: Bytes!, $first: Int!, $skip: Int!) {
         item {
             id
             title
+            seller
         }
         amount
         quantity
