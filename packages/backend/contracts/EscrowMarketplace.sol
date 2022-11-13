@@ -283,7 +283,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
         items[order.itemId].quantity += order.quantity;
         disputes[order.disputeId].resolvedBy = _msgSender();
         escrowBalance -= order.amount;
-        _payTo(items[order.itemId].seller, order.amount);
+        _payTo(order.buyer, order.amount);
 
         emit OrderRefunded(_orderId, _msgSender());
     }
