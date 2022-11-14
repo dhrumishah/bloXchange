@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { ethers } from "ethers";
 import { Contract } from "ethers";
 import { useMemo } from "react";
+import Polygon from "./../svg/polygon-matic-logo.svg";
 
 const Product = (props) => {
   const { address } = useAccount();
@@ -71,7 +72,7 @@ const Product = (props) => {
               <div className="flex flex-col w-full mb-2">
                 <p className="font-semibold text-white">{props.name}</p>
                 <p className="text-[13px] font-semibold text-[#46647A] mb-1 dark:text-[#B9CFDF]">
-                  {slicedAddress}
+                  {props.address}
                 </p>
               </div>
             </div>
@@ -101,6 +102,7 @@ const Product = (props) => {
             <p className="ml-1 text-[20px] text-[#30cfd0] font-semibol mb-4">
               MATIC
             </p>
+            <img className="ml-3 matic-button"src={Polygon} />
           </div>
           <p className="mb-2 font-semibold text-white">Description</p>
           <p className="mb-8 max-w-[450px] text-[#ADB0C9]">
