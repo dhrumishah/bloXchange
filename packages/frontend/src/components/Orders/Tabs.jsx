@@ -15,7 +15,7 @@ const Tabs = ({ color }) => {
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
               <a
                 className={
-                  "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" +
+                  "text-xs font-bold text:white uppercase px-5 py-3 shadow-lg rounded block leading-normal" +
                   (openTab === 1
                     ? "text-white bg-" + color + "-600"
                     : "text-black bg-white")
