@@ -6,15 +6,16 @@ dataSources:
     name: EscrowMarketplace
     network: mumbai
     source:
-      address: "0x073f26580d9A579aA464d41D31D6c6De9659E330"
+      address: "0x8e06a8FBC35Ab22Fae14F0D4b9e8cAff6e6D607d"
       abi: EscrowMarketplace
-      startBlock: 28939424
+      startBlock: 29133609
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - ItemListed
+        - ItemUpdated
         - ItemOrdered
         - OrderDelivered
         - OrderDisputed
@@ -28,8 +29,10 @@ dataSources:
         - name: EscrowMarketplace
           file: ./abis/EscrowMarketplace.json
       eventHandlers:
-        - event: ItemListed(uint256,indexed address,indexed uint256,uint256,uint256,uint256,string,string,string[])
+        - event: ItemListed(uint256,indexed address,indexed uint256,uint256,uint256,uint256,string,string,string[],string)
           handler: handleItemListed
+        - event: ItemUpdated(uint256,uint256,uint256,uint256)
+          handler: handleItemUpdated
         - event: ItemOrdered(uint256,indexed uint256,indexed address,uint256,uint256,uint256,uint256,uint8)
           handler: handleItemOrdered
         - event: OrderDelivered(uint256)

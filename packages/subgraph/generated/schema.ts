@@ -196,6 +196,15 @@ export class Item extends Entity {
     this.set("images", Value.fromStringArray(value));
   }
 
+  get deliveryLocations(): string {
+    let value = this.get("deliveryLocations");
+    return value!.toString();
+  }
+
+  set deliveryLocations(value: string) {
+    this.set("deliveryLocations", Value.fromString(value));
+  }
+
   get orders(): Array<string> {
     let value = this.get("orders");
     return value!.toStringArray();

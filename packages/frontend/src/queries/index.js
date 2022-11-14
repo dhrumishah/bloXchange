@@ -18,6 +18,7 @@ export const ITEMS_QUERY = `
             title
             description
             images
+            deliveryLocations
         }
     }
 `;
@@ -37,6 +38,7 @@ export const ALL_ITEMS_QUERY = `
             title
             description
             images
+            deliveryLocations
         }
     }
 `;
@@ -56,6 +58,7 @@ export const ITEM_QUERY = `
             title
             description
             images
+            deliveryLocations
         }
     }
 `;
@@ -101,6 +104,7 @@ query GetOrders($seller: Bytes!, $first: Int!, $skip: Int!) {
         item {
             id
             title
+            seller
         }
         amount
         quantity
@@ -129,6 +133,7 @@ query GetOrder($id: ID!) {
             title
             description
             images
+            deliveryLocations
         }
         amount
         quantity

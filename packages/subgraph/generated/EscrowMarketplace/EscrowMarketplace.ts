@@ -98,6 +98,10 @@ export class ItemListed__Params {
   get images(): Array<string> {
     return this._event.parameters[8].value.toStringArray();
   }
+
+  get deliveryLocations(): string {
+    return this._event.parameters[9].value.toString();
+  }
 }
 
 export class ItemOrdered extends ethereum.Event {
@@ -143,6 +147,36 @@ export class ItemOrdered__Params {
 
   get status(): i32 {
     return this._event.parameters[7].value.toI32();
+  }
+}
+
+export class ItemUpdated extends ethereum.Event {
+  get params(): ItemUpdated__Params {
+    return new ItemUpdated__Params(this);
+  }
+}
+
+export class ItemUpdated__Params {
+  _event: ItemUpdated;
+
+  constructor(event: ItemUpdated) {
+    this._event = event;
+  }
+
+  get itemId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get price(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get quantity(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get updatedAt(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -426,16 +460,20 @@ export class EscrowMarketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  arbitratorFee(): BigInt {
-    let result = super.call("arbitratorFee", "arbitratorFee():(uint256)", []);
+  arbitratorFeePercent(): BigInt {
+    let result = super.call(
+      "arbitratorFeePercent",
+      "arbitratorFeePercent():(uint256)",
+      []
+    );
 
     return result[0].toBigInt();
   }
 
-  try_arbitratorFee(): ethereum.CallResult<BigInt> {
+  try_arbitratorFeePercent(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "arbitratorFee",
-      "arbitratorFee():(uint256)",
+      "arbitratorFeePercent",
+      "arbitratorFeePercent():(uint256)",
       []
     );
     if (result.reverted) {
@@ -552,14 +590,22 @@ export class EscrowMarketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  platformFee(): BigInt {
-    let result = super.call("platformFee", "platformFee():(uint256)", []);
+  platformFeePercent(): BigInt {
+    let result = super.call(
+      "platformFeePercent",
+      "platformFeePercent():(uint256)",
+      []
+    );
 
     return result[0].toBigInt();
   }
 
-  try_platformFee(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("platformFee", "platformFee():(uint256)", []);
+  try_platformFeePercent(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "platformFeePercent",
+      "platformFeePercent():(uint256)",
+      []
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -703,11 +749,11 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _platformFee(): BigInt {
+  get _platformFeePercent(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get _arbitratorFee(): BigInt {
+  get _arbitratorFeePercent(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 }
@@ -746,6 +792,36 @@ export class AddCategoriesCall__Outputs {
   _call: AddCategoriesCall;
 
   constructor(call: AddCategoriesCall) {
+    this._call = call;
+  }
+}
+
+export class CompleteOrderCall extends ethereum.Call {
+  get inputs(): CompleteOrderCall__Inputs {
+    return new CompleteOrderCall__Inputs(this);
+  }
+
+  get outputs(): CompleteOrderCall__Outputs {
+    return new CompleteOrderCall__Outputs(this);
+  }
+}
+
+export class CompleteOrderCall__Inputs {
+  _call: CompleteOrderCall;
+
+  constructor(call: CompleteOrderCall) {
+    this._call = call;
+  }
+
+  get _orderId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class CompleteOrderCall__Outputs {
+  _call: CompleteOrderCall;
+
+  constructor(call: CompleteOrderCall) {
     this._call = call;
   }
 }
@@ -835,6 +911,10 @@ export class CreateItemCall_itemStruct extends ethereum.Tuple {
 
   get images(): Array<string> {
     return this[5].toStringArray();
+  }
+
+  get deliveryLocations(): string {
+    return this[6].toString();
   }
 }
 
@@ -1094,62 +1174,62 @@ export class RevokeRoleCall__Outputs {
   }
 }
 
-export class SetArbitratorFeeCall extends ethereum.Call {
-  get inputs(): SetArbitratorFeeCall__Inputs {
-    return new SetArbitratorFeeCall__Inputs(this);
+export class SetArbitratorFeePercentCall extends ethereum.Call {
+  get inputs(): SetArbitratorFeePercentCall__Inputs {
+    return new SetArbitratorFeePercentCall__Inputs(this);
   }
 
-  get outputs(): SetArbitratorFeeCall__Outputs {
-    return new SetArbitratorFeeCall__Outputs(this);
+  get outputs(): SetArbitratorFeePercentCall__Outputs {
+    return new SetArbitratorFeePercentCall__Outputs(this);
   }
 }
 
-export class SetArbitratorFeeCall__Inputs {
-  _call: SetArbitratorFeeCall;
+export class SetArbitratorFeePercentCall__Inputs {
+  _call: SetArbitratorFeePercentCall;
 
-  constructor(call: SetArbitratorFeeCall) {
+  constructor(call: SetArbitratorFeePercentCall) {
     this._call = call;
   }
 
-  get _arbitratorFee(): BigInt {
+  get _arbitratorFeePercent(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 }
 
-export class SetArbitratorFeeCall__Outputs {
-  _call: SetArbitratorFeeCall;
+export class SetArbitratorFeePercentCall__Outputs {
+  _call: SetArbitratorFeePercentCall;
 
-  constructor(call: SetArbitratorFeeCall) {
+  constructor(call: SetArbitratorFeePercentCall) {
     this._call = call;
   }
 }
 
-export class SetPlatformFeeCall extends ethereum.Call {
-  get inputs(): SetPlatformFeeCall__Inputs {
-    return new SetPlatformFeeCall__Inputs(this);
+export class SetPlatformFeePercentCall extends ethereum.Call {
+  get inputs(): SetPlatformFeePercentCall__Inputs {
+    return new SetPlatformFeePercentCall__Inputs(this);
   }
 
-  get outputs(): SetPlatformFeeCall__Outputs {
-    return new SetPlatformFeeCall__Outputs(this);
+  get outputs(): SetPlatformFeePercentCall__Outputs {
+    return new SetPlatformFeePercentCall__Outputs(this);
   }
 }
 
-export class SetPlatformFeeCall__Inputs {
-  _call: SetPlatformFeeCall;
+export class SetPlatformFeePercentCall__Inputs {
+  _call: SetPlatformFeePercentCall;
 
-  constructor(call: SetPlatformFeeCall) {
+  constructor(call: SetPlatformFeePercentCall) {
     this._call = call;
   }
 
-  get _platformFee(): BigInt {
+  get _platformFeePercent(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 }
 
-export class SetPlatformFeeCall__Outputs {
-  _call: SetPlatformFeeCall;
+export class SetPlatformFeePercentCall__Outputs {
+  _call: SetPlatformFeePercentCall;
 
-  constructor(call: SetPlatformFeeCall) {
+  constructor(call: SetPlatformFeePercentCall) {
     this._call = call;
   }
 }
@@ -1210,6 +1290,44 @@ export class SetTrustedForwarderCall__Outputs {
   _call: SetTrustedForwarderCall;
 
   constructor(call: SetTrustedForwarderCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateItemCall extends ethereum.Call {
+  get inputs(): UpdateItemCall__Inputs {
+    return new UpdateItemCall__Inputs(this);
+  }
+
+  get outputs(): UpdateItemCall__Outputs {
+    return new UpdateItemCall__Outputs(this);
+  }
+}
+
+export class UpdateItemCall__Inputs {
+  _call: UpdateItemCall;
+
+  constructor(call: UpdateItemCall) {
+    this._call = call;
+  }
+
+  get _itemId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _price(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _quantity(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class UpdateItemCall__Outputs {
+  _call: UpdateItemCall;
+
+  constructor(call: UpdateItemCall) {
     this._call = call;
   }
 }

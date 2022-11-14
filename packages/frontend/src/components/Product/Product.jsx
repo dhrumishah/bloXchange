@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import contracts from "../../../contracts/hardhat_contracts.json";
 import { NETWORK_ID as chainId } from "../../config";
-import { getShortAddress, parseError } from "../../utils";
+import { getShortAddress, parseError, getImageUrl } from "../../utils";
 import { useAccount, useSigner } from "wagmi";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
@@ -61,7 +61,7 @@ const Product = (props) => {
             <div className="w-full h-full min-h-[250px]  min-w-[440px] flex items-center rounded-[20px] mb-6 justify-center bg-[#3C3F59] ">
               <img
                 className="w-full object-cover object-center min-h-[250px] rounded-[20px] aspect-square h-full"
-                src={props.images[0]}
+                src={getImageUrl(props.images[0])}
               ></img>
             </div>
           </div>

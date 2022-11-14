@@ -11,6 +11,7 @@ import Orders from "./components/Orders/Orders";
 import OrderDetails from "./components/Orders/OrderDetails.jsx";
 
 import "react-toastify/dist/ReactToastify.min.css";
+import Admin from "./components/Admin/Admin.jsx";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 element={<ProductDetails />}
               />
               <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/admin" element={<Admin />} />
             </Routes>
           </div>
         </main>

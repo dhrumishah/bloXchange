@@ -12,6 +12,10 @@ export const getShortAddress = (address) => {
     return address
 }
 
+export const getImageUrl = (cid) => {
+    return `https://w3s.link/ipfs/${cid}`
+}
+
 export const orderStatus = {
     0: { text: "PENDING", color: "orange" },
     1: { text: "SHIPPED", color: "yellow" },

@@ -3,6 +3,7 @@ import { useQuery } from "urql";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Item from "./Item";
 import { ITEMS_QUERY, ALL_ITEMS_QUERY } from "../../queries";
+import { getImageUrl } from "../../utils";
 
 const Items = ({ categoryId }) => {
   const pageItems = 10;
@@ -60,8 +61,8 @@ const Items = ({ categoryId }) => {
               title={item.title}
               price={item.price / 10 ** 18}
               description={item.description}
-              location="Magdeburg, Deutschland"
-              image={item.images[0]}
+              location={item.deliveryLocations}
+              image={getImageUrl(item.images[0])}
             />
           ))}
         </div>
