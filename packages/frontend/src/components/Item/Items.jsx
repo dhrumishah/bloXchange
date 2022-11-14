@@ -63,6 +63,7 @@ const Items = ({ categoryId }) => {
               description={item.description}
               location={item.deliveryLocations}
               image={getImageUrl(item.images[0])}
+              seller={item.seller}
             />
           ))}
         </div>

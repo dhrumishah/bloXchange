@@ -1,10 +1,11 @@
 import React from "react";
-import Logo from "/src/Logo.svg";
+import Logo from "./../images/account.png";
 import { useNavigate } from "react-router-dom";
 import Polygon from "./../svg/polygon-matic-logo.svg";
 import "animate.css";
 
 const Item = (props) => {
+  let slicedAddress = props.seller.slice(0, 4) + "..." + props.seller.slice(-4);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col p-2 hover:border-2 rounded-xl border-purple-400 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-95 hover: duration-300">
@@ -37,9 +38,9 @@ const Item = (props) => {
             <p className="mb-4 truncate text-white">{props.description}</p>
             <div className="flex items-center mb-4">
               <div className="flex items-center shrink-0 mr-4">
-                <img src={Logo} className="w-[16px] h-[16px] mr-2"></img>
-                <p className="text-[14px] font-bold text-[#2D2D2D] dark:text-white">
-                  MATIC
+                <img src={Logo} className="w-[20px] h-[20px] mr-2"></img>
+                <p p className = "font-spartan font-medium text-[12px] text-[#747474] truncate dark:text-[#C4C6DC]" >
+                 {slicedAddress}
                 </p>
               </div>
               <svg
