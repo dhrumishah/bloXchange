@@ -105,8 +105,6 @@ Look at the docs of RainbowKit on how to use it: [https://www.rainbowkit.com/doc
 
 ### Dhrumi Shah
 
-![dhrumi](https://user-images.githubusercontent.com/54351909/200527848-325c8b67-3312-4e3a-88e4-fe7ea09db121.jpg)
-
 **Frontend Developer**
 
 Loves and hates CSS Simulatenously. Worked on making the frontend for the Bloxchange.
