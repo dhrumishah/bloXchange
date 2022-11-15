@@ -87,8 +87,6 @@ In our backend folder you can find everything that’s working behind the scenes
 
 **.gitignore** - lets GitHub ignore several files like sensible data
 
-**README.md** - Smart Contract Addresses
-
 **hardhat.config.js** - HardHat configuration file
 
 ---
