@@ -1,14 +1,10 @@
-import { useAccount, useSigner } from "wagmi";
 import lighthouse from '@lighthouse-web3/sdk';
 import contracts from "../../contracts/hardhat_contracts.json";
 import { NETWORK_ID as chainId } from "../config";
 import axios from "axios"
 
 
-export default function useLightHouse() {
-  const { address } = useAccount();
-  const { data: signer } = useSigner()
-
+export default function useLightHouse(address, signer) {
   const marketplaceAddress =
     contracts[chainId][0].contracts.EscrowMarketplace.address;
 
@@ -147,7 +143,7 @@ export default function useLightHouse() {
 
     const decrypted = await lighthouse.decryptFile(cid, key, "application/json");
 
-    return await decrypted.text();
+    return JSON.parse(await decrypted.text());
   }
 
   return {

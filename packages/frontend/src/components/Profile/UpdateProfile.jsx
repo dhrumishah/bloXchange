@@ -1,13 +1,52 @@
-import React, { useState } from "react";
-import { useAccount } from "wagmi";
+import React, { useState, useEffect } from "react";
+import { useAccount, useSigner } from "wagmi";
 import { toast } from "react-toastify";
 import { parseError } from "../../utils";
 import useLightHouse from "../../hooks/useLightHouse";
 import useBiconomy from "../../hooks/useBiconomy";
+import { useQuery } from "urql";
+import { PROFILE_QUERY } from "../../queries";
 
 function CreateProfile() {
-  const { uploadEncrypted, decrypt } = useLightHouse();
+  const { isConnected, address } = useAccount();
+  const { data: signer } = useSigner();
+  const { uploadEncrypted, decrypt } = useLightHouse(address, signer);
   const { biconomy, marketplace } = useBiconomy();
+  const [isProfileLoaded, setIsProfileLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const profileInit = {
+    fullName: "",
+    emailAddress: "",
+    shippingAddress: "",
+    postalCode: "",
+    phoneNumber: "",
+  };
+  const [profile, setProfile] = useState(profileInit);
+  const [result] = useQuery({
+    query: PROFILE_QUERY,
+    variables: {
+      address,
+    },
+    pause: !address,
+  });
+  const { data, fetching } = result;
+  const profileURI = data?.profile?.profileURI;
+
+  const decryptProfile = async () => {
+    try {
+      const profile = await decrypt(profileURI);
+      setIsProfileLoaded(true);
+      setProfile(profile);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!fetching && profileURI && !isProfileLoaded) {
+      decryptProfile();
+    }
+  }, [fetching]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,18 +74,7 @@ function CreateProfile() {
     );
   };
 
-  const [isLoading, setIsLoading] = useState(false);
-  const profileInit = {
-    fullName: "",
-    emailAddress: "",
-    shippingAddress: "",
-    postalCode: "",
-    phoneNumber: "",
-  };
-  const [profile, setProfile] = useState(profileInit);
-  const { isConnected, address } = useAccount();
-
-  async function UpdateProfile(e) {
+  async function updateProfile(e) {
     const id = toast.loading("Updating profile...");
     try {
       setIsLoading(true);
@@ -179,7 +207,7 @@ function CreateProfile() {
             required
           ></input>
         </div>
-        <input onChange={UpdateProfile} type="file" id="file" hidden />
+        <input onChange={updateProfile} type="file" id="file" hidden />
         <button
           disabled={!isConnected || isLoading}
           type="submit"

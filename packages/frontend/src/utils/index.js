@@ -2,12 +2,13 @@ import { serializeError } from "eth-rpc-errors";
 
 export const parseError = (error, customMessage) => {
     const fallbackError = { code: 4999, customMessage }
-    return serializeError(error, fallbackError).message
+    const serializedError = serializeError(error, fallbackError)
+    return serializedError?.data?.originalError?.reason ?? serializedError.message
 }
 
 export const getShortAddress = (address) => {
     if (address) {
-        return address.slice(0, 3) + "..." + address.slice(-4);
+        return address.slice(0, 4) + "..." + address.slice(-4);
     }
     return address
 }
