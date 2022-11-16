@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarketPlace from "./components/Marketplace/MarketPlace.jsx";
 import SellProduct from "./components/SellProduct/SellProduct.jsx";
 import Profile from "./components/Profile/Profile.jsx";
+import CreateProfile from "./components/Profile/CreateProfile";
 import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
 import ContactUs from "./components/ContactUs/ContactUs.jsx";
 import NavBar from "./components/Navbar/NavBar";
@@ -27,6 +28,7 @@ function App() {
               <Route path="/" element={<MarketPlace />} />
               <Route path="/sellproduct" element={<SellProduct />} />
               <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/create-profile" element={<CreateProfile />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:orderId" element={<OrderDetails />} />
               <Route
