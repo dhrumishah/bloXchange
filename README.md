@@ -40,11 +40,23 @@ We have used several technologies to build this decentralized autonomous organiz
 
 All Data storage and querying is done via IPFS with help of Web3.storage SDKs and docs on the website.
 **Web3.Storage** is used for storing all sort of Data including user profile, grants request and researches on **IPFS**, done with the help of the SDK provided and stored in JSON format.
-The querying of the data is done with CID Gateway links and then rendered in Frontend. The CIDs are stored in contract to avoid data tampering. We take the input of the data from the user , pack it in JSON file and then upload the files IPFS via web3.storage. IPFS is also used to store our NFTs metadata compatible for ERC721 .
+The querying of the data is done with CID Gateway links and then rendered in Frontend. The CIDs are stored in contract to avoid data tampering. We take the input of the data from the user , pack it in JSON file and then upload the files IPFS via web3.storage.
 
-Website is currently up and working on the provided links of vercel and Spheron , can be tested according to the docs provided on the website. Also Backend Flow is added in the presentation.
+Website is currently up and working on the provided link of vercel and can be tested according to the docs provided on the website.
 
-[Video Explanation](https://clipchamp.com/watch/AYASYGnmhvo)
+### Biconomy
+
+We have used Biconomy Gasless transactions to support meta transactions in our Dapp.
+
+### LightHouse
+
+Lighthouse is a perpetual file storage protocol that allows the ability to pay once for your files and store them long term. While traditionally, users need to recurrently keep track and pay for the file storage after every fixed interval of time, Lighthouse manages this for them and makes sure that user files are stored forever. 
+
+It has been used to encrypt and decrypt the profile so a user profile can only be accessed by ownself and the sellers a user is buying from.
+
+
+### Polygon
+
 
 ---
 
