@@ -144,3 +144,11 @@ query GetOrder($id: ID!) {
         disputes
     }
 }`
+
+export const PROFILE_QUERY = `
+query GetProfile($address: Bytes!) {
+    profile(id: $address) {
+        id
+        profileURI
+    }
+}`

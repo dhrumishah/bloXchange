@@ -63,6 +63,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     mapping(uint256 => bytes32) private categories;
     mapping(address => string) private profiles;
     mapping(bytes32 => bool) private categoryIsPresent;
+    mapping(address => mapping(address => bool)) public canAccessProfile;
 
     event ItemListed(
         uint256 itemId,
@@ -223,6 +224,8 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
         escrowBalance += order.amount;
 
+        canAccessProfile[_msgSender()][item.seller] = true;
+
         emit ItemOrdered(
             orderId,
             _itemId,
@@ -368,6 +371,9 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
 
     function setProfileURI(string calldata _profileURI) external {
         address msgSender = _msgSender();
+        if (canAccessProfile[msgSender][msgSender] == false) {
+            canAccessProfile[msgSender][msgSender] = true;
+        }
         profiles[msgSender] = _profileURI;
         emit ProfileUpdated(msgSender, _profileURI);
     }

@@ -33,9 +33,16 @@ const OrderRow = ({ order, userAddress }) => {
               />
             </div>
             <div className="ml-3">
-              <p className="text-gray-900 whitespace-no-wrap">
-                {getShortAddress(order.item.seller)}
-              </p>
+              <a
+                onClick={() => {
+                  navigate("/profile/" + order.item.seller);
+                }}
+                className="cursor-pointer"
+              >
+                <p className="text-blue-900 whitespace-no-wrap underline">
+                  {getShortAddress(order.item.seller)}
+                </p>
+              </a>
             </div>
           </div>
         </td>
@@ -51,9 +58,16 @@ const OrderRow = ({ order, userAddress }) => {
               />
             </div>
             <div className="ml-3">
-              <p className="text-gray-900 whitespace-no-wrap">
-                {getShortAddress(order.buyer)}
-              </p>
+              <a
+                onClick={() => {
+                  navigate("/profile/" + order.buyer);
+                }}
+                className="cursor-pointer"
+              >
+                <p className="text-blue-900 whitespace-no-wrap underline">
+                  {getShortAddress(order.buyer)}
+                </p>
+              </a>
             </div>
           </div>
         </td>

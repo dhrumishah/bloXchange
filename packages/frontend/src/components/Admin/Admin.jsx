@@ -7,17 +7,19 @@ import useBiconomy from "../../hooks/useBiconomy";
 
 const Admin = () => {
   const { address, isConnected } = useAccount();
-  const [categories, setCategories] = useState("");
+  const [aCategories, setACategories] = useState("");
+  const [rCategories, setRCategories] = useState("");
   const { marketplace, biconomy } = useBiconomy();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const addCategories = async (e) => {
     e.preventDefault();
     const id = toast.loading("Adding categories...");
     try {
-      setIsLoading(true);
+      setIsAdding(true);
       const provider = await biconomy.getEthersProvider();
-      const _categories = categories
+      const _categories = aCategories
         .split(",")
         .map((category) => ethers.utils.formatBytes32String(category.trim()));
       const { data } = await marketplace.populateTransaction.addCategories(
@@ -45,15 +47,16 @@ const Admin = () => {
         autoClose: 5000,
       });
     }
+    setIsAdding(false);
   };
 
   const removeCategories = async () => {
     e.preventDefault();
     const id = toast.loading("Removing categories...");
     try {
-      setIsLoading(true);
+      setIsRemoving(true);
       const provider = await biconomy.getEthersProvider();
-      const _categories = categories
+      const _categories = rCategories
         .split(",")
         .map((category) => ethers.utils.formatBytes32String(category.trim()));
       const { data } = await marketplace.populateTransaction.removeCategories(
@@ -81,6 +84,7 @@ const Admin = () => {
         autoClose: 5000,
       });
     }
+    setIsRemoving(false);
   };
 
   return (
@@ -97,19 +101,19 @@ const Admin = () => {
             <input
               id="add-title"
               type="text"
-              value={categories}
-              onChange={(e) => setCategories(e.target.value)}
-              placeholder="Add categories seperated by commas"
+              value={aCategories}
+              onChange={(e) => setACategories(e.target.value)}
+              placeholder="categories"
               className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
               required
             ></input>
           </div>
           <button
-            disabled={isLoading}
+            disabled={isAdding}
             type="submit"
             className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto"
           >
-            {isLoading ? "Adding categories..." : "Add categories"}
+            {isAdding ? "Adding categories..." : "Add categories"}
           </button>
         </form>
 
@@ -127,19 +131,19 @@ const Admin = () => {
             <input
               id="add-title"
               type="text"
-              value={categories}
-              onChange={(e) => setCategories(e.target.value)}
-              placeholder="Add categories seperated by commas"
+              value={rCategories}
+              onChange={(e) => setRCategories(e.target.value)}
+              placeholder="categories"
               className="outline-none px-4 py-2 font-medium rounded-[10px] w-full dark:bg-[#363952] text-white"
               required
             ></input>
           </div>
           <button
-            disabled={isLoading}
+            disabled={isRemoving}
             type="submit"
             className="w-full ml-auto mr-auto px-12 py-2 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto"
           >
-            {isLoading ? "Removing categories..." : "Remove categories"}
+            {isRemoving ? "Removing categories..." : "Remove categories"}
           </button>
         </form>
       </div>
