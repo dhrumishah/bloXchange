@@ -1,14 +1,34 @@
 # Welcome to Bloxchange
+![Black and Purple Modern Virtual Twitter Header](https://user-images.githubusercontent.com/54351909/202466660-240dc66b-da74-4c73-9689-9153d0e4cd76.png)
+
 
 ### What is our main idea?
+<p>BloXchange is a P2P marketplace which lets users to buy and sell their used products on top of the blockchain. </p>
+<br>
+Users can pay in MATIC for the products they buy and uses the Escrow Contract for the payment.
+<br>
+
 
 ---
 
-### Which features does Bloxchange offer?
+### Which features does bloXchange offer?
+
+- Buy any old product from the marketplace
+- Sell your used products 
+- File a dispute if there is something wrong with the product
 
 ---
 
 ### How did we manage the project?
+
+We Aditya, Dhrumi and Pawan met online on Twitter and thought of participating in a hackathon together and found Chainlink Hackathon could be the best to team up and work.
+
+We brainstormed on what could we build and came up on the idea of making a P2P marketplace to buy and sell goods. We thought for the name of the project and came up with the name bloXchange.
+
+We made a github repository, a notion doc for building the flow of our Dapp and a whatsapp group for the communications.
+
+Dhrumi, after doing a course of ReactJS directly participated in this hack and it has been a great learning curve for her creating medium level projects. 
+Pawan got more efficient in writing the subgraphs and Aditya got to learn how to integrate subgraphs and became more confident in integrating the smart contract with the frontend.
 
 ---
 
