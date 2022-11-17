@@ -24,7 +24,7 @@ export default function SideBar() {
         <div className="sidebar--content">
           <div className="sidebar--col">
             <div className="flex flex-col space-y-5 mb-12">
-              <a className="flex items-center" href="#">
+              <a className="flex items-center" href="">
                 <div
                   className="flex items-center sidebar--para"
                   onClick={() => {
@@ -35,7 +35,7 @@ export default function SideBar() {
                   <p>Marketplace</p>
                 </div>
               </a>
-              <a className=" flex items-center hover:opacity-90" href="#">
+              <a className=" flex items-center hover:opacity-90" href="">
                 <div
                   className="flex items-center sidebar--para"
                   onClick={() => {
@@ -46,7 +46,7 @@ export default function SideBar() {
                   <p>Sell a product</p>
                 </div>
               </a>
-              <a className=" flex items-center hover:opacity-90" href="#">
+              <a className=" flex items-center hover:opacity-90" href="">
                 <div
                   className="flex items-center sidebar--para"
                   onClick={() => {
@@ -57,7 +57,7 @@ export default function SideBar() {
                   <p>My Orders</p>
                 </div>
               </a>
-              <a className=" flex items-center hover:opacity-90" href="#">
+              <a className=" flex items-center hover:opacity-90" href="">
                 <div
                   className="flex items-center sidebar--para"
                   onClick={() => {
