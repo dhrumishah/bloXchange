@@ -483,6 +483,32 @@ export class EscrowMarketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  canAccessProfile(param0: Address, param1: Address): boolean {
+    let result = super.call(
+      "canAccessProfile",
+      "canAccessProfile(address,address):(bool)",
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_canAccessProfile(
+    param0: Address,
+    param1: Address
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "canAccessProfile",
+      "canAccessProfile(address,address):(bool)",
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   escrowBalance(): BigInt {
     let result = super.call("escrowBalance", "escrowBalance():(uint256)", []);
 

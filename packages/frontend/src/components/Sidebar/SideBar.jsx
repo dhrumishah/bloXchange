@@ -16,7 +16,6 @@ import {
 
 export default function SideBar() {
   const { address, connector, isConnected } = useAccount();
-  console.log(address);
   const navigate = useNavigate();
   return (
     <div>
