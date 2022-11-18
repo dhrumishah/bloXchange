@@ -25,7 +25,8 @@ export default function ImageUploader({ setImageUrls, imageUrls }) {
     return client.put([file], { maxRetries: 3, wrapWithDirectory: false });
   }
 
-  async function uploadImages() {
+  async function uploadImages(e) {
+    e.preventDefault();
     setIsUploading(true);
     setIsUploaded(false);
     const id = toast.loading("Uploading images...");
