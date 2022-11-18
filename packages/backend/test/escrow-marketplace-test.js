@@ -48,4 +48,19 @@ describe('EscrowMarketplace', function () {
     const buyerAfterBalance = await buyer.getBalance()
     expect(buyerPreviousBalance.sub(buyerAfterBalance).lte(price)).equal(true);
   });
+
+  it("Should create a new item and order it and dispute by buyer", async function () {
+    const itemId = 0;
+    const orderId = 0;
+    const [_, buyer] = await ethers.getSigners()
+    // seller create a item to sell
+    let tx = await exchange.createItem({ title, description, categoryId, price, quantity, images, deliveryLocations })
+    await tx.wait()
+    // buyer order that item
+    tx = await exchange.connect(buyer).orderItem(itemId, 1, { value: price })
+    await tx.wait()
+    expect(await exchange.totalOrders()).equal(1);
+    tx = await exchange.connect(buyer).disputeOrder(0, { value: 0 })
+    await tx.wait()
+  });
 });
