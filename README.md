@@ -57,7 +57,7 @@ It has been used to encrypt and decrypt the profile so a user profile can only b
 
 ### Polygon
 
-
+Our smart contract has been deployed on the Polygon Mumbai Testnet and so our infrastructure and interactions run on Polygon. 
 ---
 
 ## Smart Contracts
@@ -66,7 +66,7 @@ You can find the smart contract under [/packages/backend/contracts](https://gith
 
 They conttact has been currently published on Polygon Mumbai Testnet due to testing and presentational reasons.
 
-<br /><br /><br />
+<br />
 
 ---
 
@@ -75,13 +75,13 @@ They conttact has been currently published on Polygon Mumbai Testnet due to test
 We have used ReactJS and TailwindCSS for the frontend.
 
 All the frontend code is available under [/packages/frontend](https://github.com/adiig7/bloXchange/tree/main/packages/frontend).
-<br /><br /><br />
+<br />
 
 ### Frontend folders in our project:
 
 **components** - You can find all the relevant code for frontend inside the components folder
 
-<br /><br /><br />
+<br />
 
 ### Other important files:
 
@@ -101,7 +101,6 @@ In our backend folder you can find everything that’s working behind the scenes
 **scripts** - deployment scripts for the Smart Contracts
 <br /><br /><br />
 
-
 ---
 
 ### Developers
@@ -116,7 +115,8 @@ Loves and hates CSS Simulatenously. Worked on making the frontend for the Bloxch
 
 ### Pawan Paudel
 
-![pawan](https://raw.githubusercontent.com/pawanpaudel93/portfolio/main/public/img/me.png)
+<img width="150px" src="https://raw.githubusercontent.com/pawanpaudel93/portfolio/main/public/img/me.png" />
+
 
 **Blockchain Developer**
 
