@@ -1,9 +1,8 @@
 import { getShortAddress, orderStatus } from "../../utils";
 import { ethers } from "ethers";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const OrderRow = ({ order, userAddress }) => {
-  const navigate = useNavigate();
   const orderedAt = new Date(order.orderedAt * 1000).toLocaleString();
   const status = orderStatus[order.status];
   const isSeller = order.item.seller === userAddress?.toLowerCase();
@@ -13,14 +12,11 @@ const OrderRow = ({ order, userAddress }) => {
   return (
     <tr>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <a
-          onClick={() => navigate("/orders/" + order.id)}
-          className="cursor-pointer"
-        >
+        <Link to={"/orders/" + order.id} className="cursor-pointer">
           <p className="text-blue-900 whitespace-no-wrap underline">
             {parseInt(order.id, 16)}
           </p>
-        </a>
+        </Link>
       </td>
       {(isBuyer || isNotBoth) && (
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -33,16 +29,14 @@ const OrderRow = ({ order, userAddress }) => {
               />
             </div>
             <div className="ml-3">
-              <a
-                onClick={() => {
-                  navigate("/profile/" + order.item.seller);
-                }}
+              <Link
+                to={"/profile/" + order.item.seller}
                 className="cursor-pointer"
               >
                 <p className="text-blue-900 whitespace-no-wrap underline">
                   {getShortAddress(order.item.seller)}
                 </p>
-              </a>
+              </Link>
             </div>
           </div>
         </td>
@@ -58,31 +52,24 @@ const OrderRow = ({ order, userAddress }) => {
               />
             </div>
             <div className="ml-3">
-              <a
-                onClick={() => {
-                  navigate("/profile/" + order.buyer);
-                }}
-                className="cursor-pointer"
-              >
+              <Link to={"/profile/" + order.buyer} className="cursor-pointer">
                 <p className="text-blue-900 whitespace-no-wrap underline">
                   {getShortAddress(order.buyer)}
                 </p>
-              </a>
+              </Link>
             </div>
           </div>
         </td>
       )}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <a
-          onClick={() => {
-            navigate("/productdetails/" + order.item.id);
-          }}
+        <Link
+          to={"/productdetails/" + order.item.id}
           className="cursor-pointer"
         >
           <p className="text-blue-900 whitespace-no-wrap underline">
             {order.item.title}
           </p>
-        </a>
+        </Link>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 whitespace-no-wrap">{orderedAt}</p>

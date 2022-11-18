@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Game from "./../images/game.jpeg";
 import { useQuery } from "urql";
 import { PROFILE_QUERY } from "../../queries";
@@ -16,7 +16,6 @@ const Profile = () => {
   const { address: myAddress } = useAccount();
   const { data: signer } = useSigner();
   const { decrypt } = useLightHouse(myAddress, signer);
-  const navigate = useNavigate();
   const [isProfileLoaded, setIsProfileLoaded] = useState(false);
   const [profile, setProfile] = useState({
     fullName: "",
@@ -67,13 +66,14 @@ const Profile = () => {
             </div>
           )}
           {address?.toLowerCase() === myAddress?.toLowerCase() && (
-            <button
-              type="button"
-              onClick={() => navigate("/update-profile")}
-              className="w-full ml-auto mr-auto px-12 py-2 my-3 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300"
-            >
-              Update Profile
-            </button>
+            <Link to="/update-profile">
+              <button
+                type="button"
+                className="w-full ml-auto mr-auto px-12 py-2 my-3 rounded-[10px] bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-[18px] font-semibold hover:opacity-90 disabled:bg-[#595B73] disabled:pointer-events-none sm:min-w-[230px] sm:w-auto transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300"
+              >
+                Update Profile
+              </button>
+            </Link>
           )}
         </div>
         <div className="profile_text animate__animated animate__backInRight">

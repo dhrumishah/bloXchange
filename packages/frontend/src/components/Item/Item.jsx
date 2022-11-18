@@ -1,21 +1,18 @@
 import React from "react";
 import Logo from "./../images/account.png";
-import { useNavigate } from "react-router-dom";
 import Polygon from "./../svg/polygon-matic-logo.svg";
-import "animate.css";
 import { getShortAddress } from "../../utils";
+import { Link } from "react-router-dom";
+import "animate.css";
 
 const Item = (props) => {
   let slicedAddress = getShortAddress(props.seller);
-  const navigate = useNavigate();
   return (
     <div className="flex flex-col p-2 hover:border-2 rounded-xl border-purple-400 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-95 hover: duration-300">
       <div className=" flex flex-col animate__animated animate__zoomIn">
-        <a
+        <Link
           className="flex flex-col cursor-pointer"
-          onClick={() => {
-            navigate("/productdetails/" + props.id);
-          }}
+          to={"/productdetails/" + props.id}
         >
           <div className="w-full  mb-6">
             <img
@@ -68,7 +65,7 @@ const Item = (props) => {
               View Item
             </span>
           </div>
-        </a>
+        </Link>
         <div className="flex items-center justify-center w-full"></div>
       </div>
     </div>
