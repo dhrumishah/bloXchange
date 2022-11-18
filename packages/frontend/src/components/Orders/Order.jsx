@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   getShortAddress,
   ORDER_STATUS,
@@ -12,10 +12,12 @@ import { toast } from "react-toastify";
 import Logo from "/src/Logo.svg";
 import OrderRow from "./OrderRow";
 import Thead from "./Table/Thead";
+import { useEffect } from "react";
 
 const Order = ({ order, refetchOrder }) => {
   const { address } = useAccount();
   const { data: signer } = useSigner();
+  const [isArbitrator, setIsArbitrator] = useState(false);
   const productSeller = order.item.seller;
   const productBuyer = order.buyer;
   const status = order.status;
@@ -28,6 +30,8 @@ const Order = ({ order, refetchOrder }) => {
     marketplaceAddress,
     marketplaceABI,
   } = useBiconomy();
+  const [isRefunding, setIsRefunding] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
 
   const performShipping = async () => {
     const id = toast.loading("Performing shipping...");
@@ -93,11 +97,25 @@ const Order = ({ order, refetchOrder }) => {
     }
   };
 
+  const checkIsArbitrator = async () => {
+    try {
+      const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
+      const hasRole = await contract.hasRole(
+        "0x16ceee8289685dd2a02b9c8ae81d2df373176ce53519e6284e2a2950d6546ffa",
+        address
+      );
+      console.log(hasRole);
+      setIsArbitrator(hasRole);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const disputeOrder = async () => {
     const id = toast.loading("Disputing order...");
     try {
       const contract = new Contract(marketplaceAddress, marketplaceABI, signer);
-      const arbitratorFeePercent = await contract.arbitratorFee();
+      const arbitratorFeePercent = await contract.arbitratorFeePercent();
       const arbitratorFee = arbitratorFeePercent.mul(order.amount).div(100);
       const tx = await contract.disputeOrder(order.id, {
         value: arbitratorFee,
@@ -119,6 +137,80 @@ const Order = ({ order, refetchOrder }) => {
       });
     }
   };
+
+  const refundItem = async () => {
+    const id = toast.loading("Refunding order...");
+    setIsRefunding(true);
+    try {
+      const provider = await biconomy.getEthersProvider();
+      const { data } = await marketplace.populateTransaction.refundItem(
+        order.id
+      );
+      let txParams = {
+        data: data,
+        to: marketplaceAddress,
+        from: address,
+        signatureType: "EIP712_SIGN",
+      };
+      const txHash = await provider.send("eth_sendTransaction", [txParams]);
+      await provider.waitForTransaction(txHash);
+      refetchOrder();
+      toast.update(id, {
+        render: "Refunded order sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error refunding order!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+    setIsRefunding(false);
+  };
+
+  const completeOrder = async () => {
+    const id = toast.loading("Completing order...");
+    setIsCompleting(true);
+    try {
+      const provider = await biconomy.getEthersProvider();
+      const { data } = await marketplace.populateTransaction.completeOrder(
+        order.id
+      );
+      let txParams = {
+        data: data,
+        to: marketplaceAddress,
+        from: address,
+        signatureType: "EIP712_SIGN",
+      };
+      const txHash = await provider.send("eth_sendTransaction", [txParams]);
+      await provider.waitForTransaction(txHash);
+      refetchOrder();
+      toast.update(id, {
+        render: "Order completed sucessfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (e) {
+      toast.update(id, {
+        render: parseError(e, "Error completing order!!!"),
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+    setIsCompleting(false);
+  };
+
+  useEffect(() => {
+    if (address && signer) {
+      checkIsArbitrator();
+    }
+  }, [address, signer]);
 
   return (
     <div>
@@ -180,7 +272,7 @@ const Order = ({ order, refetchOrder }) => {
             </p>
             <p className="mb-2 font-semibold text-white">Location</p>
             <p className="mb-8 max-w-[450px] text-[#ADB0C9]">
-              {order.item.location}
+              {order.item.deliveryLocations}
             </p>
           </div>
         </div>
@@ -222,6 +314,31 @@ const Order = ({ order, refetchOrder }) => {
                   : "Dispute Order"}
               </button>
             )}
+          {isArbitrator && status === ORDER_STATUS.DISPUTTED && (
+            <div>
+              <h4 className="text-[18px] col-span-11 font-bold text-[#050505] dark:text-white md:text-[25px]">
+                Resolve dispute (Arbitrator)
+              </h4>
+              <button
+                onClick={refundItem}
+                disabled={isRefunding}
+                className="text-[#FFFFFF] rounded-[15px] py-3 px-4 mx-2 mt-3 font-bold mb-8 hover:opacity-90 bg-blue-600 cursor-pointer select-none text-center "
+              >
+                {isRefunding
+                  ? "Refunding order"
+                  : "Refund Item & return order amount to buyer"}
+              </button>
+              <button
+                onClick={completeOrder}
+                disabled={isCompleting}
+                className="text-[#FFFFFF] rounded-[15px] py-3 px-4 mx-2 mt-3 font-bold mb-8 hover:opacity-90 bg-green-600 cursor-pointer select-none text-center "
+              >
+                {isCompleting
+                  ? "Completing order"
+                  : "Complete Order & send order amount to seller"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

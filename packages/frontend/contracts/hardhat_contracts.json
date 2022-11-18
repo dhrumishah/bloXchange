@@ -5,7 +5,7 @@
       "chainId": "80001",
       "contracts": {
         "EscrowMarketplace": {
-          "address": "0xDE5857520a47Aaa0c0f4f3fCdaD102Fc83a93400",
+          "address": "0xFC78E2aDe975160e9b2Fe6c5103F8672Ec2BbB73",
           "abi": [
             {
               "inputs": [

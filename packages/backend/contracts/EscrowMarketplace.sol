@@ -276,7 +276,7 @@ contract EscrowMarketplace is ERC2771Recipient, AccessControl {
     function disputeOrder(uint256 _orderId) external payable {
         Order memory order = orders[_orderId];
         if (
-            msg.sender != order.buyer ||
+            msg.sender != order.buyer &&
             msg.sender != items[order.itemId].seller
         ) {
             revert NotSellerOrBuyer(msg.sender);
