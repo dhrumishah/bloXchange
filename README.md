@@ -57,49 +57,35 @@ It has been used to encrypt and decrypt the profile so a user profile can only b
 
 ### Polygon
 
-
+Our smart contract has been deployed on the Polygon Mumbai Testnet and so our infrastructure and interactions run on Polygon. 
 ---
 
 ## Smart Contracts
 
-All of our smart contracts are written in Solidity. You can find them under [/backend/contracts](https://github.com/adiig7/Polygon-BUIDL-IT/tree/main/backend/contracts).
+You can find the smart contract under [/packages/backend/contracts](https://github.com/adiig7/bloXchange/tree/main/packages/backend/contracts).
 
-They have currently been published on Polygon Mumbai Testnet due to testing and presentational reasons.
+They conttact has been currently published on Polygon Mumbai Testnet due to testing and presentational reasons.
 
-In the smart contracts themselves you can find dev comments and explanations.
-<br /><br /><br />
-
-**Whitelist.sol** - manages the inital whitelist before the DAO only accepts new mebers through votings
+<br />
 
 ---
 
 ## Frontend
 
-For the UI and design we have used the s to setup our project easily and build/design it with the help of JavaScript, React and HTML/CSS.
+We have used ReactJS and TailwindCSS for the frontend.
 
-All the frontend code is available under [/frontend](https://github.com/adiig7/Polygon-BUIDL-IT/tree/main/frontend).
-<br /><br /><br />
+All the frontend code is available under [/packages/frontend](https://github.com/adiig7/bloXchange/tree/main/packages/frontend).
+<br />
 
 ### Frontend folders in our project:
 
-**constants** - important file with different constants to call in other programs
+**components** - You can find all the relevant code for frontend inside the components folder
 
-**pages** - all of our different frontend webpages
-
-**public** - public files like images etc.
-
-**src** - assets like images and single components of the different webpages
-
-**styles** - CSS styling files
-<br /><br /><br />
+<br />
 
 ### Other important files:
 
-**.env** - important API-keys for deployment
-
 **.gitignore** - lets GitHub ignore several files like sensible data
-
-**next.config.js** - configuration of Next.js
 
 ---
 
@@ -115,20 +101,6 @@ In our backend folder you can find everything that’s working behind the scenes
 **scripts** - deployment scripts for the Smart Contracts
 <br /><br /><br />
 
-### Other important files:
-
-**.gitignore** - lets GitHub ignore several files like sensible data
-
-**hardhat.config.js** - HardHat configuration file
-
----
-
-## Wallet Connection
-
-You can connect your wallet with the help of **RainbowKit**. The `create-web` package uses **RainbowKit** internally.
-
-Look at the docs of RainbowKit on how to use it: [https://www.rainbowkit.com/docs/introduction](https://www.rainbowkit.com/docs/introduction)
-
 ---
 
 ### Developers
@@ -143,7 +115,8 @@ Loves and hates CSS Simulatenously. Worked on making the frontend for the Bloxch
 
 ### Pawan Paudel
 
-![pawan](https://raw.githubusercontent.com/pawanpaudel93/portfolio/main/public/img/me.png)
+<img width="150px" src="https://raw.githubusercontent.com/pawanpaudel93/portfolio/main/public/img/me.png" />
+
 
 **Blockchain Developer**
 
